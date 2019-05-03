@@ -1,6 +1,6 @@
 \subsubsection{Multilayer Perceptron}
 \label{sec:mlp-multilayer-perceptron}
-A multilayer perceptron consists of multiple perceptrons divided in layers and solves complex tasks.
+A multilayer perceptron consists of multiple perceptrons divided in layers and solves complex tasks\cite{Bishop1995}.
 It is an universal approximator for every function\cite{Cybenko1989} regardless of the activation functions used\cite{Hornik1991}.
 Because of the multiple layers and the non-linear activation functions non-linearity is introduced into the network.
 Thus, it can distinguish data that is not linearly separable as most real world data is.
@@ -11,14 +11,14 @@ However, every perceptron is connected to every perceptron of its subsequent lay
 This type of connection is called fully-connected network.
 Because the data flow within the network is only in one direction and does not contain circles, the architecture is called feedforward neural network.
 A visualization of this is shown in \figref{fig:multilayer-perceptron}.
-Although the weights are not displayed for clarity, they still exist and follow the same principle as with a single perceptron.
+Although the weights and biases are not displayed for clarity, they still exist and follow the same principle as with a single perceptron.
 \begin{figure}
 	\centering
 	\includegraphics{images/multilayer-perceptron}
-	\caption{Multilayer Perceptron}
+	\caption[Multilayer Perceptron]{Multilayer perceptron with three layers. Each layer consists of multiple perceptrons. The input layer transfers real world data into the network. The output layer makes the computations of the network interpretable for humans. The layers inbetween, the hidden layers, perform calculations and feed forward the network data. Each connection between nodes has a weight, that is not displayed for clarity. Also every node has its own bias.}
 	\label{fig:multilayer-perceptron}
 \end{figure}
-Like the single perceptrons every node in the networks still holds a single numerical value.
+Like the single perceptrons every node in the networks still holds its activation, a single numerical value.
 In this kind of network architecture perceptrons are often referred to as nodes.
 
 The input layer serves as an interface for the data.
@@ -36,19 +36,41 @@ Every layer between the input and the output layer is a hidden layer.
 They have no direct connection to the outside, neither to the input nor the output, hence, their name.
 Their task is to transfer the input information to the output by performing calculations.
 With at least one hidden layer every continuous function can be approximated.
+So, the network models the function 
+\begin{equation}
+	\label{eq:multilayer-perceptron}
+	f(\vec{x}) = \vec{y}
+\end{equation}
+where
+\begin{align}
+	\vec{x} = (x_0, x_1, \cdots, x_n) \\
+	\vec{y} = (y_0, y_1, \cdots, y_m)
+\end{align}
+are the input vector with $n$ elements and output vector with $m$ elements, respectively.
+Every element represents the activation of a neuron in the input layer or output layer, respectively.
 
 Let's take again an image as an example.
-The task is to classify a handwritten digit from the MNIST dataset\cite{Lecun98}
+The task is to classify a handwritten digit from the MNIST dataset\cite{Lecun98}.
 \begin{figure}
 	\centering
-	\includegraphics{images/mnist-digit}
-	\caption[Handwritten Digit from the MNIST Digit Dataset]{Handwritten Digit from the MNIST Digit Dataset. Represented as a $28 \times 28$ pixel matrix. Each cell represents a pixel.}
+	\includegraphics[width=.8\textwidth]{images/mnist-digit}
+	\caption[Handwritten Digits from the MNIST Digit Dataset]{Handwritten Digits from the MNIST Digit Dataset. Represented as a $28 \times 28$ pixel matrix. Each cell represents a pixel.}
 	\label{fig:mnist-digit}
 \end{figure}
 The digit can be seen in \figref{fig:mnist-digit}.
 Each grid cell represents a pixel.
-Because every pixel should have an associated node in the input layer of the network, this real world data is transferred into the network by flattening the intensity values of the image matrix to a vector.
+Now it is evidently that the intensity data of every pixel is relevant for classifying the digit.
+Thus, every pixel needs an associated node in the input layer of the network.
+This real world data is transferred into the network by flattening the intensity values of the image matrix to a vector.
 Therefore, the vector contains $28 \cdot 28 = 784$ elements which equals the number of input nodes.
-If the correct weights and biases of the network are found, it knows that if in another image more or less the same pixels or nodes, respectively, have high intensities, the same number is written.
+With the correct weights and biases the network knows which nodes are active for a certain digit.
+This means, that if in another image more or less the same pixels or nodes, respectively, have high intensities or activations, the same number needs to be classified.
 The downside of the flattening is, that every relation of pixels like position is lost, which means a loss in overall information.
-The consequence of this is, that if a digit is not centered and, for example, takes only half the space of the image, it cannot be classified, because the network has never seen something similar to these input values.
+The consequence of this is, that if a digit has no similar position and shape like the digits the networks knows, the classification fails.
+If, for example, a digit the network classified correctly is not centered anymore and downscaled to take up only have its original size, completely different neurons are active.
+And, thus, the network cannot find any correlation to the original image or its knowledge of how digits look and returns a wrong classification result.
+Another severe downside is the huge number of parameters.
+If the image gets larger, the number of input neurons naturally needs to be adapted.
+Due to this, additional weights and biases are introduced to the network, because every input neuron is connected to every node of its subsequent layer.
+This extends the finding of the optimal weights and biases and needs plenty of resources.
+A better solution is provided by convolutional neural networks that are covered in \secref{sec:neural-networks-convolutional-neural-networks}.
