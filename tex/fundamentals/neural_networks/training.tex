@@ -2,11 +2,23 @@
 \label{sec:neural-networks-training}
 Thus far optimal weights and biases were assumed in all examples.
 But in practical terms they need to be found first.
-This starts by generating and preparing a dataset from which the network can find correlations.
-Based on this, the weights and biases are adapted step wise.
+This starts by generating and preparing a dataset from which the network can find correlations by changing the weights and biases.
+First, these are initialized.
+Then, a input is feed-forwarded through the network.
+This classification is put into a cost function.
+The result is back-propagated through the network by computing its gradients for changing the weight and biases.
+\figref{fig:training} illustrates this process.
 Each of these steps is covered in the following sections.
 
+\begin{figure}
+	\centering
+	\includegraphics{images/training.pdf}
+	\caption[Training Process]{Training Process}
+	\label{fig:training}
+\end{figure}
+
 \input{tex/fundamentals/neural_networks/training/dataset}
+\input{tex/fundamentals/neural_networks/training/weight_initialization}
 \input{tex/fundamentals/neural_networks/training/stochastic_gradient}
 \input{tex/fundamentals/neural_networks/training/adam}
 

@@ -28,6 +28,9 @@ The testing set is data the network is not trained on as well.
 It serves as a final performance check of the network to confirm its general accuracy.
 If no validation set is available, the testing set can be used.
 How the dataset is split depends again on the number and complexity of samples and the objective.
+However, a equal distribution of samples in each set should be minded.
+Otherwise the performance will not be satisfying.
+This means, if the network trains mostly on sweatshirts a test set with mostly pants would not yield an acceptable accuracy, because the network does not know these particular features.
 
 For processing the dataset, a one-hot encoding\cite{Harris2012} of the labels is recommended.
 Usually, the labels are categorical data.
