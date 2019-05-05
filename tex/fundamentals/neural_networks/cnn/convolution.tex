@@ -52,11 +52,20 @@ First, the filter has a center which helps to tell where exactly the filter poin
 Second, the padding $p$ is even.
 Otherwise, it needs to be rounded up for a correct mathematical representation, but only used on two sides of the image like it is shown in the figure with the help of transparency.
 Only the padding at the right and at the bottom are taken into account for creating a filter matrix with the same shape of the original input.
+For inputs with more than one channel, a convolution is performed almost identically.
+But instead of a kernel with a depth of one it is extended to a depth that matches the input.
+Then a common dot product multiplication is calculated for every input channel with its corresponding filter channel.
+This results in a matrix with the depth of the input and filter.
+Finally, the resulting depth channels are summed up element wise which results in a matrix with depth one.
+For the case of an RGB image, that is an image with three channels representing the colors red, green and blue, a filter would have a depth of three and a final convolution result would always have a depth of one.
+Usually, at the end of a convolutional layer a bias addition is performed for simulating the neurobiological spike of a neuron.
+This result is put into an activation function like the ones from \figref{fig:activation-functions} for introducing non-linearities into the network.
+Both the methods and their purposes are analog to the ones known from multilayer perceptron networks.
 
 The kernel in the figure would find top-left to bottom-right diagonal lines, because those are the pixels weighted most.
 Like this but with slightly larger kernels and different weights more complex features can be found.
 It is also possible to perform multiple different convolutions on the same input for finding different features.
-They are stored as a matrix, where every feature represents the depth of the feature map.
+They are stored as a matrix, where the number of different features represents the depth of the feature map.
 This whole process solves the limitation to a fixed position of features of the multilayer perceptrons architecture.
 Even if, for example, a digit covers only have the image, all features are found, because the kernel is moved over the image and not single neurons or filters are responsible for single pixels.
 Furthermore, because features are found by a moving filter, convolutional neural networks need way less weights and biases due to the possibility of reusing them.

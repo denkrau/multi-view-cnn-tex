@@ -1,6 +1,14 @@
 \subsection{Training}
 \label{sec:neural-networks-training}
-Thus far optimal weights and biases were assumed.
+Thus far optimal weights and biases were assumed in all examples.
+But in practical terms they need to be found first.
+This starts by generating and preparing a dataset from which the network can find correlations.
+Based on this, the weights and biases are adapted step wise.
+Each of these steps is covered in the following sections.
+
+\input{tex/fundamentals/neural_networks/training/dataset}
+\input{tex/fundamentals/neural_networks/training/stochastic_gradient}
+\input{tex/fundamentals/neural_networks/training/adam}
 
 Expressing the activation of every node with \thmref{eq:perceptron-sum} would get very complex with only a few nodes.
 Hence, a matrix notation is the way to go in the long run.

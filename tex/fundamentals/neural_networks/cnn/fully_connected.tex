@@ -1,1 +1,17 @@
 \subsubsection{Fully-Connected Layer}
+\label{sec:cnn-fully-connected}
+The last part of a convolutional neural network consists of at least one fully connected layer.
+This is identical to \figref{fig:multilayer-perceptron} but instead of directly inputting real world values the output or activations, respectively, of a the previous convolutional or pooling layer is used.
+Every edge has weights and every node has a bias and outputs the result of an activation function.
+Describing this in a mathematical sense can be done with \thmref{eq:perceptron-activation}.
+The objective is to combine several features that were detected and use them as attributes for classifying the input.
+For example, if four legs and a long nose are found, there is a dog in the image and not a cat.
+The interpretation of the output is simplified by applying an additional softmax function that squashes the output into a range of 0 and 1, whereas the sum of all outputs equals 1, to represent percentages of confidence or a probability distribution, respectively\cite{Bishop2006}.
+The softmax function can be written as
+\begin{equation}
+	\label{eq:softmax}
+	S(y_i) = \frac{\exp(y_i)}{\sum_{j} \exp(y_j)}
+\end{equation}
+where $y$ are the outputs, $i$ an index of an output and $j$ a moving index over all outputs.
+This exploits the knowledge of mutually exclusive classes, i.e. that only one class is correct.
+Otherwise, for multi-label classification, a sigmoid function can be used, that squashes each output of the network into a range of 0 and 1.
