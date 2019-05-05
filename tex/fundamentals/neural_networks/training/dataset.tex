@@ -46,11 +46,11 @@ Applying this to the example results in the feature label vector $\vec{f}_1 = (0
 This vector has a length of the number of different categories available, where every element is 0 except the one of the corresponding category which is 1.
 \tabref{tab:one-hot-encoding} summarizes this approach.
 \begin{table}[]
-	\caption[One-Hot Encoding of Categorical Data]{One-hot encoding of categorical data. First, categorial label values are transformed to numeric values representing a category index. Then, this is replaced with binary variables to represent features, that removes the natural relationship of numeric values to each other. This vector has a length of the number of different categories, where every element is 0 except for the corresponding category which is 1.}
+	\caption[One-Hot Encoding of Categorical Data]{One-hot encoding of categorical data. First, categorical label values are transformed to numeric values representing a category index. Then, this is replaced with binary variables to represent features, that removes the natural relationship of numeric values to each other. This vector has a length of the number of different categories, where every element is 0 except for the corresponding category which is 1.}
 	\label{tab:one-hot-encoding}
 	\centering
 	\begin{tabular}{l|l|l}
-		Categorial   & Integer & One-Hot                   \\ \hline
+		Categorical   & Integer & One-Hot                   \\ \hline
 		"Boot"       & 0       & $\vec{f}_0 = (1, 0, 0)^T$ \\
 		"Sweatshirt" & 1       & $\vec{f}_1 = (0,1, 0)^T$  \\
 		"Pants"      & 2       & $\vec{f}_2 = (0, 0, 1)^T$
