@@ -1,2 +1,107 @@
 \subsubsection{Stochastic Gradient Descent}
 \label{sec:training-stochastic-gradient}
+Let's recall the information, that are needed for the actual training step, i.e. the finding of optimal weights and biases.
+Everything starts with a dataset $\mathbb{D}$ containing $m$ pairs of inputs and corresponding labels.
+Performing a one-hot encoding on the labels yields by assuming in general flattened input matrices
+\begin{equation}
+	\label{eq:dataset-one-hot}
+	\mathbb{D} =
+	\begin{pmatrix}
+		\vec{X} & \vec{Y}
+	\end{pmatrix}
+\end{equation}
+where $\vec{X} \in \mathbb{R}^{n_x \times m}$ and $\vec{Y} \in \mathbb{R}^{n_y \times m}$ are representing each input and label as vectors, respectively.
+Hereby, $n_x$ represents the size of each input and $n_y$ the number of categories.
+Furthermore, there is a neural network with $L$ layers each containing an arbitrarily number of perceptrons.
+Expressing the activation of every node with \thmref{eq:perceptron-sum} would get very confusing for a whole network.
+Hence, a matrix notation is the way to go in the long run.
+First, for every $j$-th node in the $l$-th layer its weights are summarized in a vector
+\begin{equation}
+	\label{eq:weights-vector}
+	\vec{w}^{[l]}_j =
+	\begin{pmatrix}
+		w^{[l]}_{j,0} & w^{[l]}_{j,1} & \cdots & w^{[l]}_{j,n^{[l-1]}_h}
+	\end{pmatrix}^T
+\end{equation}
+containing single weights, where the superscript in square brackets denotes the layer and the subscript denotes the edge of (target neuron, preceding neuron).
+The number of hidden neurons in the $l$-th layer is represented by $n^{[l]}_h$.
+These conventions are maintained for all parameters for the rest of this thesis.
+The bias is just a scalar denoted as $b^{[l]}_j$. 
+Now, every weight vector and bias can be combined to a matrix and vector, respectively, for each layer.
+This yields
+\begin{subequations}
+\label{eq:parameters}
+	\begin{align}
+		\vec{W}^{[l]} &=
+		\begin{pmatrix}
+			\vec{w}^{[l]}_0 & \vec{w}^{[l]}_1 & \cdots & \vec{w}^{[l]}_{n^{[l]}_h}
+		\end{pmatrix}^T
+		\label{eq:weights}
+		\\
+		\vec{b}^{[l]} &=
+			\begin{pmatrix}
+				b^{[l]}_0 & b^{[l]}_1 & \cdots & b^{[l]}_{n^{[l]}_h}
+			\end{pmatrix}^T
+		\label{eq:biases}
+	\end{align}
+\end{subequations}
+where $\vec{W}^{[l]} \in \mathbb{R}^{n^{[l]}_h \times n^{[l-1]}_h}$ and $\vec{b}^{[l]} \in \mathbb{R}^{n^{[l]}_h}$.
+
+Using these matrices and vectors data can easily be forwarded through the network by building up on \thmref{eq:perceptron-activation}.
+The weighted sum of all neurons of the $l$-th layer is computed as
+\begin{equation}
+	\label{eq:weighted-sum}
+	\vec{z}^{[l]} = \vec{W}^{[l]} \vec{a}^{[l-1]} + \vec{b}^{[l]}
+\end{equation}
+with the activations vector $\vec{a}$.
+Putting this in an activation function yields
+\begin{equation}
+	\label{eq:activations}
+	\vec{a}^{[l]} = \phi\left(\vec{z}^{[l]}\right)
+\end{equation}
+for the $l$-th layers activations.
+Performing this for every layer results in 
+\begin{equation}
+	\label{eq:feedforward}
+	\hat{\vec{y}} = f(\vec{x}^{(i)})
+\end{equation}
+as the networks prediction, where $\vec{x^}{(i)} \in \mathbb{R}^{n_y}$ is the $i$-th data sample.
+This superscript in round brackets is part of the used convention.
+
+Let's assume that the result is already fed into a sigmoid function and therefore only contains values between 0 and 1.
+This prediction needs to be compared with the ground-truth label $\vec{y}^{(i)}$ for checking how good the network performs and, hence, how well the parameters fit.
+An example of how these vectors can look like is shown in \tabref{tab:prediction}.
+\begin{table}[]
+	\centering
+	\caption[Example Comparison of One-Hot Encoded Ground Truth Label and Prediction]{Example comparison of an one-hot encoded ground truth label and a prediction. However, the actual ground truth feature has the second smallest probability in the prediction. Therefore, the parameters need to be adjusted.}
+	\label{tab:prediction}
+	\begin{tabular}{ll}
+		Ground-Truth & $\vec{y} = \begin{pmatrix} 0 & 1 & 0 & 0 & 0 \end{pmatrix}^T$                     \\
+		Prediction   & $\hat{\vec{y}} = \begin{pmatrix} 0.54 & 0.28 & 0.2 & 0.63 & 0.96 \end{pmatrix}^T$
+	\end{tabular}
+\end{table}
+It can be clearly seen, that the prediction is completely wrong.
+The actual ground truth feature has the second smallest probability in the prediction.
+In theory, an identical representation would be desirable.
+However, in practical terms a slight deviation is normal.
+Because finding optimal parameters is a optimization problem, a metric for the performance of the networks is served by a loss function that maps these parameters to a cost.
+The most common loss function for mutually exclusive classes is the cross entropy loss function.
+It is defined as
+\begin{equation}
+	-(y \log(p) + (1-y) \log(1-p))
+\end{equation}
+for two classes and as
+\begin{equation}
+	\label{eq:cross-entropy}
+	H(\vec{y}, \vec{p}) = - \sum_{i}^{M} y_i \log (p_i)
+\end{equation}
+for multiclass classification, where $M$ is the number of classes, $i$ the moving index, $\vec{y}$ the ground truth vector and $\vec{p}$ the predicted probabilities.
+Adapting the previous notation to this yields
+\begin{align}
+	\vec{y} &= \vec{Y}^{(i)} \\
+	\vec{p} &= \hat{\vec{y}} \\
+	M &= n_y
+\end{align}
+as analogies.
+%TODO insert figure of cross entropy graph
+%TODO because of one hot only one parameter is relevant

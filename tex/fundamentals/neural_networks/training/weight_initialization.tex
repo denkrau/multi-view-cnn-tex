@@ -2,7 +2,7 @@
 \label{sec:training-weight-initialization}
 Before the actual training starts, the parameters, the weights and biases, of the network need to be initialized.
 If this is done right, i.e. the values are in a range that supports training, optimization will be achieved in lesser or least time.
-On the contrary, a converging to optimal values can be impossible.
+In the other case, a converging to optimal values can be impossible.
 Reasons for this are the exploding or vanishing of gradients during backpropagation\cite{Hochreiter1991}.
 In the backward-pass the gradients are computed for every layer and are passed from end to beginning using the chain rule.
 For example, the derivative of the sigmoid function as it can be seen in \figref{fig:sigmoid-derivative} is in the range of $(0, 0.25]$.
@@ -34,23 +34,30 @@ This can be derived with the $n$ inputs $\vec{x}$ and weights $\vec{w}$ by
 	&= \sum_{i}^{n} Var \left( w_i x_i \right) \\
 	&= \sum_{i}^{n} \left[ E(w_i)^2 \right] Var(x_i) + E \left[ (x_i) \right]^2 Var(w_i) + Var(x_i) Var(w_i) \\
 	&= \sum_{i}^{n} Var(x_i) Var(w_i) \\
-	&= (n Var(w)) Var(x) \\
+	&= (n Var(\vec{w})) Var(\vec{x}) \\
 \end{align*}
 where zero mean inputs and weights are assumed and an identically distribution of all $w_i$ and $x_i$.
 Now, $z$ needs to have the same variance as all of its inputs $\vec{x}$, which yields $Var(w) = 1/n$ as every weights variance.
 Hence,
 \begin{equation}
-	\vec{W} = \frac{N(0,1)}{\sqrt{n}}
+	\vec{w} = \frac{N(0,1)}{\sqrt{n}}
 \end{equation}
 initializes the weights.
-A similar analysis is done by \cite{Glorot10understandingthe} whose recommendation is
+This is mostly universal, but must be used for $\tanh$ activation functions.
+A similar analysis is done by \textit{Glorot and Bengio} \cite{Glorot10understandingthe} whose recommendation is
 \begin{equation*}
 	Var(\vec{w}) = \frac{2}{n_{in} + n_{out}}
 \end{equation*}
 where $n_{in}$ and $n_{out}$ is the number of neurons in the incoming and outgoing layer, respectively.
-Though, this is, for example, not valid for ReLU units, due to their positive mean.
-Fortunately, \cite{DBLP:journals/corr/HeZR015} states the initialization
+Their motivation is, that by doing the earlier variance calculations for the backpropagated signal, it turns out that
 \begin{equation}
-	Var(\vec{W})) = N(0,1) * \sqrt{\frac{2}{n}}
+	Var(\vec{w}) = \frac{1}{n_{out}}
+\end{equation}
+is needed for keeping the variance of the input and output the same.
+Because in general the constraint $n_{in} = n_{out}$ is not fulfilled, they make a compromise by taking the average.
+Though, these initializations are not valid for, for example, ReLU units, due to their positive mean.
+Fortunately, \textit{He et al.} \cite{DBLP:journals/corr/HeZR015} states the initialization
+\begin{equation}
+	\vec{w} = N(0,1) \cdot \sqrt{\frac{2}{n}}
 \end{equation}
 especially for ReLU neurons.

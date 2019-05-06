@@ -7,9 +7,9 @@ First, these are initialized.
 Then, a input is feed-forwarded through the network.
 This classification is put into a cost function.
 The result is back-propagated through the network by computing its gradients for changing the weight and biases.
+The forward pass and backward pass are repeated until an exit condition is satisfied.
 \figref{fig:training} illustrates this process.
 Each of these steps is covered in the following sections.
-
 \begin{figure}
 	\centering
 	\includegraphics{images/training.pdf}
@@ -21,7 +21,3 @@ Each of these steps is covered in the following sections.
 \input{tex/fundamentals/neural_networks/training/weight_initialization}
 \input{tex/fundamentals/neural_networks/training/stochastic_gradient}
 \input{tex/fundamentals/neural_networks/training/adam}
-
-Expressing the activation of every node with \thmref{eq:perceptron-sum} would get very complex with only a few nodes.
-Hence, a matrix notation is the way to go in the long run.
-First, for every layer a vector is build
