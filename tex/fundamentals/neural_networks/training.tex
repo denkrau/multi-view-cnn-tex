@@ -7,7 +7,7 @@ First, these are initialized.
 Then, a input is feed-forwarded through the network.
 This classification is put into a cost function.
 The result is back-propagated through the network by computing its gradients for changing the weight and biases.
-The forward pass and backward pass are repeated until an exit condition is satisfied.
+The forward pass and backward pass are repeated with different samples until an exit condition is satisfied.
 \figref{fig:training} illustrates this process.
 Each of these steps is covered in the following sections.
 \begin{figure}
@@ -19,5 +19,6 @@ Each of these steps is covered in the following sections.
 
 \input{tex/fundamentals/neural_networks/training/dataset}
 \input{tex/fundamentals/neural_networks/training/weight_initialization}
-\input{tex/fundamentals/neural_networks/training/stochastic_gradient}
+\input{tex/fundamentals/neural_networks/training/forward_pass}
+\input{tex/fundamentals/neural_networks/training/gradient_descent}
 \input{tex/fundamentals/neural_networks/training/adam}

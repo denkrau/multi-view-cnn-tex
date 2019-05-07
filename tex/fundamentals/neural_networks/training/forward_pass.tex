@@ -1,8 +1,8 @@
-\subsubsection{Stochastic Gradient Descent}
-\label{sec:training-stochastic-gradient}
+\subsubsection{Feed-Forward Pass}
+\label{sec:training-forward-pass}
 Let's recall the information, that are needed for the actual training step, i.e. the finding of optimal weights and biases.
 Everything starts with a dataset $\mathbb{D}$ containing $m$ pairs of inputs and corresponding labels.
-Performing a one-hot encoding on the labels yields by assuming in general flattened input matrices
+Performing a one-hot encoding on the labels and assuming in general flattened input matrices yields
 \begin{equation}
 	\label{eq:dataset-one-hot}
 	\mathbb{D} =
@@ -10,7 +10,7 @@ Performing a one-hot encoding on the labels yields by assuming in general flatte
 		\vec{X} & \vec{Y}
 	\end{pmatrix}
 \end{equation}
-where $\vec{X} \in \mathbb{R}^{n_x \times m}$ and $\vec{Y} \in \mathbb{R}^{n_y \times m}$ are representing each input and label as vectors, respectively.
+where $\vec{X} \in \mathbb{R}^{n_x \times m}$ and $\vec{Y} \in \mathbb{R}^{n_y \times m}$ are representing each input and label as vectors, respectively, forming matrices.
 Hereby, $n_x$ represents the size of each input and $n_y$ the number of categories.
 Furthermore, there is a neural network with $L$ layers each containing an arbitrarily number of perceptrons.
 Expressing the activation of every node with \thmref{eq:perceptron-sum} would get very confusing for a whole network.
@@ -63,9 +63,9 @@ for the $l$-th layers activations.
 Performing this for every layer results in 
 \begin{equation}
 	\label{eq:feedforward}
-	\hat{\vec{y}} = f(\vec{x}^{(i)})
+	\hat{\vec{y}}^{(i)} = f(\vec{x}^{(i)}, \vec{W}, \vec{b})
 \end{equation}
-as the networks prediction, where $\vec{x^}{(i)} \in \mathbb{R}^{n_y}$ is the $i$-th data sample.
+as the network's prediction for the $i$-th data sample $\vec{x^}{(i)} \in \mathbb{R}^{n_y}$.
 This superscript in round brackets is part of the used convention.
 
 Let's assume that the result is already fed into a sigmoid function and therefore only contains values between 0 and 1.
@@ -73,7 +73,7 @@ This prediction needs to be compared with the ground-truth label $\vec{y}^{(i)}$
 An example of how these vectors can look like is shown in \tabref{tab:prediction}.
 \begin{table}[]
 	\centering
-	\caption[Example Comparison of One-Hot Encoded Ground Truth Label and Prediction]{Example comparison of an one-hot encoded ground truth label and a prediction. However, the actual ground truth feature has the second smallest probability in the prediction. Therefore, the parameters need to be adjusted.}
+	\caption[Example Comparison of One-Hot Encoded Ground Truth Label and Prediction]{Example comparison of an one-hot encoded ground truth label and a softmax prediction. However, the actual ground truth feature has the second smallest probability in the prediction. Therefore, the parameters need to be adjusted.}
 	\label{tab:prediction}
 	\begin{tabular}{ll}
 		Ground-Truth & $\vec{y} = \begin{pmatrix} 0 & 1 & 0 & 0 & 0 \end{pmatrix}^T$                     \\
@@ -84,24 +84,51 @@ It can be clearly seen, that the prediction is completely wrong.
 The actual ground truth feature has the second smallest probability in the prediction.
 In theory, an identical representation would be desirable.
 However, in practical terms a slight deviation is normal.
-Because finding optimal parameters is a optimization problem, a metric for the performance of the networks is served by a loss function that maps these parameters to a cost.
-The most common loss function for mutually exclusive classes is the cross entropy loss function.
+Because finding optimal parameters is a optimization problem, a metric for the performance of the networks is served by a loss function that maps these parameters to a loss value.
+The most common loss function for comparing two probability distributions of mutually exclusive classes is the cross entropy loss function.
 It is defined as
 \begin{equation}
-	-(y \log(p) + (1-y) \log(1-p))
+	H(y,p) = -(y \log(p) + (1-y) \log(1-p))
 \end{equation}
-for two classes and as
+for a single output representing two classes and as
 \begin{equation}
-	\label{eq:cross-entropy}
-	H(\vec{y}, \vec{p}) = - \sum_{i}^{M} y_i \log (p_i)
+	\label{eq:cross-entropy-loss}
+	H(\vec{y}, \vec{p}) = - \sum_{i}^{C} y_i \log (p_i)
 \end{equation}
-for multiclass classification, where $M$ is the number of classes, $i$ the moving index, $\vec{y}$ the ground truth vector and $\vec{p}$ the predicted probabilities.
-Adapting the previous notation to this yields
-\begin{align}
-	\vec{y} &= \vec{Y}^{(i)} \\
-	\vec{p} &= \hat{\vec{y}} \\
-	M &= n_y
-\end{align}
+for multiclass classification, where $C$ is the number of classes, $i$ the moving index, $\vec{y}$ the ground truth vector and $\vec{p}$ the predicted probabilities\cite{murphy2013machine}.
+Applying the previous notation to this yields
+\begin{subequations}
+	\begin{align}
+		\vec{y} &= \vec{y}^{(i)} \\
+		\vec{p} &= \hat{\vec{y}}^{(i)} \\
+		C &= n_y
+	\end{align}
+\end{subequations}
 as analogies.
-%TODO insert figure of cross entropy graph
-%TODO because of one hot only one parameter is relevant
+Due to the one-hot encoding of the labels, only the positive class $C_p$ is taken into account in the loss computation.
+Hence, \thmref{eq:cross-entropy-loss} is reduced to
+\begin{equation}
+	\label{eq:cross-entropy-loss-compact}
+	H(\vec{y}, \vec{p}) = - y_p \log (p_p)
+\end{equation}
+where $y_p$ and $p_p$ denote the probability of the positive label and its corresponding prediction, respectively.
+A visualization of this expression is shown in \figref{fig:cross-entropy}.
+\begin{figure}
+	\setlength\figureheight{.5\textwidth}
+	\setlength\figurewidth{.8\textwidth}
+	\centering
+	\input{images/cross-entropy-loss.tikz}
+	\caption[Cross-Entropy Loss]{Cross-Entropy Loss. Large deviations in probability are strongly penalized.}
+	\label{fig:cross-entropy}
+\end{figure}
+It can be seen, that large deviations in probability are strongly penalized.
+In the range of small deviations the slope of the graph is small which leads to little changes in loss, if the probability difference changes only slightly.
+Therefore, both kind of errors are penalized.
+Using this loss function for computing a cost that averages all losses yields
+\begin{equation}
+	\label{eq:cross-entropy-cost}
+	J(\vec{x}, \vec{W}, \vec{b}, \vec{y}) = J(\hat{\vec{y}}, \vec{y}) = \frac{1}{m} \sum_{i=0}^{m} H(\vec{y}^{(i)}, \hat{\vec{y}}^{(i)})
+\end{equation}
+as the cost function.
+This function depends on all weights and biases as regression parameters, hence, it is highly dimensional.
+Minimizing it with respect to the weights and biases yields optimal parameters.
