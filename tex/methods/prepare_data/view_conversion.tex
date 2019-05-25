@@ -1,0 +1,78 @@
+\subsection{Single-View to Multi-View Conversion}
+\label{sec:prepare-data-view-conversion}
+The views created in \secref{sec:dataset-material-feature} exist in a single view representation.
+Thus, a multi-view classification should be performed by the network.
+This means, each input represents a model with all its corresponding views.
+Hence, each model's single views need to be converted into a related multi-view representation.
+For achieving this the single views needs to be collected first.
+From a given custom file path to the dataset all model views are collected recursively in a sorted order.
+This is necessary for keeping related views in the order by which they are created.
+Due to the self-explanatory folder structure, models for the training and testing set can be handled independently.
+To each of the sets belongs a list $\vec{\tilde{X}}_{set}$ for storing all related views in RGB color representation.
+Now, each view's pixel values are read, normalized to a range between 0 and 1 and then stored in a matrix or array $\vec{X}_{set}^{(i)}$, respectively, which is added to one of the just mentioned lists.
+Simultaneously to the view gathering each label needs to be created as well and put into a list $\vec{\tilde{Y}}_{set}$ similar to the views.
+Getting the category is quite simple, because the file path of the view is known.
+Hence, the second to last element of the view's file path represents the category label.
+The file name of a view is build like \textit{category\_object-id\_material-id\_view-id.ext}.
+Here is the material index label extracted by splitting the file name by "\textit{\_}" first and then taking the third split element.
+Depending on the classification task of the model, those two labels possibly need to be combined.
+The single-label classification case embraces the following configurations.
+If categories and materials are classified, both labels are appended to each other.
+This results in $n_l = n_c \cdot n_m$ labels, where $n_c$ is the number of categories and $n_m$ the number of materials.
+If only categories or materials are classified, the final label is the category label or the material label, respectively.
+Logically, the number of labels is either $n_l = n_c$ or $n_l = n_m$.
+In the multi-label classification case both labels are used independently.
+Hence, the number of labels equals $n_l = n_c + n_m$.
+An example of those configurations is shown in \tabref{tab:label-generation}.
+\begin{table}[]
+	\centering
+	\caption[Label Generation]{Label Generation with example categories "bathtub" and "sofa" and materials "0" and "1" for different cases of classifications.}
+	\label{tab:label-generation}
+	\begin{tabular}{l|l|l}
+		Classification      & Single-Label                                                                        & Multi-Label                                                    \\ \hline
+		Category + Material & \begin{tabular}[c]{@{}l@{}}bathtub\_0\\ bathtub\_1\\ sofa\_0\\ sofa\_1\end{tabular} & \begin{tabular}[c]{@{}l@{}}bathtub\\ sofa\\ 0\\ 1\end{tabular} \\ \hline
+		Category            & \begin{tabular}[c]{@{}l@{}}bathtub\\ sofa\end{tabular}                              & n/a                                                            \\ \hline
+		Material            & \begin{tabular}[c]{@{}l@{}}0\\ 1\end{tabular}                                       & n/a                                                           
+	\end{tabular}
+\end{table}
+When the number of labels is known, a one-hot encoding is performed on each label.
+In conclusion, this process results in four lists
+\begin{subequations}
+	\begin{align}
+		\label{eq:list-x-train}
+		\vec{\tilde{X}}_{train} &=
+		\begin{pmatrix}
+			\vec{X}_{train}^{(1)} & \vec{X}_{train}^{(2)} & \cdots & \vec{X}_{train}^{(m_{train})}
+		\end{pmatrix}
+		\\
+		\label{eq:list-x-test}
+		\vec{\tilde{X}}_{test} &=
+		\begin{pmatrix}
+			\vec{X}_{test}^{(1)} & \vec{X}_{test}^{(2)} & \cdots & \vec{X}_{test}^{(m_{test})}
+		\end{pmatrix}
+		\\
+		\label{eq:list-y-train}
+		\vec{\tilde{Y}}_{train} &=
+		\begin{pmatrix}
+			\vec{y}_{train}^{(1)} & \vec{y}_{train}^{(2)} & \cdots & \vec{y}_{train}^{(m_{train})}
+		\end{pmatrix}
+		\\
+		\label{eq:list-y-test}
+		\vec{\tilde{Y}}_{test} &=
+		\begin{pmatrix}
+			\vec{y}_{test}^{(1)} & \vec{y}_{test}^{(2)} & \cdots & \vec{y}_{test}^{(m_{test})}
+		\end{pmatrix}
+	\end{align}
+\end{subequations}
+where $\vec{X}^{(i)}$ and $\vec{Y}^{(i)}$ of the same set are building an input-output pair.
+
+Those single view and label representations need to be converted to a multi-view representation.
+Because sorted data was read in, it is known that each 12 elements belong together and need to put together somehow.
+Looking at common definitions yields, that images are a three-dimensional matrix with the shape definition $Height \times Width \times Channels$.
+Furthermore, Tensorflow mostly uses the shape definition $Batch \times Height \times Width \times Channels$ for tensors.
+Hence, assuming each view as a batch element is a reasonable approach.
+If an actual batch dimension becomes necessary it is inserted as a new first dimension.
+This yields a reduction of \thmref{eq:list-x-train} and \thmref{eq:list-x-test} to a $n_v$-th of its size, where $n_v$ is the number of views.
+The labels can be processed similar, however, much easier.
+Because each $n_v$ labels are identical, it is sufficient to just keep every $n_v$-th label.
+For a later lookup of the labels they are saved to the disk as a text file.

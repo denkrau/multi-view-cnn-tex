@@ -1,0 +1,85 @@
+\section{Evaluating the Architecture}
+\label{sec:methods-evaluate}
+Plenty of data needs to be collected for evaluating the overall performance of the network.
+Fortunately, every tensor can be gathered, though, some need to be manipulated for being interpretable.
+The most important tensor contains the cost of every iteration of the training set, because this is attempted to be minimized, because it represents how well the network classifies the data.
+Each one is stored during training for being able to plot them afterwards.
+Furthermore, after each epoch the cost and accuracy of the whole training set and the whole testing set are calculated with current parameters.
+This is done by computing each one for each batch and averaging the results for each set.
+However, the last batch has in general less elements than the ones before.
+Hence, a weighted average is performed with the batch sizes as the weights.
+This yields the averaged cost
+\begin{equation}
+	J\left(\hat{\bar{\vec{Y}}}, \bar{\vec{Y}}\right) =  \frac{\sum_{i}^{n_b} n_{b_i} \cdot J\left(\hat{\bar{\vec{Y}}}^{(i)}, \bar{\vec{Y}}^{(i)}\right)}{\left|\vec{n_b}\right|}
+\end{equation}
+and the averaged accuracy
+\begin{equation}
+	\alpha\left(\hat{\bar{\vec{Y}}}, \bar{\vec{Y}}\right) =  \frac{\sum_{i}^{n_b} n_{b_i} \cdot \alpha\left(\hat{\bar{\vec{Y}}}^{(i)}, \bar{\vec{Y}}^{(i)}\right)}{\left|\vec{n_b}\right|}
+\end{equation}
+where $|\vec{n_b}|$ is a vector containing the batch sizes.
+As mentioned, this is performed separately on the training set and the testing set.
+Those results are also stored for plotting purposes.
+Comparing both related units can reveal if training should be continued or if overfitting or underfitting occurs.
+Because the cost value is more general and the accuracy rather for practical purposes, the first one is examined.
+The effect could be seen on both, though.
+If the training loss decreases while the training loss decreases as well, the network improves and training should be continued.
+However, if the training loss decreases while the testing loss increases, overfitting occurs.
+The network does not generalize, but focuses on the features in the training set, hence, never seen data like the testing set cannot be classified properly.
+At the end of training, the accuracy of the training set is defined as the performance of the network.
+Furthermore, all plots are saved to disk.
+To plots, whose shown values $\vec{p}$ oscillate, a moving average $\vec{q}$ of the values is added.
+A single averaged value is calculated by
+\begin{equation}
+	q_i = \frac{\sum_{j = \max(1,i-s+1)}^{i} p_j}{\max(0,i-s)}
+\end{equation}
+where $s$ is the window size, that defines how many values are taken into account for averaging a certain sample.
+If the window is larger than the available number of samples, in particular in the beginning, the window size is adapted temporarily.
+By default it is set to $s=\floor\left( 0.1 \left| \vec{p} \right| \right)$ for a dynamical size.
+
+For evaluating the whole network model regarding its practical use, the accuracies for each class, each category and each material are calculated.
+In general, the accuracy states how many samples are classified correctly.
+However, the overall accuracy can be misleading, although each class has almost the same number of objects, because it does not represent if certain classes are better classified than others.
+Hence, the precision and recall score is computed for each class as well.
+Furthermore, a confusion matrix is calculated containing every sample's prediction.
+It is plotted against the ground-truth classes, where predictions of identical classes are counted up.
+The grouping module needs to be evaluated as well.
+It is supposed that in a classification of only the materials, the views with visible material manipulations belong to the most weighted group.
+Hence, it is sufficient to examine if the most discriminative group only contains views with visible manipulations.
+Because the colors of the manipulated features are known, each pixel of a view in the top group is checked if it matches such a RGB value.
+If there is a match with at least one pixel of a view, the view is considered grouped correctly.
+All correctly grouped views $TP$ and not correctly grouped views $FP$ are counted.
+Based on them a percentage
+\begin{equation}
+	\label{eq:metric-group}
+	\alpha = \frac{TP}{TP + FP}
+\end{equation}
+is calculated representing the accuracy of the grouping module for a given multi-view input.
+This is repeated for all multi-views of the same material.
+The final accuracy for that material results from averaging the accuracies of every multi-view of that material.
+This is performed for every material to analyze if different colored material manipulations yield different results. 
+
+For predicting the classes and gathering information of certain inputs, the file name of a single view of each object needs to be given.
+By splitting the filename into three parts, where the second is the view index, the third the extension and the first the remaining part, it can be combined again to represent the filename of each view by replacing the view index.
+Those files are then combined to a multi-view image.
+Performing this on each sample results in a common input tensor $\bar{\vec{X}}^{(i)}$ representing a batch.
+If the number of samples, that are going to be predicted, exceeds the defined batch size, they need to be divided into an appropriate number of batches.
+This tensor is now propagated through the network as usual.
+Meanwhile, the activations of the first convolutional layer are stored for visualizing the extracted features in each view.
+Therefore, the each view's activations are split across the last dimension that represents the features.
+Each feature's values $\vec{F}_i$ are normalized by
+\begin{equation}
+	\label{eq:normalize}
+	\vec{F}_{i,norm} = \frac{\vec{F}_i - \min(\vec{F}_i)}{\max(\vec{F}_i) - \min(\vec{F}_i)} 
+\end{equation}
+to a range of 0 and 1 for making it visualizable.
+Finally, each feature is saved as an gray-scale image.
+Moreover, each view discrimination score, group weight and group index is stored for showing them with their associated view afterwards.
+Furthermore, a saliency map $\vec{S}_j^{(i)}$ is computed for each view $\vec{V}_j^{(i)}$ showing how much each pixel influences the raw output of the network $\vec{z}^{(i)}$.
+Here, the direct output of the eighth layer is taken, that means no softmax is applied.
+A single saliency map can be defined as the derivative of the output with respect to a single view yielding
+\begin{equation}
+	\label{eq:saliency-map}
+	\vec{S}_j^{(i)} = \frac{\partial \vec{z}^{(i)}}{\partial \vec{V}_j^{(i)}}
+\end{equation}
+as a general expression.
+For plotting each saliency map is normalized with \thmref{eq:normalize} and visualized in gray-scale.

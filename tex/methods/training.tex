@@ -1,0 +1,65 @@
+\section{Training the Architecture}
+\label{sec:methods-training}
+The multi-view network architecture is trained by inputting the generated multi-view images $\vec{X}_{train}^{(i)}$ and $\vec{X}_{test}^{(i)}$ and comparing the prediction $\hat{\vec{y}}^{(i)}$ of the network with the corresponding one-hot encoded labels $\vec{y}_{train}^{(i)}$ and $\vec{y}_{test}^{(i)}$.
+However, the test set is only used for supervising the training process for now.
+This is the general idea that will be explained more detailed in the following.
+
+First, a batch size needs to be chosen to define how many samples will be propagated through the network at once.
+Batch sizes of 1 or the full number of samples of the training set will be avoided due to issues like time of convergence and memory size.
+In a temporary training using only single-views a batch size of 128 could be achieved.
+Thus, using $n_v = 12$ views the batch size is reduced to $b = floor(128 / 12) = 10$.
+However, due to a limited memory size of 8GB of the experimental setup's GPU and the additional parameters for the multi-view training only a batch size of 8 supports training reliably.
+Because this is way less than the recommended sizes but the maximum possible, this size is chosen.
+This yields $n_{b,train} = m_{train} / 8$ batches for the training set and $n_{b,test} = m_{test} / 8$ for the testing set.
+Nevertheless, dividing each set into 8 samples will be odd in general.
+Thus, the last batch is filled with all remaining samples.
+After each epoch, the training set is shuffled so that batches do not contain the same samples as before.
+This is done by combining corresponding multi-view images and labels to a list like
+\begin{equation}
+\tilde{\vec{L}} = \left( \left[ \vec{X}_{test}^{(1)}, \vec{y}_{test}^{(1)} \right], \left[ \vec{X}_{test}^{(2)}, \vec{y}_{test}^{(2)} \right], \cdots , \left[ \vec{X}_{test}^{(m_{test})}, \vec{y}_{test}^{(m_{test})} \right] \right)
+\end{equation}
+where each pair builds a list element for experiencing the same operations.
+This list is then randomly shuffled element-wise and split again into multi-view images and labels.
+For simplicity a sample in the shuffled list is still referred to by its current index.
+
+For calculating the cost and the derivatives of the parameters a softmax cross entropy is performed in the single-label classification case.
+For efficiency tensorflow applies a softmax internally, so the unscaled predictions need to be fed.
+Then, the softmax measures the probability error between the prediction and ground-truth, while assuming mutually exclusive labels.
+In the multi-label classification case, a sigmoid cross entropy is applied.
+Here the sigmoid is calculated internally and not mutually exclusive classes are assumed.
+For updating the parameters with the goal of minimizing the cost function the Adam optimizer is employed.
+One of its advantages is adapting a learning rate for each parameter, which is supposed to achieve better results in such a network with many parameters.
+Moreover, in many recent researches it outperforms the classical stochastic gradient approach due to fixing its downsides, hence, it is supposed to be valid here as well.
+
+The prediction $\hat{\bar{\vec{Y}}}^{(i)}$ of the network needs to be compared to the ground-truth labels $\bar{\vec{Y}}^{(i)}$ of the batch sample $i$ for checking the network's accuracy.
+Due to the batch operations, the single dataset samples in a batch are referred to as batch samples.
+How the comparing is performed, though, depends on the type of classification.
+In the case of a single-label one, the index of the largest value in the batch element prediction $\hat{\vec{y}}^{(i)}$ is located.
+The same operation is performed on the corresponding ground-truth label $\vec{y}^{(i)}$.
+Each index represents a certain class, which is declared the predicted or actual one, respectively.
+Now a binary comparison of both indices is performed, resulting in 0 if they are different and 1 if they are equal.
+This is repeated for each batch element, while storing all results in a vector $\vec{e}$.
+Finally, the accuracy $\alpha$ is calculated by
+\begin{equation}
+	\label{eq:accuracy-mean}
+	\alpha^{(i)} = \frac{\sum_{j} e_j}{|\vec{e}|}
+\end{equation}
+for the current batch $i$.
+In the case of a multi-label classification, a probability threshold needs to be defined when a predicted feature is actually considered predicted.
+In this case, the threshold is $p=0.5$, hence, the values of the prediction vector can be rounded.
+Now an identical binary comparison as before can be applied to both label vectors resulting in a vector $\vec{e}$ as well.
+The accuracy is calculated with \thmref{eq:accuracy-mean}.
+
+Furthermore, a starting learning rate is necessary.
+Because finding it by trail-and-error would be time-consuming, the approach of the cyclical learning rate is used for finding an optimal learning rate.
+Hence, the learning rate is initialized with $\gamma = 10^{-5}$.
+After processing each batch it is exponentially increased according to
+\begin{equation}
+	\gamma(\tau+1) = \alpha \gamma(\tau)
+\end{equation}
+where $\alpha = 1.1$ is the scaling factor and $\tau$ the iteration.
+Its value can be chosen arbitrarily, but should be in range for achieving a desirable precision in learning rates.
+For each learning rate, the related cost function evaluation is stored.
+Training is stopped when the last cost value is four times the second to last one, i.e. when a drastic deterioration in cost happens.
+For evaluation the cost values are plotted against the learning rates.
+On the basis of this, the range of optimal learning rates can be read where a steep descent in cost values happen. 

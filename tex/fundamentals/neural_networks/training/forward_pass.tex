@@ -20,13 +20,13 @@ First, for every $j$-th node in the $l$-th layer its weights are summarized in a
 	\label{eq:weights-vector}
 	\vec{w}^{[l]}_j =
 	\begin{pmatrix}
-		w^{[l]}_{j,0} & w^{[l]}_{j,1} & \cdots & w^{[l]}_{j,n^{[l-1]}_h}
+		w^{[l]}_{j,1} & w^{[l]}_{j,2} & \cdots & w^{[l]}_{j,n^{[l-1]}_h}
 	\end{pmatrix}^T
 \end{equation}
 containing single weights, where the superscript in square brackets denotes the layer and the subscript denotes the edge of (target neuron, preceding neuron).
 The number of hidden neurons in the $l$-th layer is represented by $n^{[l]}_h$.
 These conventions are maintained for all parameters for the rest of this thesis.
-The bias is just a scalar denoted as $b^{[l]}_j$. 
+The bias of the $j$-th neuron in the $l$-th layer is just a scalar denoted as $b^{[l]}_j$. 
 Now, every weight vector and bias can be combined to a matrix and vector, respectively, for each layer.
 This yields
 \begin{subequations}
@@ -34,13 +34,13 @@ This yields
 	\begin{align}
 		\vec{W}^{[l]} &=
 		\begin{pmatrix}
-			\vec{w}^{[l]}_0 & \vec{w}^{[l]}_1 & \cdots & \vec{w}^{[l]}_{n^{[l]}_h}
+			\vec{w}^{[l]}_1 & \vec{w}^{[l]}_2 & \cdots & \vec{w}^{[l]}_{n^{[l]}_h}
 		\end{pmatrix}^T
 		\label{eq:weights}
 		\\
 		\vec{b}^{[l]} &=
 			\begin{pmatrix}
-				b^{[l]}_0 & b^{[l]}_1 & \cdots & b^{[l]}_{n^{[l]}_h}
+				b^{[l]}_1 & b^{[l]}_2 & \cdots & b^{[l]}_{n^{[l]}_h}
 			\end{pmatrix}^T
 		\label{eq:biases}
 	\end{align}
@@ -127,7 +127,7 @@ Therefore, both kind of errors are penalized.
 Using this loss function for computing a cost that averages all losses yields
 \begin{equation}
 	\label{eq:cross-entropy-cost}
-	J(\vec{x}, \vec{W}, \vec{b}, \vec{y}) = J(\hat{\vec{y}}, \vec{y}) = \frac{1}{m} \sum_{i=0}^{m} H(\vec{y}^{(i)}, \hat{\vec{y}}^{(i)})
+	J(\vec{x}, \vec{W}, \vec{b}, \vec{y}) = J(\hat{\vec{y}}, \vec{y}) = \frac{1}{m} \sum_{i=1}^{m} H(\vec{y}^{(i)}, \hat{\vec{y}}^{(i)})
 \end{equation}
 as the cost function.
 This function depends on all weights and biases as regression parameters, hence, it is highly dimensional.

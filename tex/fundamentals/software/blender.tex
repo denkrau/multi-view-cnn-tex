@@ -1,0 +1,26 @@
+\subsection{Blender}
+\label{sec:software-blender}
+Blender is a free and open source 3D creation suite to model, texture and animate objects.
+The integrated algorithms like lighting and shadowing offer default parameters that can be changed according to one's wishes.
+Furthermore, it supports importing existing models and manipulating them.
+Additionally, an API interface is provided, that can be used with the programming language Python, to control every function of Blender.
+This eases repetitive tasks tremendously.
+
+Every object in Blender has its own coordinate system.
+Hence, a way of expressing points of one coordinate system in another would be useful.
+Let's define a world coordinate system $\mathcal{W}$ with the origin $\vec{o}_\mathcal{W} = (0,0,0)^T$ and the rotation $\vec{r}_{\mathcal{W}} = (0,0,0)^T$, where each element of the latter represents a rotation around the $x$-, $y$- or $z$-axis, respectively, in radians.
+This system contains every other system.
+Now another coordinate system $\mathcal{L}$ is created, of course, inside the world coordinate system.
+However, $\mathcal{L}$ can be translated and rotated in comparison to $\mathcal{W}$.
+Hence, every coordinate system has a rotation matrix $\vec{R}$ in euler representation and a translation vector $\vec{t}$ that stores how they are rotated and translated to every other coordinate system.
+Considering $\mathcal{L}$ and $\mathcal{W}$ yields
+\begin{align}
+	\vec{R}_{\mathcal{L} \rightarrow \mathcal{W}} &= \vec{R}_{\mathcal{W} \rightarrow \mathcal{L}}^{-1} \\
+	\vec{t}_{\mathcal{L} \rightarrow \mathcal{W}} &= - \vec{t}_{\mathcal{W} \rightarrow \mathcal{L}}
+\end{align}
+as properties, where the subscript indicates the transfer.
+Transferring the coordinates of an arbitrary local point $\vec{x}_{\mathcal{L}}$ into corresponding coordinates $\vec{x}_{\mathcal{W}}$ of the reference coordinate system is done by using
+\begin{equation}
+	\vec{x}_{\mathcal{W}} = \vec{R}_{\mathcal{L} \rightarrow \mathcal{W}} \cdot \vec{x}_{\mathcal{L}} + \vec{t}_{\mathcal{L} \rightarrow \mathcal{W}}
+\end{equation}
+as the general expression.

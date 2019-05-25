@@ -1,0 +1,7 @@
+\subsection{Metrics for Performance Evaluation}
+\label{sec:neural-networks-metrics}
+When the training of a network is finished, its performance needs to be expressed in numbers.
+There are several common metrics available, that depend on some definitions that will be introduced first.
+A true positive $TP$ is a correct prediction of asample.
+A true negative $TN$ is a correct rejection of a sample, i.e. the network knows that a certain sample does not belong to a certain category.
+Furthermore, a false positive $FP$ is a false classified sample 

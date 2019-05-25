@@ -1,74 +1,11 @@
 \subsection{Improving Performance}
-\label{sec:neural-networks-improving-percofrmance}
-\begin{figure}
-	\setlength\figureheight{.3\textwidth}
-	\setlength\figurewidth{.5\textwidth}
-	\centering
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\input{images/threshold-activation.tikz}
-		\begin{equation*}
-			\phi(x) =
-			\begin{cases}
-				1 & x \geq \text{Bias $b$} \\
-				0 & x < \text{Bias $b$}
-			\end{cases}
-		\end{equation*}
-		\caption{Threshold}
-		\label{fig:threshold-activation}
-	\end{subfigure}%
-	\hfill
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\input{images/heaviside-activation.tikz}
-		\begin{equation*}
-			\phi(x) =
-			\begin{cases}
-				1 & x \geq 0 \\
-				0 & x < 0
-			\end{cases}
-		\end{equation*}
-		\caption{Heaviside}
-		\label{fig:heaviside-activation}
-	\end{subfigure}
-	
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\input{images/relu-activation.tikz}
-		\begin{equation*}
-			\phi(x) =
-			\begin{cases}
-				x & x \geq 0 \\
-				0 & x < 0
-			\end{cases}
-		\end{equation*}
-		\caption{Rectified Linear Unit}
-		\label{fig:relu-activation}
-	\end{subfigure}%
-	\hfill
-	\begin{subfigure}{.5\textwidth}
-			\centering
-			\input{images/leakyrelu-activation.tikz}
-			\begin{equation*}
-				\phi(x) =
-				\begin{cases}
-					x & x \geq 0 \\
-					x\cdot \text{Slope $s$} & x < 0
-				\end{cases}
-			\end{equation*}
-			\caption{Leaky Rectified Linear Unit}
-			\label{fig:leakyrelu-activation}
-		\end{subfigure}
-	
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\input{images/sigmoid-activation.tikz}
-		\begin{equation*}
-			\phi(x) = \frac{1}{1+\exp(-x)}
-		\end{equation*}
-		\caption{Sigmoid}
-		\label{fig:sigmoid-activation}
-	\end{subfigure}
-	\caption[Activation Functions]{Plots and equations of common used activation functions. Where the Bias $b$ is the threshold value and $s$ adds a small slope. Usually, the latter is very small like $s=0.01$.}
-	\label{fig:activation-functions}
-\end{figure}
+\label{sec:neural-networks-improving-performance}
+Earlier sections make general recommendations on hyperparameters.
+Nevertheless, there is room for improvement.
+Finding well-suited hyperparameters is a trial-and-error method and requires much time.
+However, there are methods that aim to find a good starting point.
+Those are going to be presented in the following.
+
+\input{tex/fundamentals/neural_networks/improving_performance/learning_rate.tex}
+\input{tex/fundamentals/neural_networks/improving_performance/batch_size.tex}
+\input{tex/fundamentals/neural_networks/improving_performance/activation_functions.tex}

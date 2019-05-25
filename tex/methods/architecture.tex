@@ -1,0 +1,29 @@
+\section{Multi-View Network Architecture}
+\label{sec:methods-architecture}
+Because convolutional neural networks are well-suited for image classification task, this approach is pursued.
+Furthermore, in \cite{Su:2015:MCN:2919332.2919750} the VGG-M\cite{journals/corr/ChatfieldSVZ14} architecture is used and in \cite{Feng2018} GoogLeNet\cite{szegedy2015}.
+Both are convolutional neural networks, where the first uses 8 layers and the latter, that is more recent, 22, however, both of them yield satisfying results.
+The number of parameters of both is too large for the available resources for this work, though.
+Hence, the AlexNet architecture\cite{Krizhevsky:2012:ICD:2999134.2999257} is chosen.
+It is very similar to the VGG-M one, but uses larger filters for convolutions and less nodes in the fully connected layers.
+However, the lesser parameters are a trade-off for accuracy.
+
+In \cite{Feng2018} it is shown that the performance of the network from \cite{Su:2015:MCN:2919332.2919750} can be improved even more by grouping views with similar informational content and giving their descriptors more weight during the classification.
+It is supposed that in particular the grouping process suits the task of distinguishing same models with different materials very well.
+Because the material is the only difference, the related views should be weighted the most while all others should only play a marginal role in the classification process.
+This would reduce noise and thus results in a better performance.
+Hence, the network is divided into three important modules as illustrated in \figref{fig:architecture-modules}.
+The feature module takes all views of an object and calculates a descriptor for each.
+Those are fed to the grouping module, that groups views dependent on their information content and generates a descriptor for every group and additionally their weight.
+Dependent on those outputs a single descriptor is calculated, that describes the inputted shape or object, respectively, and is used for the classification.
+Each of the modules is examined in detail in the following sections.
+\begin{figure}
+	\centering
+	\includegraphics[]{images/multi_view_architecture.pdf}
+	\caption{Modules of the Multi-View Architecture}
+	\label{fig:architecture-modules}
+\end{figure}
+
+\input{tex/methods/architecture/feature_module.tex}
+\input{tex/methods/architecture/grouping_module.tex}
+\input{tex/methods/architecture/shape_module.tex}
