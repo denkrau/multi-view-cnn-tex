@@ -10,11 +10,13 @@ This builds a range of optimal learning rates.
 With these values inbetween, the evaluations of the cost function are effectively decreased over time.
 Hence, for finding that optimal range, the learning rate is initialized with a very small value and slightly increased after each training step.
 For each of the steps the cost function is evaluated.
-\figref{fig:optimal-learning-rate-range} shows a typical plot of the cost function over the learning rate.
+\figref{fig:optimal-learning-rate-range} shows a typical plot of the cost function against the learning rate on a logarithmic $x$-scale.
 \begin{figure}
+	\setlength\figureheight{.45\textwidth}
+	\setlength\figurewidth{.9\textwidth}
 	\centering
-	%\includegraphics[]{images/cyclical-learning-rate-range}
-	\caption[Optimal Range of Learning Rates]{Optimal Range of Learning Rates}
+	\input{images/optimal_learning_rate_loss.tikz}
+	\caption[Optimal Range of Learning Rates]{Optimal Range of Learning Rates Highlighted in Blue. The learning rate is increased exponentially.}
 	\label{fig:optimal-learning-rate-range}
 \end{figure}
 It can be seen, that if the learning rate is small, the cost function does not improve noticeably.
@@ -25,7 +27,6 @@ If the learning rate still gets increased, the cost function starts to diverge e
 \textit{Smith} suggests a triangular learning rate policy which first increases the learning rate from the lower bound to the upper bound and then decreases it back to the lower bound.
 Each change happens linearly.
 The actual learning rate depends on the time step.
-%TODO triangular learning rate policy image?
 
 Another approach is doing warm restarts of the learning rate after several iterations, hence, it is called Stochastic Gradient Descent with Warm Restarts\cite{DBLP:journals/corr/LoshchilovH16a}.
 This is especially combined with the gradient descent algorithm.

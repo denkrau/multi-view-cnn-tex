@@ -1,4 +1,20 @@
 \chapter{Results}
+In this chapter the results of the network and its components are going to be presented.
+First the grouping mechanism is evaluated due to being the core of the architecture.
+Then the overall performance of the network is discussed, followed by an examination of misclassifications.
+There are several networks training with an increasing number of category and material classes for being able to compare and dedicate possible occurring effects.
+It starts with only a single category, in particular bathtubs, with first 3 different materials.
+Those materials embrace the the raw object, a green feature and a red one.
+This is further increased to 6 material features containing a green and red material, two green materials, and two red materials.
+Finally, four categories in total are classified including additionally dressers, monitors and sofas.
+Here an identical process of adding materials is performed in the same order as before.
+This leads to a total of 9 networks.
+However, for testing different hyperparameters, more networks have been trained on the dataset with bathtubs and 3 material.
+In the following the syntax \emph{\#categories-\#materials} refers to the corresponding trained network.
+Every model is trained for 20 epochs with a batch size of 8.
+Each batch element contains 12 rendered views of an object.
+The initial learning rate is set to $0.0001$.
+Furthermore, the dropout probability of layer 6 and 7 is specified as $0.5$, which matches the AlexNet configuration.
 
 \input{tex/results/grouping.tex}
 \input{tex/results/overall.tex}

@@ -21,9 +21,28 @@ From this data correlations of input and label are found.
 After arbitrary training steps where parameter changes happened, the performance of the network is tested on the validation set.
 This is data, the network is not trained on.
 The objective is to check if overfitting occurs.
-If the accuracy of the training set increases, the accuracy of the validation set has to increase as well.
+If the loss of the training set decreases, the loss of the validation set has to decrease as well.
 This shows that the network still learns and gets better.
-If the accuracy of the training set increases, but the accuracy of the validation set stays the same or decreases, it is an indicator for overfitting.
+If the loss of the training set decreases, but the loss of the validation set stays the same or increases, it is an indicator for overfitting.
+This concept is also valid for the accuracy.
+However, it is usually supposed to increase.
+Both the cases are visualized in \figref{fig:overfitting}.
+\begin{figure}
+	\setlength\figureheight{.4\textwidth}
+	\setlength\figurewidth{.5\textwidth}
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\input{images/overfitting_loss.tikz}
+		\caption[Loss]{Loss}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\input{images/overfitting_accuracy.tikz}
+		\caption[Accuracy]{Accuracy}
+	\end{subfigure}
+	\caption[Indicator of Overfitting]{Indicator of Overfitting. If the metrics for the validation set do not follow the direction of the ones from the training set the network does not generalize.}
+	\label{fig:overfitting}
+\end{figure}
+
 The testing set is data the network is not trained on as well.
 It serves as a final performance check of the network to confirm its general accuracy.
 If no validation set is available, the testing set can be used.
