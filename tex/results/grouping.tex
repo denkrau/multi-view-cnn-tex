@@ -45,6 +45,7 @@ The decision rule would be, if the descriptor represents no feature, the objects
 With the classification of more categories, tough, this is not possible anymore, because a very small descriptor cannot just represent any blank object, but the object category class.
 If there are two objects, for example, and only one view each shows a different feature with a small discrimination score, they would be divided into two categories.
 Without a normalization all views would pretty much account to the same amount to the shape descriptor.
+Hence, the weights in the fully-connected layers for each specific present feature needs to be very large.
 With normalization, however, the group with one view is much higher weighted than the not discriminative views.
 Hence, normalization kind of removes noise, i.e. not discriminative views, that could influence the prediction unfavorably.
 \figref{fig:grouping-0-3-green} and \figref{fig:grouping-0-3-red} show the expected result.
@@ -56,9 +57,174 @@ Perhaps the dataset contains more features following this shape than in rotated 
 Moreover, both figures show exactly the same order.
 This shows, that the weights for each color channel are optimized in the same direction.
 However, the views with the green material are in a closer range compared to the ones with the red material.
-The latter differ extremely.
+The latter differs extremely.
 The least discriminative view with a material is closer to the not discriminative views than the discriminative ones.
+Considering several different training sessions of this configuration, it is observed, that those scores of each material usually are similar to each other.
+Hence, it is assumed, that a bad weight initialization caused this problem and a longer training would have evened it out.
+Nevertheless, the group metric is at 1 for every material.
+It should be noted, that always only a metric for the non-blank materials is given.
+\begin{figure}
+	\centering
+	\begin{subfigure}{\textwidth}
+		\includegraphics[trim=10 20 10 20, clip]{images/mn-sl-0-4-20/bathtub_0107_1_grouping.png}
+		\caption{Green}
+		\label{fig:grouping-0-4-green}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\includegraphics[trim=10 20 10 20, clip]{images/mn-sl-0-4-20/bathtub_0107_2_grouping.png}
+		\caption{Red}
+		\label{fig:grouping-0-4-red}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\includegraphics[trim=10 20 10 20, clip]{images/mn-sl-0-4-20/bathtub_0107_3_grouping.png}
+		\caption{Green-Red}
+		\label{fig:grouping-0-4-green-red}
+	\end{subfigure}
+	\caption[Grouping in 0-4 Network]{Grouping in 0-4 Network}
+	\label{fig:grouping-0-4}
+\end{figure}
+In \figref{fig:grouping-0-4} the grouping of the 0-4 network is shown, which additionally classifies green-red material features.
+The divide of the blank object is omitted but all views have a score of 0.229.
+Compared to the 0-3 network, this network finds different correlations, because the order of views is different.
+Furthermore, not only the views with an available material are rated high like in \figref{fig:grouping-0-4-red}, but also the normal views like in \figref{fig:grouping-0-4-green}.
+The reason is, that there could be two material features on a single object.
+Hence, a view where a feature is supposed to be present is rated high, although it is missing.
+This means, the discriminative information is the missing feature, thus, the view is more discriminative than it first seemed.
+Therefore, a worse group metric than before is expected.
+This is reflected by the values 0.735, 0.475 and 0.800 for each class.
+The averaged group metric is 0.670.
+This shows, that the network prefers the green material as well, because it is more often in the top group than the red one.
+This is also seen in the red divide, where two of three material views are the least discriminative ones.
+That suggests, that the red feature is treated as a sufficient criterion, while the green one is treated as the necessary criterion.
+Moreover, it is not surprisingly, that the green and red features are mostly present in the top group.
+\begin{figure}
+	\centering
+	\begin{subfigure}{\textwidth}
+		\includegraphics[trim=10 20 10 20, clip]{images/mn-sl-0-5-20/bathtub_0107_1_grouping.png}
+		\caption{Green}
+		\label{fig:grouping-0-5-green}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\includegraphics[trim=10 20 10 20, clip]{images/mn-sl-0-5-20/bathtub_0107_3_grouping.png}
+		\caption{Green-Red}
+		\label{fig:grouping-0-5-green-red}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\includegraphics[trim=10 20 10 20, clip]{images/mn-sl-0-5-20/bathtub_0107_4_grouping.png}
+		\caption{Green-Green}
+		\label{fig:grouping-0-5-green-green}
+	\end{subfigure}
+	\caption[Grouping in 0-5 Network]{Grouping in 0-5 Network}
+	\label{fig:grouping-0-5}
+\end{figure}
+Next, the grouping for the 0-5 network is examined, that additionally classifies green-green features.
+The important results can be seen in \figref{fig:grouping-0-5}.
+The divide of the blank object is similar to the ones before.
+There is only one group and the view discriminative scores are in a range of 0.156 and 0.158.
+Not much changes for the divide of the red material.
+The second view from earlier changes its position with the top view.
+Moreover, the score of every views is decreased by about 0.07.
+However, that the top view shows a red material is possibly for adding certainty for the classification with avoiding large weights.
+For the green material the material views are the least discriminative ones according to their score.
+This is shown in \figref{fig:grouping-0-5-green}.
+That effect must be due to the additional green-green feature.
+An explanation could be, that the network now rates views by missing material features.
+Hence, the shape descriptor becomes smaller the more features are available.
+This theory is almost supported by the divide of green-red, that is shown in \figref{fig:grouping-0-5-green-red}.
+Moreover, referring to the view scores, the views showing a green material have the exact same score than in the single green case.
+However, the theory is changed in so far, that not the number of features is crucial, but rather that every material feature has a range in which it is classified.
+Green materials are less discriminative than red ones and red ones are less discriminative than blank ones.
+Using the green-green divide from \figref{fig:grouping-0-5-green-green} confirms this more.
+The views with a green feature are less discriminative than the blank ones and also have a lesser score than the red ones in the earlier cases.
+Thus, the shape descriptor is large, if no feature is visible, neutral if red ones are visible, slightly smaller if green ones are visible, small if both features are visible and very small if two green features are visible.
+For this network, the group metrics are 0.419, 0.469, 0.768, 0.750 with an average of 0.601.
+Those of each single feature and of each double feature are similar and the average is smaller than in the 0-4 case.
+This supports the grouping theory even more in so far, that non-feature views are mainly members of the top group.
+\begin{figure}
+	\centering
+	\begin{subfigure}{\textwidth}
+		\includegraphics[trim=10 20 10 20, clip]{images/mn-sl-0-6-20/bathtub_0107_4_grouping.png}
+		\caption{Green-Green}
+		\label{fig:grouping-0-6-green-green}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\includegraphics[trim=10 20 10 20, clip]{images/mn-sl-0-6-20/bathtub_0107_5_grouping.png}
+		\caption{Red-Red}
+		\label{fig:grouping-0-6-red-red}
+	\end{subfigure}
+	\caption[Grouping in 0-6 Network]{Grouping in 0-6 Network}
+	\label{fig:grouping-0-6}
+\end{figure}
+For having balanced evaluation results, red-red material features are added, yielding the 0-6 network.
+Grouping blank views is almost identical to the earlier cases with the exception of view scores in a range of 0.46 to 0.472
+The order of views for the green material has not changed notable.
+However, an additional group is created and the scores of the views with a visible feature changed to 0.336, 0.048 and 0.388.
+The remaining scores are in a range of 0.46 to 0.472 which matches the blank case.
+In the red material case, the 0-5 top view is now the third-to-last.
+Hence, all views showing materials are the least discriminative ones with scores of 0.106, 0.313 and 0.358.
+The remaining views have identical scores to the other material cases.
+Moreover, all of those views are divided into four groups.
+In comparison, the green material and the red one have similar view scores, where the scores of the blank views are identical.
+For the green-red case all views not showing a material are more discriminative than the ones showing one.
+This matches almost the grouping in the 0-5 network, but with five groups
+The top group only contains non-feature views.
+Furthermore, the scores of views with a green feature have the same score than in the single green feature case.
+However, this is applicable for the views with red features.
+This is due to the fact, that in this case, the second optimal face is colored red, hence, there are no comparable red faces.
+For the green-green and red-red case, that are shown in \figref{fig:grouping-0-6}, the divide is almost identical.
+The first one uses four groups the second five.
+Though, the view scores are similar, it is noticeable, that compared to each different colored feature in the green-red case views with a now green feature are less discriminative than views with a now red feature.
+Although, both times the general score is higher.
+Fortunately, this does not debunk the assumed theory of the group mechanism.
+The corresponding group metric scores are 0.217, 0.253, 0.420, 0.381, 0.504 with an average of 0.355.
+Their distribution is as expected, but with smaller values than in earlier networks.
+This is due to the larger number of groups and the higher diversity of non-feature views to feature-views.
 
-%It is supposed, that similar views like opposite perspectives of a symmetrical object are divided into the same group, because they contain similar features.
-%For example, the views of the left and right side of a car look almost identical.
-%Both have the same contours but in a mirrored direction.
+For a full understanding of the grouping mechanism, it needs to be examined, if the assumed theory is still valid, if additional categories are classified.
+This is done in the same order of number of classifications as with only material features.
+First, the 4-0 network is evaluated.
+It is supposed, that similar views like opposite perspectives of a symmetrical object are divided into the same group, because they contain similar features.
+For example, the views of the left and right side of a car look almost identical, due to having the same contours but in a mirrored direction.
+\begin{figure}
+	\centering
+	\includegraphics[]{images/mn-sl-4-0-20/bathtub_0107_0_grouping.png}
+	\caption{Grouping in 4-0 Network}
+	\label{fig:grouping-4-0}
+\end{figure}
+A grouping divide is shown in \figref{fig:grouping-4-0}.
+It can be seen, that the assumption is wrong.
+Instead, the network prefers objects or features, respectively, that are diagonal from top left to bottom right.
+This is validated by more predictions.
+That such preferences are learned is already assumed from the 0-3 grouping.
+The scores, however, are difficult to interpret.
+For doing this it is necessary to compare all weights and activations, without achieving a real benefit, because the functionality of the grouping algorithm is already validated by using only materials.
+Hence, the grouping for the remaining networks is briefly summarized.
+Their divides are shown in \figref{fig:grouping-4-3}, \figref{fig:grouping-4-4}, \figref{fig:grouping-4-5} and \figref{fig:grouping-4-6}.
+\begin{figure}
+	\centering
+	\includegraphics[]{images/mn-sl-4-3-20/bathtub_0107_1_grouping.png}
+	\caption{Grouping in 4-3 Network}
+	\label{fig:grouping-4-3}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[]{images/mn-sl-4-4-20/bathtub_0107_3_grouping.png}
+	\caption{Grouping in 4-4 Network}
+	\label{fig:grouping-4-4}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[]{images/mn-sl-4-5-20/bathtub_0107_4_grouping.png}
+	\caption{Grouping in 4-5 Network}
+	\label{fig:grouping-4-5}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[draft]{images/mn-sl-4-6-20/bathtub_0107_5_grouping.png}
+	\caption{Grouping in 4-6 Network}
+	\label{fig:grouping-4-6}
+\end{figure}
+It can be seen, that each top group always contains at least one view with a visible feature.
+Furthermore, the remaining ones are not necessarily discriminative, because depending on the number of materials it is more important to find features classifying the category.
+Moreover, the more classes exist, the more groups are created.
+That suggests, that the assumption from before, that shape descriptors of different classes are in different ranges, could be valid, because this way the network is more flexible in weighting views.
