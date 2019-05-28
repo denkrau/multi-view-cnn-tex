@@ -1,2 +1,115 @@
 \section{Overall Performance}
 \label{sec:results-overall}
+For evaluating the overall performances of the network architecture, the choice of hyperparameters is explained.
+In \figref{fig:optimal-learning-rate} the increasing of the learning rate against the related loss is shown for finding the range of optimal learning rates.
+Additionally, the change of loss is outlined.
+This is performed on the 0-3 network.
+At around $10^{-4}$ the loss starts to decrease slightly.
+At around 0.004 its decrease gets strikingly faster until at around 0.01 it starts to increase drastically.
+Although for this network in particular a learning rate of $10^{-2}$ seems to be suited well, a general initial learning rate of $10^{-3}$ is chosen.
+On one hand, this is the most basic network, hence, it is supposed, that for more complicated ones, a smaller learning rate is better suited due to the more complex cost funtion.
+Furthermore, interpreting those graphs is time-consuming and for more complicated networks not that easy anymore, because the loss changes more rapidly.
+On the other hand, a learning rate of $10^{-2}$ is close to the increase.
+Hence, if the learning rate is shifted, the parameters of the network would be changed tremendously.
+It was actually verified, that a learning rate of $10^{-3}$ is a satisfiable choice for more complex networks, because it lies close to the upper bound of the optimal learning rates range.
+As a default value for all networks it works as well, though.
+\begin{figure}
+	\setlength\figureheight{.3\textwidth}
+	\setlength\figurewidth{.45\textwidth}
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\input{images/mn-sl-0-3-20/optimal_learning_rate_loss.tikz}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\input{images/mn-sl-0-3-20/optimal_learning_rate_dloss.tikz}
+	\end{subfigure}
+	\caption[Optimal Learning Rate For the 0-3 Network]{Optimal Learning Rate For the 0-3 Network. Learning rate is initialized with 0.00001 and multiplied by 1.02 every iteration.}
+	\label{fig:optimal-learning-rate}
+\end{figure}
+
+Furthermore, the decreased filter size in the first convolutional layer from $11 \times 11$ to $7 \times 7$ compared to the original AlexNet configuration is evaluated.
+In \figref{fig:first-conv-filter} the losses of the training process of both configurations are shown.
+\begin{figure}
+	\setlength\figureheight{.4\textwidth}
+	\setlength\figurewidth{.9\textwidth}
+	\centering
+	\input{images/first_conv_filter_size.tikz}
+	\caption{Comparison of Filter Sizes of First Convolutional Layer Based on Loss}
+	\label{fig:first-conv-filter}
+\end{figure}
+It can be seen, that with the smaller filter the loss decreases over time, while for the other filter the loss saturates after 13 epochs.
+The latter presumably got stuck on a saddle point before and would decrease further with more training epochs.
+This could have been an unfavorable weight initialization, but based on all cost evaluations, the loss with the $7 \times 7$ filter decreases much more and faster.
+That means, there were either many saddle points very close to each other, or the performance of the $11 \times 11$ filter is actually worse.
+Because more recent convolutional networks tend to use smaller filters, the latter theory is assumed.
+Hence, a filter with the size of $7 \times 7$ is chosen for the first convolution.
+
+The overall training losses for all networks are shown in \figref{fig:train-loss} and the testing losses in \figref{fig:train-loss}.
+For a more compact visualization of training and testing they are only split into two separate graphs.
+As expected, the 0-3 network starts with the smallest loss and proceeds the most smoothly compared to all other networks, due to its simplicity.
+During training most closely to this comes the 0-4 network, however, with more rapid changes.
+This is expected as well, because it is just slightly more complicated.
+The 0-5 and 0-6 network have since the 12th epoch the highest losses of all single category networks.
+This is not surprisingly, because they are challenged with the double material features.
+However, as the training proceeds, their cost function is noticeable going to be minimized, it just takes longer due to their complexity compared to the other single category networks.
+It is surprisingly, though, that the remaining networks are part of the ones with the smallest losses.
+Based on those, they can stick with the 0-3 model.
+Moreover, since the 13th epoch, they change considerably small in loss compared to the single category ones.
+However, this is difficult to explain, because the cost function is unknown.
+It could be, that they are on a plateau with only a small slope.
+Though, it is unlikely that this happens to all of them in the same epoch when every network has different initialized weights, hence are located on different spots at the cost function.
+If there is only small progress, because the parameters are close to a very small local minimum or the actual global one of each cost function, an indicator of overfitting could be noticeable in the testing losses.
+However, there is no obvious increase in loss visible.
+Not even in the direct comparison of each network's training and testing losses.
+The only visible increase is for the 4-3 network after the 14th epoch, but it decreases after the 18th again.
+So it was presumable only on a bad location for generalization.
+Hence, the training of the networks can be continued for more epochs for trying to achieve a smaller loss and better generalization.
+It is not surprisingly, that the 0-3 network has the smallest loss again.
+The other networks are similar to each other.
+However, it is noticeable, that the single-category networks have more rapid changes at the beginning and the remaining networks later in the training process.
+This is presumably because of the different number of iterations per epoch.
+The more complex networks have larger datasets, due to the additional number of material features and categories, hence, more batches with a parameter adaption after each.
+This way the less complex networks need more epochs for having processed the same number of batches than an complex network.
+That also explains why the four-categories networks have less noticeable changes after several epochs than the single-category ones.
+For the sake of completeness the related accuracies of the training processes are shown in \figref{fig:networks-accuracy}.
+Here the same effects can be seen as with the losses.
+\begin{figure}
+	\setlength\figureheight{.35\textwidth}
+	\setlength\figurewidth{.9\textwidth}
+	\centering
+	\begin{subfigure}{\textwidth}
+		\centering
+		\input{images/train_loss.tikz}
+		\caption{Training Losses of all Networks}
+		\label{fig:train-loss}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\input{images/test_loss.tikz}
+		\caption{Testing Losses of all Networks}
+		\label{fig:test-loss}
+	\end{subfigure}
+	\caption{Training and Testing Losses of Networks}
+	\label{fig:networks-loss}
+\end{figure}
+\begin{figure}
+	\setlength\figureheight{.35\textwidth}
+	\setlength\figurewidth{.9\textwidth}
+	\centering
+	\begin{subfigure}{\textwidth}
+		\centering
+		\input{images/train_accuracy.tikz}
+		\caption{Training Accuracies of all Networks}
+		\label{fig:train-accuracy}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\input{images/test_accuracy.tikz}
+		\caption{Testing Accuracies of all Networks}
+		\label{fig:test-accuracy}
+	\end{subfigure}
+	\caption{Training and Testing Accuracies of Networks}
+	\label{fig:networks-accuracy}
+\end{figure}
