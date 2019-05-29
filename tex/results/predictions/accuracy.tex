@@ -1,2 +1,110 @@
 \subsection{Class Accuracies}
 \label{sec:predictions-accuracies}
+The class accuracies of the single-category networks are presented in \tabref{tab:single-category-accuracies}.
+Every material consists of 27 multi-views.
+Supported by its small loss, the 0-3 network has an overall accuracy of 100\%.
+The more materials are added, the worse the accuracies of the related models gets.
+This decrease is only slightly, though.
+Furthermore, it can be seen, that the accuracies of the blank models are always exact.
+Due to being the most simple case, it is not surprisingly.
+The networks just need to realize, that there is no specific material color present.
+For the 0-4 network something strange happens.
+Although the accuracies seem ordinary, the misclassifications are interesting.
+It classifies 5 images with a red material feature as blank objects.
+Something similar happens for the green-red material features.
+There are 5 ones classified as green.
+However, this is more understandable than the blank misclassifications, due to the actual existence of that color.
+How this could happen is discussed for all networks based on the actual views, but for reasons of overview just in the following subsection.
+The 0-5 network classifies 14 objects as green-green when they only have one green feature, hence the bad accuracy this class.
+This is understandable, though.
+Perhaps those feature are placed next to each other and seem like a single one.
+For the green-green class only two multi-views are predicted wrong.
+In fact as the single-green class.
+This shows, that the network generally prefers a green-green prediction.
+Those misclassifications would even out perhaps with more training epochs or data samples for learning better correlations.
+The results of the 0-5 network are similar to the 0-4 one.
+14 actual green material multi-views are predicated as green-green ones, while the other way round only 2 are misclassified as single green material objects.
+The 0-6 network predicts similar as well.
+However, the single-feature as double-feature misclassifications are much better for the red material.
+Only 4 red ones are misclassified while 12 green ones are misclassified.
+The predictions vice versa are better for the green material, though.
+Only 2 are wrongly predicted as a single-material feature for the green ones and 8 for the red ones.
+It seems like the networks prefer double green features and single red features.
+Because this is valid for all of them, taking the weight initialization as the reason is unlikely.
+Moreover, for each object the same optimal faces are colored, so an unbalanced learning due to the dataset prevented.
+But why exactly the networks behave like that remains unknown for now. 
+%TODO why does the network prefer double green and single red?
+\begin{table}[]
+	\centering
+	\caption{Accuracy per Class of Single-Category Networks}
+	\label{tab:single-category-accuracies}
+	\begin{tabular}{l|llll}
+		            & 0-3 & 0-4   & 0-5   & 0-6   \\ \hline
+		Blank       & 1.0 & 1.0   & 1.0   & 1.0   \\
+		Green       & 1.0 & 0.852 & 0.481 & 0.556 \\
+		Red         & 1.0 & 0.815 & 0.963 & 0.852 \\
+		Green-Red   &     & 0.815 & 0.889 & 1.0   \\
+		Green-Green &     &       & 0.926 & 0.926 \\
+		Red-Red     &     &       &       & 0.704 \\ \hline
+		Overall		& 1.0 & 0.870 & 0.852 & 0.840 \\
+	\end{tabular}
+\end{table}
+The per class type accuracies of the four-category networks are shown in \tabref{tab:four-category-accuracies}.
+In general, they are slightly better than the ones of the single-category networks, though they are more complicated.
+This is presumable due to the larger training sets.
+The 4-0 network predicts 5 bathtub objects as sofas, 1 dresser object as a monitor and 2 sofa objects as dressers.
+That seems like all object categories share some features for being able to misclassify them as different categories.
+For example, if only bathtubs are misclassified as sofas and sofas are misclassified as bathtubs, it is certain that only that categories share features.
+However, that are not many wrong predictions, so again a longer training should increase the accuracies.
+The 4-3 network predicts some bathtubs as sofas as well, but each predicted material feature is correct.
+In numbers it is five, four and one wrong predictions per related material feature.
+This shows, that at least for bathtubs green-red materials can be classified almost easily.
+Furthermore, some dresser are mistaken for monitors and some sofas as dressers.
+Those wrong predictions match the earlier network.
+Moreover, a few colored objects are predicted as the same blank object.
+This happens four times for sofas and once for monitors and dressers.
+For the 4-4 network almost the same prediction characteristics are valid as for the earlier four-category networks.
+Surprisingly is that every monitor object is classified correctly.
+Maybe this is due to a well-suited weight initialization, because the actual network architecture is unchanged.
+The 4-5 and 4-6 networks experience a sudden drop in overall accuracy.
+This was also the case with the single-category networks, but not that drastically.
+Apparently, the double material features are more challenging for multiple object categories due to more features.
+Furthermore, both networks share some prediction characteristics of the earlier networks.
+The favorite misclassification categories of the actual categories persist.
+However, this is mostly for bathtubs.
+The remaining categories mostly predict wrong within their category.
+In particular the 4-5 network is really good with the dresser classes, however its green-green class is the worst within that category.
+For bathtubs the single-green class is the worst within, because it has the most misclassifications in this category with 6 objects as double-green bathtubs.
+Vice versa only two multi-views are predicted wrongly.
+For dressers, monitors and sofas the green-green classification has by far the worst accuracy within each category.
+The differences are 0.134, 0.36 and 0.154, respectively, to the second worst class within each object category.
+In conclusion, this network shows, that the critical material classes are similar to the single-object networks, but it is more challenging for four-object networks to classify double-features consistently.
+This is kind of supported by the 4-6 network, because it shares those characteristics of worst material classes within somehow.
+This time, though, the worst material classes for bathtubs and sofas are the single-green ones.
+That confirms their correlation even more.
+The single-material classes for the remaining categories are balanced.
+For the double material features the red-red ones are the worst for bathtubs and monitors and the green-green ones for dressers and sofas.
+Here it can be seen again, that usually one material color is preferred over the other.
+Nonetheless, usually if a material is misclassified in double-material networks, its prediction is either the single-material or double-material class of the same object.
+Presumably, all the errors presented in this section can be reduced by a longer training process, so that each network learns more and better correlations for predicting similar classes.
+The possibility of this is supported by the loss graphs, that show no overfitting yet.
+If this does not achieve the desired result, more data samples could be added for supplying more correlations.
+\begin{table}[]
+	\centering
+	\caption{Accuracy per Types of Classes of Four-Category Networks}
+	\label{tab:four-category-accuracies}
+	\begin{tabular}{l|lllll}
+		            & 4-0   & 4-3   & 4-4   & 4-5   & 4-6   \\ \hline
+		Bathtub (27)& 0.812 & 0.877 & 0.917 & 0.830 & 0.778 \\
+		Dresser (30)& 0.967 & 0.967 & 0.942 & 0.960 & 0.911 \\
+		Monitor (25)& 1.0   & 0.987 & 1.0   & 0.904 & 0.920 \\
+		Sofa (26)   & 0.923 & 0.872 & 0.885 & 0.838 & 0.755 \\ \hline
+		Blank       &       & 0.926 & 0.935 & 0.954 & 0.944 \\
+		Green       &       & 0.926 & 0.944 & 0.870 & 0.722 \\
+		Red         &       & 0.926 & 0.935 & 0.981 & 0.815 \\
+		Green-Red   &       &       & 0.926 & 0.870 & 0.907 \\
+		Green-Green &       &       &       & 0.750 & 0.843 \\
+		Red-Red     &       &       &       &       & 0.822 \\ \hline
+		Overall     & 0.926 & 0.926 & 0.935 & 0.885 & 0.842
+	\end{tabular}
+\end{table}
