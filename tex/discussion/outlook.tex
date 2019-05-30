@@ -1,1 +1,27 @@
 \section{Outlook}
+\label{sec:discussion-outlook}
+The current networks can be improved by tuning the dataset among others.
+More lights could be added to the scene or the current light is placed at the position of the camera and points along its view axis directly at the object.
+This way more shadows are created in a view presumably leading to a detection of more edge features.
+For creating optimal faces that are not occluded by others, ray casts for as many vertices in the face as possible need to be performed and checked if the ray hits the actual face.
+However, this gets very computational expensive and would take a huge amount of time.
+The advantage of this would be, that those results could be stored an used for finding the second optimal face.
+If resources and time are no constraints, every other face could be examined for being the second optimal face.
+Its results are then compared with the ones from the first one under the restriction of a given number of views where one should be visible.
+Otherwise, choosing a valid face with the maximum distance from the first is a working approach.
+In this case, though, a manual deleting of some bad samples needs to be performed.
+Furthermore, the trained networks could be tested on real-world samples.
+Real-world objects could be digitalized with a 3D scanner and propagated through the network.
+This is likely to give somehow different results as true 3D models.
+Moreover real world colors and materials can be assigned to each model, either CAD or digitalized, for supplying more features.
+
+The networks could be improved by a longer training because no indication of overfitting exists.
+Moreover, restarts for the learning rate could be added to avoid the differences in loss for the four-category networks by stepping over small minima.
+Furthermore, a change in number of groups and their bin size could be evaluated.
+However, it cannot be rated if this improves the performance.
+The minimum of groups should be related to the current number of groups used for the predictions, though.
+Probably the largest boost in performance would be a change of the underlying network architecture.
+There are many networks that achieve higher accuracies according to the ImageNet challenge in object detection in images like Inception-v4 and ResNet.
+If they are combined with the grouping mechanism higher accuracies than with the current implementation are expected.
+However, the position of the grouping module and the input of the fully-connected layer for calculating the view discrimination scores are different if the new architecture is nested.
+Their properties need to be examined first.

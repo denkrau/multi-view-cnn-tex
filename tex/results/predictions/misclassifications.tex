@@ -78,6 +78,9 @@ Why the material color is predicted wrong, however, remains unknown.
 Similar object are found in the dataset which are predicted wrong that have features of a similar size like \figref{fig:small-features-c}.
 For the fourth one the red face is never seen completely, hence, it is never seen in a triangular shape like usual material faces except for one view.
 There it is truncated to a small triangular, though, and experiences the same problems as the other two multi-views presumably.
+Two optimal faces next to each other forming a rectangle result in a correct classification in general, however.
+The case of two faces building a larger triangle is not present in the dataset.
+Although it is assumed that such a multi-view would be predicted wrong.
 The reason for predicting bathtubs incorrectly as sofas are mostly missing shadows like in \figref{fig:small-features-e}.
 Because mainly the long left side transitions into the plane due to a missing sharp shadow at the edge the actual bathtub is more likely to be predicted as a sofa.
 This object is indeed likely to reappear in different networks as a wrong prediction.
