@@ -47,6 +47,7 @@ Depending on how large it is a particular material class is predicted.
 The minimum losses and maximum accuracies during the training process of all networks are visualized in \figref{fig:losses} and \figref{fig:accuracies}.
 The corresponding values are noted in \tabref{tab:network-performances}.
 With the addition of material features the networks get more complicated, hence their loss increases and the accuracy decreases.
+It is noticeable, that using 5 or 6 material classes, wrong predication are very likely to be within the same category but with the related single or double feature of same color.
 This can presumable be coped by a larger dataset or a longer training due to no indicator of overfitting.
 The first simulates the latter by having more batches, thus more updates are performed on the parameters.
 For the losses it can be seen, that for the single-category networks they are similar for training and testing set.

@@ -170,10 +170,36 @@
 \maketitle				% setzt die Titelseite, Widmung und Erklärung
 \begin{BaMaAbstract}{	% Setzt den Abstract und die Zusammenfassung der Arbeit
 	% english abstract
-	english abstract
+	The objective of this work is to classify same objects with different color features with a convolutional neural network.
+	Each object is represented by multiple 2D views around it.
+	Those color features include single and double marks.
+	For each additional color feature a new network is trained on the full dataset for being able to compare the results optimally.
+	The core functionality of this work is a grouping mechanism that assigns views a score depending on their discriminative content and divides them into groups of similar scores.
+	The weight of each group is the average of the scores of its contained views.
+	A descriptor per group is built by averaging the related view descriptors.
+	Those are then propagated to fully-connected layers for generating group shape descriptors that are weighted averaged with the group weights for yielding a single compact shape descriptor representing the object.
+	The results show that the grouping mechanism works satisfiable and supports yielding better accuracies than naive multi-view approaches that treat all views equally.
+	Moreover, the networks classify the colors satisfiable.
+	However, the more are present in the dataset, the worse the accuracies get for the same number of epochs.
+	It is noticed, that the networks weight same views but showing different color classes differently.
+	Hence, tt is assumed, that the final shape descriptor is divided into ranges representing each class.
 }{
 	% german abstract
-	deutscher abstract}
+	Das Ziel dieser Arbeit ist es, identische Objekte mit unterschiedlichen Farbmerkmalen mithilfe von CNNs zu klassifizieren.
+	Dabei ist jedes Objekt als Set von 2D Bildern beschrieben.
+	Das Set an Merkmalen beinhalten einfache und zweifache Merkmale.
+	Für jedes zusätzliche Farbmerkmal wird ein neues Netzwerk anhand des vollen Datensatzes trainiert, um die Ergebnisse bestmöglich vergleichen zu können.
+	Das Herzstück dieser Arbeit ist ein Gruppierungsmechanismus, der jedem Bild eine Wertung anhand seines Informationsgehalts zuweist und es abhängig davon in eine Gruppe einteilt.
+	Die Gewichtung jeder Gruppe setzt sich aus dem Mittelwert der Wertungen der enthaltenen Bilder zusammen.
+	Ein Deskriptor pro Gruppe wird durch Mittlung der enthaltenen Bilddeskriptoren erstellt.
+	Diese werden durch zwei fully-connected Layer propagiert, um Gruppen-Form-Deskriptoren zu erhalten, aus denen ein gewichteter Mittelwert mit den Gruppengewichten berechnet wird.
+	Damit wird ein finaler kompakter Form-Deskriptor erhalten, der das Objekt beschreibt.
+	Die Ergebnisse zeigen, dass der Gruppenmechanismus zufriedenstellend arbeitet und dazu beiträgt, bessere Genauigkeiten zu erzielen, als übliche Multi-View Ansätze, die alle Bilder gleich bewerten.
+	Außerdem werden auch die Farbmerkmale zufriedenstellend unterschieden.
+	Allerdings fällt auf, dass sich bei mehr Typen von Merkmalen die Genauigkeiten bei gleicher Trainingszeit verschlechtern.
+	Weiterhin wird bemerkt, dass gleiche Bilder, jedoch mit unterschiedlichen Merkmalen, unterschiedlich bewertet werden.
+	Daher wird die These aufgestellt, dass der kompakte Formdeskriptor in Bereiche aufgeteilt wird, die einzelne Klassen darstellen.
+}
 \end{BaMaAbstract}
 
 \setcounter{secnumdepth}{4} % Überschriften bis 4. Ebene nummerieren
