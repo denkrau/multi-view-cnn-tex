@@ -4,12 +4,12 @@ Before the actual training starts, the parameters, the weights and biases, of th
 If this is done right, i.e. the values are in a range that supports training, optimization will be achieved in lesser or least time.
 In the other case, a converging to optimal values can be impossible.
 Reasons for this are the exploding or vanishing of gradients during backpropagation\cite{Hochreiter1991}.
-In the backward-pass the gradients are computed for every layer and are passed from end to beginning using the chain rule.
+In the backward-pass, the gradients are computed for every layer and are passed from end to beginning using the chain rule.
 For example, the derivative of the sigmoid function as it can be seen in \figref{fig:sigmoid-derivative} is in the range of $(0, 0.25]$.
 If this is multiplied several times, the gradients at the beginning are way smaller than at the end.
 If the weights are too small or too large, this effect is intensified.
 This is partly true for other activation functions like the ReLU as well.
-But here the gradients can become very large too, if the weights are really large.
+But here the gradients can become very large too if the weights are really large.
 None of these scenarios is desirable, because the optimal weights are either not reached or skipped.
 \begin{figure}
 	\setlength\figureheight{.4\textwidth}
@@ -36,7 +36,7 @@ This can be derived with the $n$ inputs $\vec{x}$ and weights $\vec{w}$ by
 	&= \sum_{i}^{n} Var(x_i) Var(w_i) \\
 	&= (n Var(\vec{w})) Var(\vec{x}) \\
 \end{align*}
-where zero mean inputs and weights are assumed and an identically distribution of all $w_i$ and $x_i$.
+where zero mean inputs and weights are assumed and an identical distribution of all $w_i$ and $x_i$.
 Now, $z$ needs to have the same variance as all of its inputs $\vec{x}$, which yields $Var(w) = 1/n$ as every weights variance.
 Hence,
 \begin{equation}

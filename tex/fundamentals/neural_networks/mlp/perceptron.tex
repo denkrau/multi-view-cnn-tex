@@ -3,7 +3,7 @@
 McCulloch and Pitts\cite{McCulloch1988} were the first who defined a computational model of a neuron that corresponds to the functionality of one in neurobiology.
 This neuron has several logical inputs which can either be true or false and a logical output.
 Therefore, this neuron works as a linear classifier separating two categories where only one is the correct one.
-This is called binary classification.
+This is called a binary classification.
 A schematic of this model can be seen in \figref{fig:perceptron}.
 \begin{figure}
 	\centering
@@ -19,19 +19,19 @@ In a mathematical sense
 	\label{eq:neuron-mcculloch}
 	y = \phi \left( \sum_{i}^{n} x_i \right)
 \end{equation}
-describes this operation where $n$ is the amount of inputs, $x_i$ a single input and $\phi$ the used activation function, in this case the threshold activation function.
+describes this operation where $n$ is the number of inputs, $x_i$ a single input and $\phi$ the used activation function, in this case, the threshold activation function.
 Plots of several activation functions including their equations are shown in \figref{fig:activation-functions}.
-That means, if a given threshold is reached the output of the perceptron is 1 and 0 otherwise.
+That means if a given threshold is reached the output of the perceptron is 1 and 0 otherwise.
 This corresponds to the neurobiological spike of a neuron.
 The truth tables for the logical AND and OR operations are shown in \figref{tab:logical-and} and \figref{tab:logical-or}, respectively.
 The first one outputs true if all inputs are true.
 The second one outputs true if at least one input is true.
 It can be seen, that by changing the threshold value a different logical operation can be represented.
 For two inputs a threshold of 2 represents the logical AND operation.
-If the number of inputs are changed, a related change of the threshold still models the same operation.
-In this example the number of inputs is changed to 3 whereas the threshold must be changed to 3.
+If the number of inputs is changed, a related change of the threshold still models the same operation.
+In this example, the number of inputs is changed to 3 whereas the threshold must be changed to 3.
 The same procedure is valid for the logical OR operation.
-But here the threshold value is always 1 regardless of the amount of inputs and therefore differs to other logical operations.
+But here the threshold value is always 1 regardless of the number of inputs and therefore differs to other logical operations.
 \begin{table}[]
 	\centering
 	\caption{Truth Tables of Logical Operations}
@@ -107,7 +107,7 @@ If all inputs are false the threshold value is not reached and therefore the neu
 If the inputs differ from each other, the threshold value is reached which outputs a 1.
 But as soon as the fourth one needs to be classified the threshold value is no longer valid.
 The sum of the inputs equals two which exceeds the threshold and would output a logical true like in the OR case.
-But according to the truth table a logical false should be outputted.
+But according to the truth table, a logical false should be outputted.
 The reasons for this misbehavior are the neuron's limitation to binary values and a threshold activation function and therefore the classification of only two categories.
 
 Donald Hebb states "When an axon of cell A is near enough to excite a cell B and repeatedly or persistently takes part in firing it, some growth process or metabolic change takes place in one or both cells such that A's efficiency, as one of the cells firing B, is increased."\cite{Hebb1949} on how neurons learn.
@@ -133,7 +133,7 @@ Adapting \figref{fig:neuron} to this results in \figref{fig:perceptron-bias}.
 	\caption[Model of a Perceptron]{Model of a perceptron. The inputs $x_i$ are weighted by $w_i$ and are summed up with the bias $b$. This sum is put into the activation function $\phi$ whose result is the perceptron's output $y$.}
 	\label{fig:perceptron}
 \end{figure}
-There is an input with the value $1$ which is weighted by the bias.
+There is one input with the value $1$ which is weighted by the bias.
 Thus, when multiplied representing the bias.
 This result is part of the weighted sum of the inputs which is fed to an activation function whose result is the output of the perceptron.
 Combining this with \thmref{eq:neuron} yields

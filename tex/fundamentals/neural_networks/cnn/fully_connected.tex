@@ -1,11 +1,11 @@
 \subsubsection{Fully-Connected Layer}
 \label{sec:cnn-fully-connected}
 The last part of a convolutional neural network consists of at least one fully connected layer.
-This is identical to \figref{fig:multilayer-perceptron} but instead of directly inputting real world values the output or activations, respectively, of the previous convolutional or pooling layer is used.
+This is identical to \figref{fig:multilayer-perceptron} but instead of directly inputting real-world values the output or activations, respectively, of the previous convolutional or pooling layer, is used.
 However, fully-connected layers can be stacked, so the outputs of one can be the inputs of another one.
 Every edge has a weight and every node has a bias.
 The values flowing over an edge are multiplied with the related weight and summed up.
-To this weighted sum the bias of the neuron is added and the result is fed into an activation function.
+To this weighted sum, the bias of the neuron is added and the result is fed into an activation function.
 Describing this in a mathematical sense can be done with \thmref{eq:perceptron-activation}.
 The objective is to combine several features that were detected and use them as attributes for classifying the input.
 Due to the weights, some attributes are more significant than others.

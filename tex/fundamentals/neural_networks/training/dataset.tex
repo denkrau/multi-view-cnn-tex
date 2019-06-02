@@ -4,20 +4,20 @@ The whole training process is based on the dataset from which the network learns
 Usually, a dataset consists of input-label pairs, where the input is the data that is fed into the network and the label is the ground-truth.
 In the case of a classification task, the label represents the category.
 However, there is no general rule for the amount of data.
-It can be said, that more data is better for generalization, but too many samples can lead to overfit the network to the shown data.
-The latter means, that the network is trained to long or to intensive on the shown data.
+It can be said, that more data is better for generalization, but too many samples can lead to overfitting the network to the shown data.
+The latter means, that the network is trained too long or to intensive on the shown data.
 The consequence is, that it adjusts its weights and biases to classify this data perfectly, but cannot reliably classify general, unknown data of same objects anymore, because they slightly differ.
 Basically, the amount of data depends on the objective of the network.
 For classifying whether an image is black or white, only a few training samples would be needed.
 Is the objective classifying objects within images, it depends on the number of possible objects and their complexity.
 If the objects are simple geometric shapes, then not as many samples are needed as if the objects are common objects like type of animals or cars.
-For the latter the number of samples would probably be approximately 1000 examples per class.
+For the latter, the number of samples would probably be approximately 1000 examples per class.
 Luckily, there are several datasets available, that are already sorted and labeled, like the MNIST handwritten digits or the ImageNet dataset.
-Available datasets are not limited to images, but can contain CAD models like the ModelNet dataset which is used for this network architecture.
+Available datasets are not limited to images but can contain CAD models like the ModelNet dataset which is used for this network architecture.
 
 Samples of a dataset are split into a training and testing set, and sometimes a validation set\cite{James2014}.
 The first contains data, the network trains on.
-From this data correlations of input and label are found.
+From this data correlations of each input and label are found.
 After arbitrary training steps where parameter changes happened, the performance of the network is tested on the validation set.
 This is data, the network is not trained on.
 The objective is to check if overfitting occurs.
@@ -26,7 +26,7 @@ This shows that the network still learns and gets better.
 If the loss of the training set decreases, but the loss of the validation set stays the same or increases, it is an indicator for overfitting.
 This concept is also valid for the accuracy.
 However, it is usually supposed to increase.
-Both the cases are visualized in \figref{fig:overfitting}.
+Both cases are visualized in \figref{fig:overfitting}.
 \begin{figure}
 	\setlength\figureheight{.4\textwidth}
 	\setlength\figurewidth{.5\textwidth}
@@ -47,8 +47,8 @@ The testing set is data the network is not trained on as well.
 It serves as a final performance check of the network to confirm its general accuracy.
 If no validation set is available, the testing set can be used.
 How the dataset is split depends again on the number and complexity of samples and the objective.
-However, a equal distribution of samples in each set should be minded.
-Otherwise the performance will not be satisfying.
+However, an equal distribution of samples in each set should be minded.
+Otherwise, the performance will not be satisfying.
 This means, if the network trains mostly on sweatshirts a test set with mostly pants would not yield an acceptable accuracy, because the network does not know these particular features.
 
 For processing the dataset, a one-hot encoding\cite{Harris2012} of the labels is recommended.

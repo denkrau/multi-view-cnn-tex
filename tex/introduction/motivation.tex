@@ -2,19 +2,19 @@
 \label{sec:overview-motivation}
 Researches showed that handcrafted 3D descriptors of objects are outperformed by using views of an object and generating 2D descriptors with the help of convolutional neural networks.
 Hence, this work follows this approach for classifying objects by collecting multiple views of it and building a multi-view image from those single view images.
-Those multi-views kind of discretizes the 3D object. 
-However, not all of those views are equally relevant for the actual classification task.
+That multi-view kind of discretizes the 3D object. 
+However, not all of those views are equally relevant to the actual classification task.
 Hence, a score per view is calculated that describes its discrimination and its weight in the classification process.
 All views are divided into groups depending on their score.
-Then for each group a group descriptor is calculated by averaging the group's views.
+Then for each group, a group descriptor is calculated by averaging the group's views.
 Each group gets a weight assigned with the mean if its views discrimination scores.
 Finally, those groups are weighted averaged depending on their weights for building a compact single shape descriptor that describes the object.
-With this descriptor the final class is predicted.
+With this descriptor, the final class is predicted.
 The grouping mechanism represents the core functionality of this work.
-This is extended with applying color features to each object, so that an object exists with its blank views and additionally with its colored ones.
-A real-world example could be a robotor driving through a scene and needs to classify same objects, that only differ in a color feature.
+This is extended with applying color features to each object so that an object exists with its blank views and additionally with its colored ones.
+A real-world example could be a robot driving through a scene and needs to classify the same objects, that only differ in a color feature.
 As it progresses more views of each object become visible.
-Thanks to the grouping system it knows if a view is discriminative enough for a classification or if it needs to collect more for being sure.
+Thanks to the grouping system it knows if a view is discriminative enough for a desirable classification or if it needs to collect more for being sure.
 Hence, this work examines how each view is treated and what are features the network looks for.
 If this is known it could be manipulated for the certain use case.
 The full source code is available at \url{https://github.com/denkrau/multi-view-cnn}.

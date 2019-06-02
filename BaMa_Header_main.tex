@@ -17,7 +17,7 @@
 \usepackage[numbers]{natbib}
 \usepackage[small]{caption}
 \usepackage{float}
-\usepackage{nomencl}
+\usepackage[intoc]{nomencl}
 \usepackage{lscape}
 \usepackage{textcomp}
 
@@ -179,14 +179,16 @@
 \let\abk\nomenclature
 
 % Überschriften anpassen
-\renewcommand{\nomname}{Verzeichnis der verwendeten Abkürzungen und Formelzeichen}
+\renewcommand{\nomname}{List of Abbreviations and Symbols}
 \RequirePackage{ifthen}
 \renewcommand{\nomgroup}[1]{%
-	\ifthenelse{\equal{#1}{A}}{\item[\textbf{Abkürzungen}]}{%
-		\ifthenelse{\equal{#1}{F}}{\bigskip\item[\textbf{Formelzeichen}]}{}}{}}
+	\ifthenelse{\equal{#1}{A}}{\item[\textbf{General}]}{%
+		\ifthenelse{\equal{#1}{B}}{\bigskip\item[\textbf{Sizes}]}{%
+			\ifthenelse{\equal{#1}{C}}{\bigskip\item[\textbf{Objects}]}{%
+				\ifthenelse{\equal{#1}{D}}{\bigskip\item[\textbf{Expressions}]}{}}}}}
 
 % Formatierung Abkürzungsverzeichnis anpassen
-\setlength{\nomlabelwidth}{.15\hsize} % Abstand zw. Abkürzung und Erklärung anpassen
+\setlength{\nomlabelwidth}{.4\hsize} % Abstand zw. Abkürzung und Erklärung anpassen
 %\setlength{\nomitemsep}{-3.5pt} % Zeilenabstände verkleinern
 
 

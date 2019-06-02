@@ -150,8 +150,8 @@
 % * im Latex-Editor "Makeindex" so konfigurieren, dass es mit "makeindex %.nlo -s nomencl.ist -o %.nls" ausgeführt wird
 % * LaTeX ausführen, dann Makeindex über Latex-Editor ausführen und dann nochmal LaTeX ausführen
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\makenomenclature
-%\input{abbreviations}
+\makenomenclature
+\input{abbreviations.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -173,7 +173,7 @@
 	The objective of this work is to classify same objects with different color features with a convolutional neural network.
 	Each object is represented by multiple 2D views around it.
 	Those color features include single and double marks.
-	For each additional color feature a new network is trained on the full dataset for being able to compare the results optimally.
+	For each additional color feature, a new network is trained on the full dataset for being able to compare the results optimally.
 	The core functionality of this work is a grouping mechanism that assigns views a score depending on their discriminative content and divides them into groups of similar scores.
 	The weight of each group is the average of the scores of its contained views.
 	A descriptor per group is built by averaging the related view descriptors.
@@ -182,7 +182,7 @@
 	Moreover, the networks classify the colors satisfiable.
 	However, the more are present in the dataset, the worse the accuracies get for the same number of epochs.
 	It is noticed, that the networks weight same views but showing different color classes differently.
-	Hence, tt is assumed, that the final shape descriptor is divided into ranges representing each class.
+	Hence, it is assumed, that the final shape descriptor is divided into ranges representing each class.
 }{
 	% german abstract
 	Das Ziel dieser Arbeit ist es, identische Objekte mit unterschiedlichen Farbmerkmalen mithilfe von CNNs zu klassifizieren.
@@ -207,8 +207,8 @@
 \listoffigures			% setzt das Abbildungsverzeichnis; keine Bilder? -> auskommentieren
 \listoftables			% setzt das Tabellenverzeichnis; keine Tabellen? -> auskommentieren
  
-%\markboth{\nomname}{\nomname}  % Header = Abkürzungsverzeichnis
-%\printnomenclature     % Abkürzungsverzeichnis
+\markboth{\nomname}{\nomname}  % Header = Abkürzungsverzeichnis
+\printnomenclature     % Abkürzungsverzeichnis
 
  
 \mainmatter				% zuständig für den Hauptteil der Arbeit (Kapitel 1 bis ...), arabische Seitenzahlen

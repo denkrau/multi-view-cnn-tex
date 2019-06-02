@@ -3,16 +3,16 @@
 Earlier 3D shape descriptors were mostly handcrafted based on a particular geometric property of the actual shape's surface or volume.
 Those descriptors can be divided into two groups.
 On the one hand, there are model-based 3D descriptors, that are directly working with the available 3D representation of objects that have been modeled using polygons, voxels, or point clouds, among others.
-\textit{Osada et al.} \cite{Osada:2001:MMS:882486.884103} finds dissimilarities between sampled distributions of simple shape functions measuring global geometric properties of an object like distances of points.
+\textit{Osada et al.} \cite{Osada:2001:MMS:882486.884103} find dissimilarities between sampled distributions of simple shape functions measuring global geometric properties of an object like distances of points.
 On the other hand, there are view-based 3D shape descriptors.
 Those are created using multiple 2D views of an object instead of the 3D representation of an object.
 \textit{Chen et al.} \cite{Chen2003} introduced Lighting Field descriptors, the first typical view-based descriptor.
-This uses an collection of 10 views.
-\textit{Shu et al.} \cite{Shu:2016:MCV:2965260.2965467} presented the Principal Thickness Images descriptor, that creates three gray-scale images by encodes the boundary surface and the voxelized components of the actual 3D shape.
+This uses a collection of 10 views.
+\textit{Shu et al.} \cite{Shu:2016:MCV:2965260.2965467} presented the Principal Thickness Images descriptor, that creates three gray-scale images by encoding the boundary surface and the voxelized components of the actual 3D shape.
 In general, the advantages of view-based shape descriptors are their low dimensionality compared to model-based ones and, hence, the efficiency for processing.
-With the introduction of convolutional neural networks like AlexNet \cite{Krizhevsky:2012:ICD:2999134.2999257} and their improvement in image processing, in particular in object detection, they could be used for creating descriptors.
+With the introduction of convolutional neural networks like AlexNet \cite{Krizhevsky:2012:ICD:2999134.2999257} and their improvement in image processing, in particular, in object detection, they could be used for creating descriptors.
 This performance was further improved with famous architectures like VGG-Net \cite{Simonyan15}, ResNet \cite{He2016ResNet} and Inception-v4 \cite{SzegedyInceptionv4}.
-According to the ImageNet \cite{Russakovsky:2015:ILS:2846547.2846559} challenge results the last two architectures outperform humans regarding the top-5 classification error.
+According to the ImageNet \cite{Russakovsky:2015:ILS:2846547.2846559} challenge results, the last two architectures outperform humans regarding the top-5 classification error.
 Using a variation of the VGG architecture, the so-called VGG-M \cite{journals/corr/ChatfieldSVZ14}, \textit{Su et al.} \cite{Su:2015:MCN:2919332.2919750} make their MVCNN network learn a compact shape representation of the actual object by collecting information from any number of input views without a specific order.
 Previous methods combine the information of views with simple strategies like pairwise comparisons of descriptors or concatenating descriptors from ordered, consistent views.
 They, however, perform a maximum pooling operation across all views for collecting discriminative features in a single shape descriptor.
@@ -22,15 +22,15 @@ Here the accuracies of the corresponding 12 views are averaged before the overal
 Moreover, this outperforms the 3D ShapeNets \cite{conf/cvpr/WuSKYZTX15} with an accuracy of 77.3\%, which is using a convolutional network on raw CAD data.
 Hence, it is pre-trained and fine-tuned with the ModelNet40 dataset.
 In the comparison of 2D- and 3D-representations from \textit{Su et al.} \cite{Su2018} the MVCNN architecture outperforms architectures working on point clouds and voxels.
-Furthermore, they could improve to performance of the vanilla MVCNN to 95.0\% per instance by using a deeper network and a better object centering.
+Furthermore, they could improve the performance of the vanilla MVCNN to 95.0\% per instance by using a deeper network and a better object centering.
 However, \textit{Hegde et al.} introduce their FusionNet \cite{Hegde2016FusionNet3O} that combines a multi-view architecture, in particular \cite{Su:2015:MCN:2919332.2919750}, with a volumetric convolution neural network for obtaining each representation's advantages.
-The 2D-representation is used for local spatial correlations, while the 3D-representation is used for long range spatial correlations.
+The 2D-representation is used for local spatial correlations, while the 3D-representation is used for long-range spatial correlations.
 Their architecture achieves an accuracy of 93.11\% on the ModelNet10 dataset with 20 views and 90.80\% on ModelNet40 with 60 views.
-According to \textit{Feng et al.} \cite{Feng2018}, view-to-shape descriptor methods like the one from \textit{Su et al.} are a milestone for 3D shape recognition and reflects the state-of-the-art.
+According to \textit{Feng et al.} \cite{Feng2018}, view-to-shape descriptor methods like the one from \textit{Su et al.} are a milestone for 3D shape recognition and reflect the state-of-the-art.
 Because in \cite{Su:2015:MCN:2919332.2919750} all views are weighted equally, their goal is to exploit the discriminability among views and their intrinsic hierarchical correlation.
 Hence, they add a module that divides views with similar features into the same group.
 Views inside a group are mean pooled for creating a group descriptor for each group.
-Furthermore, a group with more discriminative views is associated a higher weight than groups with less discriminative views.
+Furthermore, a group with more discriminative views is associated with a higher weight than groups with less discriminative views.
 Finally, a single weighted group descriptor is computed representing the shape descriptor of the object.
 This yields an accuracy of 92.6\% with an identical training and configuration as before and the GoogLeNet or Inception-v1 architecture \cite{szegedy2015going}, respectively.
 Using only 8 views results in an accuracy of 93.1\%.
@@ -41,5 +41,5 @@ Because views are redundant in a large part they can be reduced to a minimal set
 They introduce the aspects graph representation.
 The theory behind is, that a small change in the vantage point of an object results in only a small change in the view projection.
 However, for some views that change is large.
-Those views represent a transition, the views inbetween an aspect.
+Those views represent a transition, the views between an aspect.
 Hence, it is supposed, that the first describes the object satisfiable.

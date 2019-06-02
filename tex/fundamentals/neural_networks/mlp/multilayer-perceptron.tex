@@ -1,21 +1,21 @@
 \subsubsection{Multilayer Perceptron}
 \label{sec:mlp-multilayer-perceptron}
-A multilayer perceptron consists of multiple perceptrons divided in layers and solves complex tasks\cite{Bishop1995}.
-It is an universal approximator for every function\cite{Cybenko1989} regardless of the activation functions used\cite{Hornik1991}.
+A multilayer perceptron consists of multiple perceptrons divided into layers and solves complex tasks\cite{Bishop1995}.
+It is a universal approximator for every function\cite{Cybenko1989} regardless of the activation functions used\cite{Hornik1991}.
 Because of the multiple layers and the non-linear activation functions non-linearity is introduced into the network.
-Thus, it can distinguish data that is not linearly separable as most real world data is.
+Thus, it can distinguish data that is not linearly separable as most real-world data is.
 
 There are at least three layers.
 Each layer contains several perceptrons that are not connected to each other.
 However, every perceptron is connected to every perceptron of its subsequent layer.
-This type of connection is called fully-connected network.
+This type of connection is called a fully-connected network.
 Because the data flow within the network is only in one direction and does not contain circles, the architecture is called feedforward neural network.
 A visualization of this is shown in \figref{fig:multilayer-perceptron}.
 Although the weights and biases are not displayed for clarity, they still exist and follow the same principle as with a single perceptron.
 \begin{figure}
 	\centering
 	\includegraphics{images/multilayer-perceptron}
-	\caption[Multilayer Perceptron]{Multilayer perceptron with three layers. Each layer consists of multiple perceptrons. The input layer transfers real world data into the network. The output layer makes the computations of the network interpretable for humans. The layers inbetween, the hidden layers, perform calculations and feed forward the network data. Each connection between nodes has a weight, that is not displayed for clarity. Also every node has its own bias.}
+	\caption[Multilayer Perceptron]{Multilayer perceptron with three layers. Each layer consists of multiple perceptrons. The input layer transfers real-world data into the network. The output layer makes the computations of the network interpretable for humans. The layers in between, the hidden layers, perform calculations and feed forward the network data. Each connection between nodes has a weight, that is not displayed for clarity. Also, every node has its own bias.}
 	\label{fig:multilayer-perceptron}
 \end{figure}
 Like the single perceptrons every node in the networks still holds its activation, a single numerical value.
@@ -24,13 +24,13 @@ In this kind of network architecture perceptrons are often referred to as nodes.
 The input layer serves as an interface for the data.
 It does not perform any calculations and just passes the data to the next layer.
 The number of nodes in this layer depends on the data and how it can be divided.
-If the real world data is an image, for example, the number of nodes should be equal to the number of pixels, so that every node can hold the intensity value of one pixel.
+If the real-world data is an image, for example, the number of nodes should be equal to the number of pixels, so that every node can hold the intensity value of one pixel.
 
 The output layer is responsible for transferring the network data to the outside so that it can be interpreted and worked with.
 The number of nodes in this layer depends on the expected results.
 If kinds of animals need to be detected in an image, every output node would represent a single kind or category, respectively.
 Let's say there are three kinds of animals possible, then there need to be three output nodes.
-In theory the node representing the correct kind of animal holds a one and every other a zero, if the values are squashed within this range.
+In theory, the node representing the correct kind of animal holds a one and every other a zero if the values are squashed within this range.
 
 Every layer between the input and the output layer is a hidden layer.
 They have no direct connection to the outside, neither to the input nor the output, hence, their name.
@@ -59,15 +59,15 @@ The task is to classify a handwritten digit from the MNIST dataset\cite{Lecun98}
 \end{figure}
 The digit can be seen in \figref{fig:mnist-digit}.
 Each grid cell represents a pixel.
-Now it is evidently that the intensity data of every pixel is relevant for classifying the digit.
+Now it is evident that the intensity data of every pixel is relevant for classifying the digit.
 Thus, every pixel needs an associated node in the input layer of the network.
-This real world data is transferred into the network by flattening the intensity values of the image matrix to a vector.
-Therefore, the vector contains $28 \cdot 28 = 784$ elements which equals the number of input nodes.
-With the correct weights and biases the network knows which nodes are active for a certain digit.
+This real-world data is transferred into the network by flattening the intensity values of the image matrix to a vector.
+Therefore, the vector contains $28 \cdot 28 = 784$ elements which equal the number of input nodes.
+With the correct weights and biases, the network knows which nodes are active for a certain digit.
 This means, that if in another image more or less the same pixels or nodes, respectively, have high intensities or activations, the same number needs to be classified.
-The downside of the flattening is, that every relation of pixels like position is lost, which means a loss in overall information.
-The consequence of this is, that if a digit has no similar position and shape like the digits the networks knows, the classification fails.
-If, for example, a digit the network classified correctly is not centered anymore and downscaled to take up only have its original size, completely different neurons are active.
+The downside of the flattening is, that every relation of pixels like the position is lost, which means a loss in overall information.
+The consequence of this is, that if a digit has no similar position and shape like the digits the networks know, the classification fails.
+If, for example, a digit the network classified correctly is not centered anymore and downscaled to take up only halve its original size, completely different neurons are active.
 And, thus, the network cannot find any correlation to the original image or its knowledge of how digits look and returns a wrong classification result.
 Another severe downside is the huge number of parameters.
 If the image gets larger, the number of input neurons naturally needs to be adapted.
