@@ -72,7 +72,7 @@ Looking at common definitions yields, that images are a three-dimensional matrix
 Furthermore, Tensorflow mostly uses the shape definition $Batch \times Height \times Width \times Channels$ for tensors.
 Hence, assuming each view as a batch element is a reasonable approach.
 If an actual batch dimension becomes necessary it is inserted as a new first dimension.
-This yields a reduction of \thmref{eq:list-x-train} and \thmref{eq:list-x-test} to a $n_v$-th of its size, where $n_v$ is the number of views.
+This yields a reduction of \eqref{eq:list-x-train} and \eqref{eq:list-x-test} to a $n_v$-th of its size, where $n_v$ is the number of views.
 The labels can be processed similar, however, much easier.
 Because each $n_v$ labels are identical, it is sufficient to just keep every $n_v$-th label.
 For a later lookup of the labels, they are saved to the disk as a text file.

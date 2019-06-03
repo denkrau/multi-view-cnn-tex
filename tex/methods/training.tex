@@ -48,7 +48,7 @@ for the current batch $i$.
 In the case of multi-label classification, a probability threshold needs to be defined when a predicted feature is actually considered predicted.
 In this case, the threshold is $p=0.5$, hence, the values of the prediction vector can be rounded.
 Now an identical binary comparison as before can be applied to both label vectors resulting in a vector $\vec{e}$ as well.
-The accuracy is calculated with \thmref{eq:accuracy-mean}.
+The accuracy is calculated with \eqref{eq:accuracy-mean}.
 
 Furthermore, a starting learning rate is necessary.
 Because finding it by trial-and-error would be time-consuming, the approach of the cyclical learning rate is used for finding an optimal learning rate.

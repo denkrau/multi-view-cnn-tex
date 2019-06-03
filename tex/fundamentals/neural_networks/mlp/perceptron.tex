@@ -117,7 +117,7 @@ Hebb summarizes this with his famous quote "neurons that fire together, wire tog
 
 Frank Rosenblatt developed the first perceptron\cite{Rosenblatt58}.
 Considering the Hebbian Theory the original McCulloch-Pitts-Neuron needs to be modified by adding associated weights for the inputs in order to simulate the strength of a synapse.
-Thus, \thmref{eq:neuron-mcculloch} changes to
+Thus, \eqref{eq:neuron-mcculloch} changes to
 \begin{equation}
 	\label{eq:neuron}
 	y = \phi \left( \sum_{i}^{n} x_i \cdot w_i \right)
@@ -136,7 +136,7 @@ Adapting \figref{fig:neuron} to this results in \figref{fig:perceptron-bias}.
 There is one input with the value $1$ which is weighted by the bias.
 Thus, when multiplied representing the bias.
 This result is part of the weighted sum of the inputs which is fed to an activation function whose result is the output of the perceptron.
-Combining this with \thmref{eq:neuron} yields
+Combining this with \eqref{eq:neuron} yields
 \begin{align}
 	\label{eq:perceptron-sum}
 	y &= \phi \left( x_1 \cdot w_1 + x_2 \cdot w_2 + \ldots + x_n \cdot w_n + b \right)\\
@@ -149,7 +149,7 @@ Let's write the inputs and weights as vectors of
 	\vec{w} &= \begin{pmatrix} w_1 & w_2 & \cdots & w_n \end{pmatrix}^T 
 \end{align}
 for simplicity.
-Inserting this in \thmref{eq:perceptron-sum} results in
+Inserting this in \eqref{eq:perceptron-sum} results in
 \begin{equation}
 	\label{eq:perceptron-activation}
 	y = \phi \left( \vec{x} \cdot \vec{w^T} + b \right)

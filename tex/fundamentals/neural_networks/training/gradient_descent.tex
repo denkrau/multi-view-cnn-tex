@@ -30,7 +30,7 @@ The goal of backpropagation is to compute the partial derivatives
 of the cost function w.r.t. the parameters by averaging the partial derivatives of cost functions of $k$ samples that were passed through the network.
 These $k$ samples build a batch.
 \figref{fig:backpropagation-influences} recaps the data flow in a neuron in the last layer.
-By checking stepwise how a parameter directly influences a subsequently one, \thmref{eq:backpropagation} can be written as
+By checking stepwise how a parameter directly influences a subsequently one, \eqref{eq:backpropagation} can be written as
 \begin{subequations}
 	\label{eq:backpropagation-last}
 	\begin{align}
@@ -55,7 +55,7 @@ Hence, the influences of the activations of the neurons in the second to last la
 	\caption[Data Flow in a Last-Layer Neuron for Backpropagation]{Data Flow in a Last-Layer Neuron for Backpropagation}
 	\label{fig:backpropagation-influences}
 \end{figure}
-Once \thmref{eq:backpropagation-activations-last} is calculated for the second to last layer, this process can be repeated for all the weights and biases feeding into that layer.
+Once \eqref{eq:backpropagation-activations-last} is calculated for the second to last layer, this process can be repeated for all the weights and biases feeding into that layer.
 This goes on layer for layer until the first one is reached.
 In general,
 \begin{equation}
@@ -63,7 +63,7 @@ In general,
 	\delta^{[l]}_j = \frac{\partial J}{\partial a^{[l]}_j} \frac{\partial a^{[l]}_{j}}{\partial z^{[l]}_{j}}
 \end{equation}
 defines the error of the $j$-th neuron in the $l$-th layer.
-Combining \thmref{eq:backpropagation-last} and \thmref{eq:backpropagation-neuron-error} yields
+Combining \eqref{eq:backpropagation-last} and \eqref{eq:backpropagation-neuron-error} yields
 \begin{subequations}
 	\label{eq:backpropagation-general}
 	\begin{align}
@@ -151,7 +151,7 @@ The types of critical points are shown in \figref{fig:critical-points}.
 	\label{fig:critical-points}
 \end{figure}
 With this gradient the algorithm would get stuck.
-Hence, adding some noise to \thmref{eq:learning-rate} yields
+Hence, adding some noise to \eqref{eq:learning-rate} yields
 \begin{subequations}
 	\begin{align}
 		w^{[l]}_{jk} &:= w^{[l]}_{jk} - \gamma \nabla \vec{J}(w^{[l]}_{jk}) + \vec{\epsilon}(w^{[l]}_{jk}) \\

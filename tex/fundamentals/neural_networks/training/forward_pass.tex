@@ -13,7 +13,7 @@ Performing a one-hot encoding on the labels and assuming in general flattened in
 where $\vec{X} \in \mathbb{R}^{n_x \times m}$ and $\vec{Y} \in \mathbb{R}^{n_y \times m}$ are representing each input and label as vectors, respectively, forming matrices.
 Hereby, $n_x$ represents the size of each input and $n_y$ the number of classes.
 Furthermore, there is a neural network with $L$ layers each containing an arbitrary number of perceptrons.
-Expressing the activation of every node with \thmref{eq:perceptron-sum} would get very confusing for a whole network.
+Expressing the activation of every node with \eqref{eq:perceptron-sum} would get very confusing for a whole network.
 Hence, a matrix notation is the way to go in the long run.
 First, for every $j$-th node in the $l$-th layer its weights are summarized in a vector
 \begin{equation}
@@ -47,7 +47,7 @@ This yields
 \end{subequations}
 where $\vec{W}^{[l]} \in \mathbb{R}^{n^{[l]}_h \times n^{[l-1]}_h}$ and $\vec{b}^{[l]} \in \mathbb{R}^{n^{[l]}_h}$.
 
-Using these matrices and vectors data can easily be forwarded through the network by building up on \thmref{eq:perceptron-activation}.
+Using these matrices and vectors data can easily be forwarded through the network by building up on \eqref{eq:perceptron-activation}.
 The weighted sum of all neurons of the $l$-th layer is computed as
 \begin{equation}
 	\label{eq:weighted-sum}
@@ -106,7 +106,7 @@ Applying the previous notation to this yields
 \end{subequations}
 as analogies.
 Due to the one-hot encoding of the labels, only the positive class $C_p$ is taken into account in the loss computation.
-Hence, \thmref{eq:cross-entropy-loss} is reduced to
+Hence, \eqref{eq:cross-entropy-loss} is reduced to
 \begin{equation}
 	\label{eq:cross-entropy-loss-compact}
 	H(\vec{y}, \vec{p}) = - y_p \log (p_p)
