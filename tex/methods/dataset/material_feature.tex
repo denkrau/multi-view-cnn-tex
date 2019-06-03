@@ -1,26 +1,26 @@
 \subsection{Applying Material Feature Manipulations}
 \label{sec:dataset-material-feature}
-The objective is to clone every model and apply a color feature to every clone to be able to distinguish same models.
-Cloning is a trivial task, because this can be done by rendering the native object first and then the color featured one.
+The objective is to clone every model and apply a color feature to every clone to be able to distinguish the same models.
+Cloning is a trivial task because this can be done by rendering the native object first and then the color featured one.
 One method for the color feature manipulation is preparing a color feature like a colored circle as an image and putting it on the model.
 This feature can be scaled dependently on all the face areas for achieving a similar scale across all models.
 However, clinging this image to a model considering all its edges is problematic.
 It would be necessary to find a way to unfold the model along its edges.
-This can be done by hand, but is very time-consuming and complex.
-In fact, Blender supports a automatic way of unfolding, but its results are not satisfying.
+This can be done by hand but is very time-consuming and complex.
+In fact, Blender supports an automatic way of unfolding, but its results are not satisfying.
 Therefore, this approach is not further pursued.
 Another method is to color vertices.
 However, for achieving reasonable features, a high number of vertices is necessary.
-There is an option to subdivide existing faces and add additional vertices, but this increases the data size extremely, which needs much more computer performance, and has the risk of inducing unwanted geometry into the model.
+There is an option to subdivide existing faces and add additional vertices, but this increases the data size extremely, which needs much more computer performance and has the risk of inducing unwanted geometry into the model.
 Hence, coloring single faces becomes the chosen approach due to its simplicity.
 In CAD modeling objects are assigned a material with a color that reacts to light which produces shadows.
-In blender the default material's color is a slightly darkened white.
-Changing the color of a face is performed by changed the color of its material.
+In Blender, the default material's color is a slightly darkened white.
+Changing the color of a face is performed by changing the color of its material.
 
 For following this approach, it is advisable to pre-define material presets.
 Those presets consist of the default material but have different colors.
-After making those presets available to the Blender scene, a well suited face for being colored needs to be found.
-In the following this faces is referred to as the optimal face.
+After making those presets available to the Blender scene, a well-suited face for being colored needs to be found.
+In the following those faces are referred to as an optimal face.
 It is important to filter all faces of an object by their area size.
 \figref{fig:face-area-filter} shows why and the results of several thresholds.
 \begin{figure}
@@ -47,12 +47,12 @@ It is important to filter all faces of an object by their area size.
 	\label{fig:face-area-filter}
 \end{figure}
 If faces are not filtered at all, any face can result in being the optimal one.
-However, it is not guaranteed that this face has a descent size and can be seen and recognized by the network easily.
+However, it is not guaranteed that this face has a decent size and can be seen and recognized by the network easily.
 This assumption was later verified by a not changing loss value during training.
 Like in \figref{fig:face-area-unfiltered} the optimal face is comparatively small to the whole model.
 Accepting only faces as the optimal face, that have at least the size of the mean of all faces lead to a result like in \figref{fig:face-area-mean}.
 The optimal face can be seen more easily than before, but this threshold often results in long and slender optimal faces.
-This is due to the fact, that the chosen object categories mostly contain objects that are built using such faces, because they have longish surfaces.
+This is due to the fact, that the chosen object categories mostly contain objects that are built using such faces because they have longish surfaces.
 Hence, filtering by the mean of the faces amplifies the probability to choose such a face as an optimal one.
 Therefore, a threshold of above the mean is desired to skip all those lathy faces like it is shown in \figref{fig:face-area-max-dependent}.
 Additionally, larger faces should be preferred.
@@ -88,8 +88,8 @@ This results in rendering issues like it is shown in \figref{fig:optimal-face}, 
 In \figref{fig:optimal-face-single} only one of two identical faces is colored, which leads to the noticeable transparency effect.
 That is one of the brighter effects, though.
 It is also possible that one optimal face is shown normally and only on the edge rendering issues are visible like a dotted line with the colors of all optimal faces. 
-Nevertheless, any of this effects could induce false correlations into the dataset that are not available on real-world objects, hence, leading to a not practical network.
-Thus, in \figref{fig:optimal-face-all} the materials of all identical faces are changed, which leads to a realistic color representation.
+Nevertheless, any of these effects could induce false correlations into the dataset that are not available on real-world objects, hence, leading to a not practical network.
+Thus, in \figref{fig:optimal-face-all} the materials of all identical faces are changed, which leads to realistic color representations.
 \begin{figure}
 	\centering
 	\begin{subfigure}{.49\textwidth}
@@ -117,7 +117,7 @@ However, this fails if the surface has a thickness of more than a single face.
 Then the next face along its normal needs to be found by ray casting and then the visibility of this face needs to be verified.
 Thus, this process leads to excessive ray cast validations and therefore not followed up on.
 However, it is considered, that faces at a similar location as the original optimal face are well-suited as well.
-Thus, the choices of further optimal faces are narrowed down by sorting all remaining faces by their distance from their center to the center of the first optimal face in a descending order.
+Thus, the choices of further optimal faces are narrowed down by sorting all remaining faces by their distance from their center to the center of the first optimal face in descending order.
 The intention is that choosing faces with the largest distances result in either a kind of opposite face or in a face that is that far away to not be visible at the same time. as the first optimal face.
 Of course, the tasks of checking the visibility and finding identical faces are performed on the new face as well.
 If no additional optimal face is found, the model is skipped, although, this never happened during execution.

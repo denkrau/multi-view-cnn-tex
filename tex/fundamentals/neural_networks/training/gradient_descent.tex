@@ -1,6 +1,6 @@
 \subsubsection{Backpropagation with Gradient Descent}
 \label{sec:training-gradient-descent}
-Due to the non-linearity in the network the minimum of the cost function cannot be computed analytically but numerically.
+Due to the non-linearity in the network, the minimum of the cost function cannot be computed analytically but numerically.
 Hence, it is evaluated at a certain point.
 Using backpropagation\cite{rumelhart1986learning}\cite{Goodfellow-et-al-2016} results in a gradient for each parameter.
 Depending on these values representing the slope of the parameters, and, hence, their impact on the output, the parameters are changed to move closer to the minimum.
@@ -30,7 +30,7 @@ The goal of backpropagation is to compute the partial derivatives
 of the cost function w.r.t. the parameters by averaging the partial derivatives of cost functions of $k$ samples that were passed through the network.
 These $k$ samples build a batch.
 \figref{fig:backpropagation-influences} recaps the data flow in a neuron in the last layer.
-By checking step wise how a parameter directly influences a subsequently one, \thmref{eq:backpropagation} can be written as
+By checking stepwise how a parameter directly influences a subsequently one, \thmref{eq:backpropagation} can be written as
 \begin{subequations}
 	\label{eq:backpropagation-last}
 	\begin{align}
@@ -97,7 +97,7 @@ Summarizing the gradients of the cost function yields the compact representation
 containing the influences of all parameters.
 Each element points into its direction of steepest ascent with a magnitude.
 Hence, each gradient is inverted for pointing into its direction of steepest descent for finding a minimum.
-Along each direction depending on its magnitude each parameter is changed.
+Along each direction, depending on its magnitude each parameter is changed.
 This can be expressed by
 \begin{subequations}
 	\label{eq:learning-rate}
@@ -142,7 +142,7 @@ Hence, there are several local minima in the cost function.
 According to \textit{Choromanska et al.}\cite{DBLP:journals/corr/ChoromanskaHMAL14} almost all local minima have very similar function values to the global minimum.
 Hence, finding a local one is sufficient.
 Having neither a convex nor concave cost function, the function probably has saddle points.
-These points are no optimum, but have a gradient of $\nabla \vec{J} = \vec{0}$.
+These points are no optimum but have a gradient of $\nabla \vec{J} = \vec{0}$.
 The types of critical points are shown in \figref{fig:critical-points}.
 \begin{figure}
 	\centering

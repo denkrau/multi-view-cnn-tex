@@ -9,14 +9,14 @@ If this small gradient is often multiplied because of several layers, the gradie
 This vanishing gradient leads to very small parameter updates.
 Furthermore, a well-suited weight initialization is required.
 If they are too large, related neurons become saturated and the network will barely learn.
-Hence, in both cases convergence takes a very long time.
-Another disadvantage is, that outputs are not zero centered.
+Hence, in both cases, convergence takes a very long time.
+Another disadvantage is, that outputs are not zero-centered.
 That means, that, for example, if all data is positive, all related gradients point into the same, either positive or negative, direction.
 This leads to an undesired zigzag pattern of the parameter updates for several samples.
 However, the use of mini-batches smooths out this effect.
-The tanh activation function has a zero centered output, though, the saturation of the output remains.
-The ReLU activation function accelerates the convergence process of stochastic gradient descent compard to sigmoid and tanh.
-According to \textit{Krizhevsky} it is six times faster on the CIFAR10 dataset compared to tanh activation functions\cite{Krizhevsky:2012:ICD:2999134.2999257}.
+The tanh activation function has a zero-centered output, though, the saturation of the output remains.
+The ReLU activation function accelerates the convergence process of stochastic gradient descent compared to sigmoid and tanh.
+According to \textit{Krizhevsky et al.}, it is six times faster on the CIFAR10 dataset compared to tanh activation functions\cite{Krizhevsky:2012:ICD:2999134.2999257}.
 This is due to its linear, non-saturation form.
 Another advantage is its simple and light computation.
 Furthermore, it makes the activations sparse from the perspective of a neural network.

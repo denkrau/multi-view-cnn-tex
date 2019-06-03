@@ -2,9 +2,9 @@
 \label{sec:dataset-choosing}
 One requirement of the dataset is, that there are multiple views of the same object available.
 Optimally, these views can be arbitrarily chosen for having as much freedom as possible for training and evaluating the network.
-Hence, three dimensional objects are necessary.
-The related object categories are preferably discriminative to each other due to the objective of classifying real world objects and an easier evaluation of the model.
-This means, the dataset should not contain only flowers or faces for example.
+Hence, three-dimensional objects are necessary.
+The related object categories are preferably discriminative to each other due to the objective of classifying real-world objects and easier evaluation of the model.
+This means the dataset should not contain only flowers or faces for example.
 These constraints bring up two possibilities.
 The first one is creating new CAD objects.
 These can be modeled in a way that supports the own needs the most.
@@ -12,7 +12,7 @@ However, creating plenty of models for every category would take a huge amount o
 The second option is to use CAD models of an existing dataset.
 Referring to the first possibility, this one just takes the time for finding a suited dataset and perhaps some slight modifications.
 The time for manipulating this one according to the wanted color features compared to the self-created one is probably identical and, therefore, not taken into account.
-Another advantage is the competitive ability, because if this one is a popular dataset, other researches probably used it as a benchmark for their neural network as well.
+Another advantage is the competitive ability because if this one is a popular dataset, other researches probably used it as a benchmark for their neural network as well.
 Hence, a qualitative evaluation would be possible.
 Taking all these arguments into account, an existing dataset is the best choice.
 
@@ -24,16 +24,16 @@ Combining several triangles results in the final shape that is called a mesh obj
 Another one uses voxels.
 This word is a portmanteau of "volume" and "pixel" and represents a cell in a three-dimensional grid.
 Each voxel behaves like a pixel and has a color.
-The last technique is a point cloud.
+The last technique is the point cloud.
 Each point is represented by a vertex.
 Such a cloud is often created by 3D scanners that measure a large number of points in a scene, like distances and sometimes color for digitalizing it.
-A comparison of these techniques yields that the mesh object is the best suited one.
-It has the smoothest surface because it is continuous, hence, representing real world objects most likely.
+A comparison of these techniques yields that the mesh object is the best-suited one.
+It has the smoothest surface because it is continuous, hence, representing real-world objects most likely.
 Using enough voxels could result in a similar shape, but the data size would be much bigger.
 Furthermore, applying a color feature to a single triangle is easier than applying it to several voxels, where connected ones need to be found first.
 
 The most popular dataset containing CAD objects in polygon mesh representation is ModelNet\cite{conf/cvpr/WuSKYZTX15}.
-It contains 127,915 CAD models divided in 662 object categories for now.
+It contains 127,915 CAD models divided into 662 object categories for now.
 For convenience, there are a 10-class and 40-class subset containing 10 or 40 popular categories, respectively.
 Both are cleaned in respect to a wrong category sorting and then split into a training and a testing set.
 Furthermore, the orientations of the models of the first one are aligned as well.

@@ -3,28 +3,28 @@
 Let's do a brief recap of the terminology.
 The batch size defines how many samples are propagated through the network at once.
 For each sample within the gradients of the cost function with respect to all parameters are calculated and finally averaged over all samples.
-The updates resulting from a batch are called a iteration.
+The updates resulting from a batch are called an iteration.
 Processing all samples from the training set is called an epoch.
 
 For finding the optimal batch size, first examine the two extremes.
 On the one hand, the whole training set can form a batch.
 This way the best direction to a minimum can be calculated.
-In terms of number of iterations this methods is the best.
+In terms of number of iterations, this method is the best.
 However, it is very expensive in terms of resources, because usually the amount of data can not be held in the RAM or GPU.
 This means, either more memory needs to be bought or a continual reload of data happens, which slows down the overall training process.
 An even more significant downside is that large batch sizes like 512 result in an impaired quality of the model in terms of generalization\cite{DBLP:journals/corr/KeskarMNST16}.
 Because the parameter updates follow the best direction to a minimum does not mean, that this minimum is well-suited for other data.
-Usually the model converges to a sharp minimizer similar to \figref{fig:sgdr-cost}.
+Usually, the model converges to a sharp minimizer similar to \figref{fig:sgdr-cost}.
 On the other hand, a batch size of one is used, which is called stochastic.
 The parameter updates are noisy and can point into a completely wrong direction, while still pointing along the steepest descent.
 Hence, they wander around the cost function and eventually reach the minimum after a long training time.
 However, the cost of computing the gradients of a single sample is quite trivial.
-Thus, a trade-off must be found for a so called mini-batch.
+Thus, a trade-off must be found for a so-called mini-batch.
 One requirement is that the training needs to converge in a reasonable amount of time.
 This includes averaging out the noise of the gradients for more accurate steps leading to an earlier convergence.
 Hence, the batch size also depends on the learning rate.
 A smaller batch size is better suited for a small learning rate due to the noise.
-A good balance is found, if the batch is small enough to avoid the poor minima but stays in the flatter, better performing ones.
+A good balance is found if the batch is small enough to avoid the poor minima but stays in the flatter, better-performing ones.
 Another requirement is the computational cost.
 Fortunately, vector computing is optimized almost perfectly in most frameworks, resulting in only marginally higher computation cost for a few samples compared to a single one.
 Hence, a batch size should be larger than one, usually, and less than the whole training set but the optimal size is only found by trial and error.
@@ -34,6 +34,6 @@ When using mini-batches the number of epochs is a hyperparameter, that can be tu
 In general, smaller learning rates require more epochs because more parameter updates are necessary.
 But more important is the generalization of the network.
 The objective is to prevent underfitting or overfitting, which is explained in \secref{sec:dataset-generation}).
-Thus, the number of epochs cannot determined beforehand, but depends on the data.
+Thus, the number of epochs cannot be determined beforehand but depends on the data.
 However, the training set needs to be shuffled every epoch, so that different batches are created compared to earlier epochs.
 This improves generalization due to the computation of different batch gradients.

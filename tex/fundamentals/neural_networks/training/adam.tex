@@ -25,10 +25,10 @@ The weighted running average is calculated by
 	\end{align}
 \end{subequations}
 where hyperparameter $\beta_2$ is the forgetting factor.
-As a value its author suggests $\beta_2 = 0.9$.
+As a value, its author suggests $\beta_2 = 0.9$.
 The subscript $2$ is for later purposes and could be omitted for now.
 The squaring operation is done element-wise.
-So this expression adds kind of an inertia to the update procedure dampening oscillations and building up speed on flat surfaces.
+So this expression adds kind of inertia to the update procedure dampening oscillations and building up speed on flat surfaces.
 Finally, the parameters are updated by
 \begin{subequations}
 	\begin{align}
@@ -38,7 +38,7 @@ Finally, the parameters are updated by
 \end{subequations}
 using the weighted moving average just calculated.
 Let's say the horizontal parameter is $w_1$ and the vertical one $w_2$ referring to \figref{fig:rmsprop}.
-Due to the oscillations the gradient $\nabla \vec{J}(w_2)$ is much larger than $\nabla \vec{J}(w_1)$.
+Due to the oscillations, the gradient $\nabla \vec{J}(w_2)$ is much larger than $\nabla \vec{J}(w_1)$.
 Hence, $v_2$ is larger than $v_1$ resulting in a smaller update for $w_2$ and a larger one for $w_1$.
 This yields a more direct moving to the minimum.
 However, this approach does not make it easier to configure the learning rate as the step size is independent of it.
@@ -51,12 +51,12 @@ The Adam (Adaptive Moment Estimation) optimization is an update to the RMSProp a
 		m(b^{[l]}_{j},\tau) &= \beta_1 m(\tau -1) + (1- \beta_1) \frac{\partial J}{\partial b^{[l]}_{j}}
 	\end{align}
 \end{subequations}
-for each parameter using a weighted average of latest gradients\cite{DBLP:journals/corr/KingmaB14} where $\beta_1$ is the forgetting factor.
+for each parameter using a weighted average of the latest gradients\cite{DBLP:journals/corr/KingmaB14} where $\beta_1$ is the forgetting factor.
 This momentum can be imagined as a ball in a bowl-shaped cost function rolling downwards and building up speed depending on the gradients.
 The hyperparameter $\beta_1$ represents friction.
 This approach can be summarized by using running averages of both the gradients and the second moments of the gradients.
 Due to the initialization $\vec{v} = \vec{0}$ and $\vec{m} = \vec{0}$ these values are biased towards zero, especially during the first few iterations.
-A correction is desirable, because the first and second moments are only estimations.
+A correction is desirable because the first and second moments are only estimations.
 In general, an estimation should equal the parameter that is tried to be estimated.
 Hence, the property
 \begin{subequations}
