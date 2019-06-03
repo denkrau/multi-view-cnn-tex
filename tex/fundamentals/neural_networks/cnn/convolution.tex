@@ -19,7 +19,7 @@ This resulting matrix is called a feature map because the convolution extracted 
 \begin{figure}
 	\centering
 	\includegraphics{images/convolution.pdf}
-	\caption[Convolution of an Image with a Kernel]{Convolution of an image and a kernel. The $2 \times 2$ kernel is sled across the $3 \times 3$ image and performs a dot product multiplication within its window each time. Here, the kernel moves with a stride of 1, which results in the shown image on the right, the so-called feature map.}
+	\caption[Convolution of an image with a kernel]{Convolution of an image and a kernel. The $2 \times 2$ kernel is sled across the $3 \times 3$ image and performs a dot product multiplication within its window each time. Here, the kernel moves with a stride of 1, which results in the shown image on the right, the so-called feature map.}
 	\label{fig:convolution}
 \end{figure}
 Doing this operation the feature map is always smaller than the input.
@@ -31,7 +31,7 @@ The convolution operates like usual, just on a larger input.
 \begin{figure}
 	\centering
 	\includegraphics{images/convolution_padding.pdf}
-	\caption[Convolution of a Padded Image with a Kernel]{Convolution of a padded image with a $2 \times 2$ kernel. The $3 \times 3$ image is surrounded with zeros for inducing its size to the feature map. However, the convolution operates like usual, just on a larger input. If the amount of padding is odd, padding at the right and at the bottom is preferred.}
+	\caption[Convolution of a padded image with a kernel]{Convolution of a padded image with a $2 \times 2$ kernel. The $3 \times 3$ image is surrounded with zeros for inducing its size to the feature map. However, the convolution operates like usual, just on a larger input. If the amount of padding is odd, padding at the right and at the bottom is preferred.}
 	\label{fig:convolution-padding}
 \end{figure}
 In practical terms, there are two common conventions for convolutions: valid and same.

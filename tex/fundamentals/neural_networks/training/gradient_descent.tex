@@ -12,7 +12,7 @@ Finally, the parameters are moved along this direction.
 \begin{figure}
 	\centering
 	\includegraphics{images/gradient_descent.pdf}
-	\caption[Schematic of Gradient Descent]{Schematic of gradient descent. Cost is evaluated, its negative gradients are computed and the parameters are moved along this direction until the minimum is reached.}
+	\caption[Schematic of gradient descent]{Schematic of gradient descent. Cost is evaluated, its negative gradients are computed and the parameters are moved along this direction until the minimum is reached.}
 	\label{fig:gradient-descent}
 \end{figure}
 Following this approach means for the whole network that the cost function is backpropagated layer for layer to the beginning of the network using partial derivatives and the chain rule.
@@ -52,7 +52,7 @@ Hence, the influences of the activations of the neurons in the second to last la
 \begin{figure}
 	\centering
 	\includegraphics[]{images/backpropagation_influences.pdf}
-	\caption[Data Flow in a Last-Layer Neuron for Backpropagation]{Data Flow in a Last-Layer Neuron for Backpropagation}
+	\caption[Data flow in a last-layer neuron for backpropagation]{Data flow in a last-layer neuron for backpropagation}
 	\label{fig:backpropagation-influences}
 \end{figure}
 Once \eqref{eq:backpropagation-activations-last} is calculated for the second to last layer, this process can be repeated for all the weights and biases feeding into that layer.
@@ -121,7 +121,7 @@ Thus, a trade-off must be found or an adaption of the learning rate to certain c
 \begin{figure}
 	\centering
 	\includegraphics[]{images/gradient_descent_learning_rate.pdf}
-	\caption[Comparison of Learning Rates]{Comparison of Learning Rates. A small learning rate finds the minimum slowly but more exactly than a high learning rate. However, the latter tends to overshoot the minimum.}
+	\caption[Comparison of learning rates]{Comparison of learning rates. A small learning rate finds the minimum slowly but more exactly than a high learning rate. However, the latter tends to overshoot the minimum.}
 	\label{fig:learning-rate}
 \end{figure}
 According to \textit{Bengio} \cite{DBLP:journals/corr/abs-1206-5533} a traditional default value for the learning rate is $\gamma_0 = 0.1$ or $\gamma_0 = 0.01$ for standard multilayer neural networks.
@@ -147,7 +147,7 @@ The types of critical points are shown in \figref{fig:critical-points}.
 \begin{figure}
 	\centering
 	\includegraphics[]{images/gradient_descent_types.pdf}
-	\caption{Types of Critical Points}
+	\caption{Types of critical points}
 	\label{fig:critical-points}
 \end{figure}
 With this gradient the algorithm would get stuck.

@@ -6,7 +6,7 @@ Hence, the module's input are the view descriptors coming from the feature modul
 \begin{figure}
 	\centering
 	\includegraphics[]{images/grouping_module_groups.pdf}
-	\caption{Group Creation and View Sorting in Grouping Module}
+	\caption{Group creation and view sorting in grouping module}
 	\label{fig:grouping-module-groups}
 \end{figure}
 First, the informational content of each view needs to be calculated.
@@ -56,7 +56,7 @@ A plot of this function is shown in \figref{fig:view-discrimination-score}.
 	\setlength\figurewidth{.8\textwidth}
 	\centering
 	\input{images/view_discrimination_score.tikz}
-	\caption{View Discrimination Score Function Plot}
+	\caption{View discrimination score function plot}
 	\label{fig:view-discrimination-score}
 \end{figure}
 All view discrimination scores for a batch are stored in a tensor with shape $Batch \times Views$.
@@ -92,7 +92,7 @@ This is illustrated in \figref{fig:grouping-module-group-descriptors}.
 \begin{figure}
 	\centering
 	\includegraphics[]{images/grouping_module_group_descriptors.pdf}
-	\caption[Generating Group Descriptors]{Generating Group Descriptors by Calculating the Average of Related Features}
+	\caption[Generating group descriptors]{Generating group descriptors by calculating the average of related features.}
 	\label{fig:grouping-module-group-descriptors}
 \end{figure}
 A normal average is chosen, because all views in a group should have similar extracted features, e.g. the left and right side of a car.
@@ -125,7 +125,7 @@ The calculation of the group weights is illustrated in \figref{fig:grouping-modu
 \begin{figure}
 	\centering
 	\includegraphics[]{images/grouping_module_weights.pdf}
-	\caption{Calculation of Group Weights in Grouping Module}
+	\caption{Calculation of group weights in grouping module}
 	\label{fig:grouping-module-weights}
 \end{figure}
 The weights of the padded group descriptors equal 0 for being ignored in a later matrix multiplication.

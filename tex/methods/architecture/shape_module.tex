@@ -22,7 +22,7 @@ are performed as illustrated in \figref{fig:shape-module-group-shape}.
 \begin{figure}
 	\centering
 	\includegraphics[]{images/shape_module_group_shape.pdf}
-	\caption[Generate Group Shape Descriptors in Shape Module]{Generate Group Shape Descriptors in Shape Module. Each group descriptor is fed into two fully-connected layers representing layer 6 and 7 of the network. The activation of layer 7 represents the shape descriptor of each group descriptor.}
+	\caption[Generate group shape descriptors in shape module]{Generate group shape descriptors in shape module. Each group descriptor is fed into two fully-connected layers representing layer 6 and 7 of the network. The activation of layer 7 represents the shape descriptor of each group descriptor.}
 	\label{fig:shape-module-group-shape}
 \end{figure}
 Furthermore, both layers contain a dropout layer with a dropout probability of $0.5$.
@@ -66,6 +66,6 @@ The class representing the index with the largest value in $\hat{\vec{y}}$ is co
 \begin{figure}
 	\centering
 	\includegraphics[]{images/shape_module_final_shape.pdf}
-	\caption[Basic Concept of the Shape Module]{Basic Concept of the Shape Module Combined with a Classification. A weighted average of the group shape descriptors with the related group weights is calculated yielding a single shape descriptor. It is fed into the last fully-connected layer resulting in the prediction of the network.}
+	\caption[Basic concept of the shape module]{Basic concept of the shape module combined with a classification. A weighted average of the group shape descriptors with the related group weights is calculated yielding a single shape descriptor. It is fed into the last fully-connected layer resulting in the prediction of the network.}
 	\label{fig:shape-module-final-shape}
 \end{figure}

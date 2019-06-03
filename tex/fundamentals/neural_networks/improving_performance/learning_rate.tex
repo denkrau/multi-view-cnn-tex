@@ -16,7 +16,7 @@ For each of the steps the cost function is evaluated.
 	\setlength\figurewidth{.9\textwidth}
 	\centering
 	\input{images/optimal_learning_rate_loss.tikz}
-	\caption[Optimal Range of Learning Rates]{Optimal Range of Learning Rates Highlighted in Blue. The learning rate is increased exponentially.}
+	\caption[Optimal range of learning rates]{Optimal range of learning rates highlighted in blue. The learning rate is increased exponentially.}
 	\label{fig:optimal-learning-rate-range}
 \end{figure}
 It can be seen, that if the learning rate is small, the cost function does not improve noticeably.
@@ -38,7 +38,7 @@ Therefore, a minimum in a flatter region needs to be found where a slight change
 \begin{figure}
 	\centering
 	\includegraphics[]{images/sgdr-cost.pdf}
-	\caption[Cost Function of Different Datasets]{Cost Function of Different Datasets. If the parameters represent a minimum of a dataset's cost function, the same parameters do not inevitably represent the minimum of a different dataset's cost function.}
+	\caption[Cost function of different datasets]{Cost function of different datasets. If the parameters represent a minimum of a dataset's cost function, the same parameters do not inevitably represent the minimum of a different dataset's cost function.}
 	\label{fig:sgdr-cost}
 \end{figure}
 This algorithm uses a cosine annealing of the learning rate.
@@ -63,7 +63,7 @@ This process is visualized in \figref{fig:sgdr-annealing-normal}.
 		\caption{Extended Cosine Annealing}
 		\label{fig:sgdr-annealing-extended}
 	\end{subfigure}
-	\caption{Annealing of Stochastic Gradient Descent with Warm Restarts}
+	\caption{Annealing of stochastic gradient descent with warm restarts}
 	\label{fig:sgdr-annealing}
 \end{figure}
 So, first, the cost is decreased until the learning rate reset happens.
