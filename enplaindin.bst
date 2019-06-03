@@ -883,14 +883,14 @@ FUNCTION {format.btitle.vol}
    { series empty$
      { volume empty$
         { title emphasize }
-        { title emphasize ". Ed." * volume tie.or.space.connect }
+        { title emphasize ". Vol." * volume tie.or.space.connect }
        if$
      }
      { volume empty$
         { title emphasize }%% ein Buch, das zusaetzl. SERIES=Reihentitel besitzt
     %% jetzt kommt d. Fall des mehrbaendigen Werkes mit Gesamttitel=SERIES
     %% Zaehlung=VOLUME und Bandtitel=TITLE;
-        { series emphasize ". Ed." * volume tie.or.space.connect
+        { series emphasize ". Vol." * volume tie.or.space.connect
                                  ": " * "{\emph{" * title * "}}" * }
        if$
      }
@@ -1104,14 +1104,14 @@ FUNCTION {format.in.ed.booktitle.din}
         { volume empty$
             { "{In: }" booktitle emphasize * }
             { "{In: }" booktitle emphasize *
-              " Ed." volume tie.or.space.connect *
+              " Vol." volume tie.or.space.connect *
             }
           if$
         }
         { volume empty$
             { "{In: }" format.ed.incoll * ": " * booktitle emphasize * }
             { "{In: }" format.ed.incoll * ": " * booktitle emphasize *
-              " Ed." volume tie.or.space.connect *
+              " Vol." volume tie.or.space.connect *
             }
           if$
         }
@@ -1199,10 +1199,10 @@ FUNCTION {format.inbk.vol.title}
 { volume empty$
      { " In: " }
      { title empty$
-        { " In: Ed." volume tie.or.space.connect
+        { " In: Vol." volume tie.or.space.connect
                 " von " *
         }
-        { "In: Ed." volume tie.or.space.connect ": " * title emphasize *
+        { "In: Vol." volume tie.or.space.connect ": " * title emphasize *
                      " (" * year * ") in " *
         }
       if$
@@ -1218,7 +1218,7 @@ FUNCTION {format.book.crossref}
        { "empty volume in " cite$ * "'s crossref of " * crossref * warning$
          " "
        }
-       { ". -- Ed." volume tie.or.space.connect
+       { ". -- Vol." volume tie.or.space.connect
           " von " *
        }
      if$
@@ -1726,7 +1726,7 @@ FUNCTION {proceedings}
   format.btitle "title" output.check
   volume empty$
     { skip$ }
-    { "{\textnormal{Ed.}}" volume tie.or.space.connect emphasize "volume" output.check }
+    { "{\textnormal{Vol.}}" volume tie.or.space.connect emphasize "volume" output.check }
   if$
   format.address.publisher.year "publisher" output.check
   new.sentence
