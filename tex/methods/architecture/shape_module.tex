@@ -1,7 +1,7 @@
 \subsection{Shape Module: Generating a Shape Descriptor}
 \label{sec:architecture-shape-module}
 The objective of the shape module is combining the group descriptors to a single shape descriptor that can be used for the classification.
-This descriptor contains every important feature from all views and groups.
+This descriptor contains every important feature of all views and groups.
 As usual, the tensor $\bar{\vec{G}}$ containing all the group descriptors of every batch is processed by each batch element.
 This batch element $\vec{G}$ of size $n_v \times 6 \times 6 \times 256$ contains the $n_v$ group descriptors of an object.
 This tensor is split across its first dimension, i.d. across the group descriptors, resulting in a tensor for each group descriptor.
@@ -40,7 +40,7 @@ Hence its size changes from $Batch \times n_v \times 4096$ to $Batch \times 4096
 Furthermore, the group weights tensor $\bar{\vec{W}}$ is expanded with a third dimension yielding the shape $Batch \times n_v \times 1$.
 For this weighted average calculation a tensor holding the sums of the weights in inevitable.
 Thus, $\bar{\vec{W}}_{sum}$ stores the sum of the group weights tensor along its first dimension, i.e. each element is the sum of all group weights of an object.
-For a valid matrix division a third dimension must be expanded as well.
+For a valid matrix division, a third dimension must be expanded as well.
 This yields a tensor $\bar{\vec{W}}_{sum}$ of the shape $Batch \times 1 \times 1$ with weight sums.
 Now the weighted average can be computed by
 \begin{equation}
@@ -49,7 +49,7 @@ Now the weighted average can be computed by
 where the division is performed element-wise.
 Due to the matrix multiplication, the padded entries have no impact.
 The result has a shape of $Batch \times 4096 \times 1$ and represents the final single shape descriptor.
-This can be made more compact by changing the shape to $Batch \times 4096$ without loosing any information, because the number of elements stays the same.
+This can be made more compact by changing the shape to $Batch \times 4096$ without losing any information because the number of elements stays the same.
 
 This representation is directly compatible with the last fully-connected layer, which is responsible for calculating the predictions of the network, thus, $\bar{\vec{S}}$ is fed into it.
 The number of neurons in this layer equals the number of different labels or categories, respectively, where each neuron has 4096 edges.

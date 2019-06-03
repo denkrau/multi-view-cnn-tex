@@ -7,12 +7,12 @@ In contrast, if the results of the network are not satisfiable, the grouping alg
 The easiest case for evaluation is a single object category with three material features.
 Here the network only needs to find views with a material for assigning them a high discrimination score.
 It is supposed, that those views have the highest scores of all views and, hence, are members of a group with a high weight.
-Views where no material is seen, should have a score close to zero, because the final prediction cannot rely on them at all.
+Views where no material is seen, should have a score close to zero because the final prediction cannot rely on them at all.
 Thus, this configuration is the most interpretable one.
 The group dividing for the 0-3 network is shown in \figref{fig:grouping-0-3}.
 Each number below a view refers to its score.
 The text above views shows the group index with its corresponding weight.
-All views appear in a ascending order by their score.
+All views appear in ascending order by their score.
 Hence, all subsequent views are part of a group until another group is mentioned.
 \begin{figure}
 	\centering
@@ -37,19 +37,19 @@ Hence, all subsequent views are part of a group until another group is mentioned
 In \figref{fig:grouping-0-3-blank} a blank object is classified.
 Hence, every views is similar discriminative, due to no available colored material.
 Thus, the view scores are almost identical.
-Those little changes presumable depend on a different weight initialization and would even out after more training epochs.
+Those little changes presumably depend on a different weight initialization and would even out after more training epochs.
 Although the scores are very low, the views are fully taken into account because they all belong to the same group with a weight of 1.
-However, in this particular case a normalization of the group weight is not necessary.
+However, in this particular case, a normalization of the group weight is not necessary.
 Without one the group weight would be $w = 0.0079$, thus, decreasing the shape descriptor enormously, but the network would learn that a descriptor close to 0 represents a blank object.
-The decision rule would be, if the descriptor represents no feature, the objects shows no feature.
-With the classification of more categories, tough, this is not possible anymore, because a very small descriptor cannot just represent any blank object, but the object category class.
+The decision rule would be, if the descriptor represents no feature, the objects show no feature.
+With the classification of more categories, though, this is not possible anymore, because a very small descriptor cannot just represent any blank object, but the object category class.
 If there are two objects, for example, and only one view each shows a different feature with a small discrimination score, they would be divided into two categories.
-Without a normalization all views would pretty much account to the same amount to the shape descriptor.
+Without a normalization, all views would pretty much account to the same amount to the shape descriptor.
 Hence, the weights in the fully-connected layers for each specific present feature needs to be very large.
 With normalization, however, the group with one view is much higher weighted than the not discriminative views.
 Hence, normalization kind of removes noise, i.e. not discriminative views, that could influence the prediction unfavorably.
 \figref{fig:grouping-0-3-green} and \figref{fig:grouping-0-3-red} show the expected result.
-The views showing the material feature are by far the top rated views referring to their score.
+The views showing the material feature are by far the top-rated views referring to their score.
 It looks like, that the network prefers the slightly tilted vertical edge with a feature to its right for recognizing material features.
 This exact edge is not visible in the first view showing a feature, due to the change in perspective.
 Due to the mesh representation of objects, all material features are triangles.
@@ -58,7 +58,7 @@ Moreover, both figures show exactly the same order.
 This shows, that the weights for each color channel are optimized in the same direction.
 However, the views with the green material are in a closer range compared to the ones with the red material.
 The latter differs extremely.
-The least discriminative view with a material is closer to the not discriminative views than the discriminative ones.
+The least discriminative view containing a material is closer to the not discriminative views than the discriminative ones.
 Considering several different training sessions of this configuration, it is observed, that those scores of each material usually are similar to each other.
 Hence, it is assumed, that a bad weight initialization caused this problem and a longer training would have evened it out.
 Nevertheless, the group metric is at 1 for every material.
@@ -93,10 +93,10 @@ This means, the discriminative information is the missing feature, thus, the vie
 Therefore, a worse group metric than before is expected.
 This is reflected by the values 0.735, 0.475 and 0.800 for each class.
 The averaged group metric is 0.670.
-This shows, that the network prefers the green material as well, because it is more often in the top group than the red one.
+This shows that the network prefers the green material as well because it is more often in the top group than the red one.
 This is also seen in the red divide, where two of three material views are the least discriminative ones.
 That suggests, that the red feature is treated as a sufficient criterion, while the green one is treated as the necessary criterion.
-Moreover, it is not surprisingly, that the green and red features are mostly present in the top group.
+Moreover, it is not surprising, that the green and red features are mostly present in the top group.
 \begin{figure}
 	\centering
 	\begin{subfigure}{\textwidth}
@@ -123,9 +123,9 @@ The divide of the blank object is similar to the ones before.
 There is only one group and the view discriminative scores are in a range of 0.156 and 0.158.
 Not much changes for the divide of the red material.
 The second view from earlier changes its position with the top view.
-Moreover, the score of every views is decreased by about 0.07.
+Moreover, the score of every view is decreased by about 0.07.
 However, that the top view shows a red material is possibly for adding certainty for the classification with avoiding large weights.
-For the green material the material views are the least discriminative ones according to their score.
+For the green material, the material views are the least discriminative ones according to their score.
 This is shown in \figref{fig:grouping-0-5-green}.
 That effect must be due to the additional green-green feature.
 An explanation could be, that the network now rates views by missing material features.
@@ -157,7 +157,7 @@ This supports the grouping theory even more in so far, that non-feature views ar
 \end{figure}
 For having balanced evaluation results, red-red material features are added, yielding the 0-6 network.
 Grouping blank views is almost identical to the earlier cases with the exception of view scores in a range of 0.46 to 0.472
-The order of views for the green material has not changed notable.
+The order of views for the green material has not changed notably.
 However, an additional group is created and the scores of the views with a visible feature changed to 0.336, 0.048 and 0.388.
 The remaining scores are in a range of 0.46 to 0.472 which matches the blank case.
 In the red material case, the 0-5 top view is now the third-to-last.
@@ -165,25 +165,25 @@ Hence, all views showing materials are the least discriminative ones with scores
 The remaining views have identical scores to the other material cases.
 Moreover, all of those views are divided into four groups.
 In comparison, the green material and the red one have similar view scores, where the scores of the blank views are identical.
-For the green-red case all views not showing a material are more discriminative than the ones showing one.
+For the green-red case, all views not showing a material are more discriminative than the ones showing one.
 This matches almost the grouping in the 0-5 network, but with five groups
 The top group only contains non-feature views.
 Furthermore, the scores of views with a green feature have the same score than in the single green feature case.
-However, this is applicable for the views with red features.
+However, this is applicable to the views with red features.
 This is due to the fact, that in this case, the second optimal face is colored red, hence, there are no comparable red faces.
 For the green-green and red-red case, that are shown in \figref{fig:grouping-0-6}, the divide is almost identical.
 The first one uses four groups the second five.
-Though, the view scores are similar, it is noticeable, that compared to each different colored feature in the green-red case views with a now green feature are less discriminative than views with a now red feature.
+Though the view scores are similar, it is noticeable, that compared to each different colored feature in the green-red case views with a now green feature are less discriminative than views with a now red feature.
 Although, both times the general score is higher.
 Fortunately, this does not debunk the assumed theory of the group mechanism.
 The corresponding group metric scores are 0.217, 0.253, 0.420, 0.381, 0.504 with an average of 0.355.
 Their distribution is as expected, but with smaller values than in earlier networks.
 This is due to the larger number of groups and the higher diversity of non-feature views to feature-views.
 
-For a full understanding of the grouping mechanism, it needs to be examined, if the assumed theory is still valid, if additional categories are classified.
+For a full understanding of the grouping mechanism, it needs to be examined, if the assumed theory is still valid if additional categories are classified.
 This is done in the same order of number of classifications as with only material features.
 First, the 4-0 network is evaluated.
-It is supposed, that similar views like opposite perspectives of a symmetrical object are divided into the same group, because they contain similar features.
+It is supposed, that similar views like opposite perspectives of a symmetrical object are divided into the same group because they contain similar features.
 For example, the views of the left and right side of a car look almost identical, due to having the same contours but in a mirrored direction.
 \begin{figure}
 	\centering
@@ -192,7 +192,7 @@ For example, the views of the left and right side of a car look almost identical
 	\label{fig:grouping-4-0}
 \end{figure}
 A grouping divide is shown in \figref{fig:grouping-4-0}.
-It can be seen, that the assumption is wrong.
+It can be seen that the assumption is wrong.
 Instead, the network prefers objects or features, respectively, that are diagonal from top left to bottom right.
 This is validated by more predictions.
 That such preferences are learned is already assumed from the 0-3 grouping.

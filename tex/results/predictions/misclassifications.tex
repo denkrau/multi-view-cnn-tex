@@ -1,4 +1,4 @@
-\subsection{Missclassifications}
+\subsection{Misclassifications}
 \label{sec:predictions-misclassifications}
 %0-4
 %bathtub_0117_2_006.png as 0 small feature
@@ -25,7 +25,7 @@
 By comparing all misclassifications of all networks several similarities are found.
 It is noticed that an object with a wrong prediction is likely to reappear across different networks.
 Not always with the exact same material, though, but this could be due to different weight initializations.
-The most common reason for predicting a wrong class within the same object category are small features.
+The most common reason for predicting the wrong class within the same object category are small features.
 Some examples are shown in \figref{fig:small-features}.
 \begin{figure}
 	\centering
@@ -70,12 +70,12 @@ Some examples are shown in \figref{fig:small-features}.
 		\caption{Predicted as Green-Green Dresser}
 		\label{fig:small-features-f}
 	\end{subfigure}
-	\caption[Reasons for Incorrect Predictions]{Reasons for incorrect predictions are small features, hidden features and missing shadows.}
+	\caption[Reasons for Incorrect Predictions]{Reasons for incorrect predictions are small features, hidden features, and missing shadows.}
 	\label{fig:small-features}
 \end{figure}
 The first multi-view is often predicted as blank and the second one as green-red.
 Why the material color is predicted wrong, however, remains unknown.
-Similar object are found in the dataset which are predicted wrong that have features of a similar size like \figref{fig:small-features-c}.
+Similar objects are found in the dataset which are predicted wrong that have features of a similar size like \figref{fig:small-features-c}.
 For the fourth one the red face is never seen completely, hence, it is never seen in a triangular shape like usual material faces except for one view.
 There it is truncated to a small triangular, though, and experiences the same problems as the other two multi-views presumably.
 Two optimal faces next to each other forming a rectangle result in a correct classification in general, however.

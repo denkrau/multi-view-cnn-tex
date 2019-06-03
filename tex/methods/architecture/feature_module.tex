@@ -25,7 +25,7 @@ Here, $Channels\_in = 3$ because of the RGB channels of the input image and $Cha
 Then, image patches of shape $Batch \times Height\_Out \times Width\_Out \times Filter\_Height \cdot Filter\_Width \cdot Channels\_In$ are extracted from the input tensor.
 Multiplying the filter matrix and the image patch vector yields the convolution results for the current window.
 This is repeated for the whole input resulting in a matrix with a size of $1 \times 109 \times 109 \times 96$ in this case.
-Furthermore, to each convolution output the corresponding bias is added.
+Furthermore, to each convolution output, the corresponding bias is added.
 This result is fed into a ReLU activation function.
 Finally, the outputs are max-pooled with a window of size $3 \times 3$ and a stride of 2.
 No padding is applied as well.

@@ -26,9 +26,9 @@ This results in a single value to which a bias $b^{[d4]}$ is added.
 A dropout is not performed, because with only one node it is not desirable.
 Dropping out this node represents a view discrimination score of 0.
 Of course, this would generalize the view score, but a kind of overfitting on detailed features is desirable for evaluating views.
-It is supposed that those discriminative features are reoccurring in different views, if the latter is actually discriminative.
+It is supposed that those discriminative features are reoccurring in different views if the latter is actually discriminative.
 Thus, the more discriminative features a view has, the more discriminative it is.
-Hence, they should be kept and trained on.
+Hence, they should be kept and used for training.
 Finally, the weighted sum of a node is fed into its activation function.
 It was found during training, that the unit died at the beginning of the training most of the time when using ReLU activation functions.
 This is due to its characteristic.
@@ -39,10 +39,10 @@ The learning rate should suit the whole network and not only this layer, though.
 So, in contrast to every other layer in this network, leaky ReLU activation functions are applied to those units.
 Their gradient is always unequal to zero, hence, it is solving the dying ReLU unit problem.
 
-For interpretation purposes the activation is squeezed into a range from 0 to 1 using the sigmoid function according to \cite{Feng2018} representing a probability of discrimination.
-Because the sigmoid function saturates at values higher than around $\abs{5}$, but the activation of the fully-connected layer are assumed to be larger, the natural logarithm of the activation is computed first.
+For interpretation purposes, the activation is squeezed into a range from 0 to 1 using the sigmoid function according to \cite{Feng2018} representing a probability of discrimination.
+Because the sigmoid function saturates at values higher than around $\abs{5}$, but the activation of the fully-connected layer is assumed to be larger, the natural logarithm of the activation is computed first.
 This shifts the saturation to values that are presumably not in the range of the activation.
-For having a continual function the absolute value of the activation is taken beforehand.
+For having a continuous function the absolute value of the activation is taken beforehand.
 This yields the expression for a view's score
 \begin{equation}
 	\label{eq:view-discrimination-score}
@@ -62,7 +62,7 @@ A plot of this function is shown in \figref{fig:view-discrimination-score}.
 All view discrimination scores for a batch are stored in a tensor with shape $Batch \times Views$.
 
 Dependent on each view score, the related views are divided into groups.
-For maximum flexibility the number of groups $n_g$ equals the number of views $n_v$.
+For maximum flexibility, the number of groups $n_g$ equals the number of views $n_v$.
 Hence, the size of each group $r_g$ is related to the number of views $n_v$ per object and the range of possible view scores $r_s$.
 With the limit of \eqref{eq:view-discrimination-score}
 \begin{equation}
@@ -84,9 +84,9 @@ The group to which each view $\mathbb{V}_i$ belongs is calculated by
 yielding the group's index.
 Those are stored for every view resulting in the group index vector $\vec{g} = \left( g_1, g_2, \cdots, g_{n_v}\right)^T$.
 The subscripts correspond to the view indices, e.g. $g_2$ belongs to $\vec{V}_2$.
-With this approach it is possible for groups to remain empty.
+With this approach, it is possible for groups to remain empty.
 Based on the group indices, related view descriptors are averaged across their first dimension.
-This means, every channel of one view descriptor is averaged element-wise with the corresponding channel of the other view descriptors.
+This means every channel of one view descriptor is averaged element-wise with the corresponding channel of the other view descriptors.
 In brief, every feature is averaged.
 This is illustrated in \figref{fig:grouping-module-group-descriptors}.
 \begin{figure}
@@ -102,7 +102,7 @@ This results in a group descriptor
 \begin{equation}
 	\vec{G}_i = \frac{\sum_{\vec{D} \in \mathbb{G}_i} \vec{D}}{|\mathbb{G}_i|}
 \end{equation}
-with the same size as a view descriptor, where $\vec{D}$ is a view of group $\mathbb{G}_i$. The addition and division is calculated element-wise.
+with the same size as a view descriptor, where $\vec{D}$ is a view of group $\mathbb{G}_i$. The addition and division are calculated element-wise.
 However, the views of different objects are not necessarily divided into the same number of groups, thus, leading to a different number of group descriptors.
 Due to tensorflow's constraint, that a tensor is not allowed to change its shape in a graph during execution, additional empty group descriptors need to be created for reaching the maximum possible number of group descriptors of $n_v$.
 So, the final shape of the tensor $\bar{\vec{G}}$ containing all group descriptors is $Batch \times n_v \times 6 \times 6 \times 256$.
