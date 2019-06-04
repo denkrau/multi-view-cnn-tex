@@ -37,7 +37,7 @@ Finally, the parameters are updated by
 	\end{align}
 \end{subequations}
 using the weighted moving average just calculated.
-Let's say the horizontal parameter is $w_1$ and the vertical one $w_2$ referring to \figref{fig:rmsprop}.
+In reference to \figref{fig:rmsprop} assume $w_1$ as the horizontal parameter and $w_2$ as the vertical one.
 Due to the oscillations, the gradient $\nabla \vec{J}(w_2)$ is much larger than $\nabla \vec{J}(w_1)$.
 Hence, $v_2$ is larger than $v_1$ resulting in a smaller update for $w_2$ and a larger one for $w_1$.
 This yields a more direct moving to the minimum.
@@ -61,11 +61,11 @@ In general, an estimation should equal the parameter that is tried to be estimat
 Hence, the property
 \begin{subequations}
 	\begin{align}
-		E[m] &= E[g]\\
-		E[v] &= E[g^2]
+		\E\left[m\right] &= \E\left[g\right]\\
+		\E\left[v\vphantom{g^2}\right] &= \E\left[g^2\right]
 	\end{align}
 \end{subequations}
-needs to be fulfilled, where $E[\cdot]$ represents the expectation of a variable.
+needs to be fulfilled, where $\E\left[\cdot\right]$ represents the expectation of a variable.
 These properties only hold true, if unbiased estimators are used.
 Hence, the corrected values are expressed by
 \begin{subequations}
@@ -82,11 +82,11 @@ Finally,
 \begin{subequations}
 	\label{eq:adam-update}
 	\begin{align}
-		w^{[l]}_{jk} := w^{[l]}_{jk}-\gamma \frac{\hat{m}(w^{[l]}_{jk})}{\sqrt{\hat{v}(w^{[l]}_{jk})} + \epsilon} \\
-		b^{[l]}_{j} := b^{[l]}_{j}-\gamma \frac{\hat{m}(b^{[l]}_{j})}{\sqrt{\hat{v}(b^{[l]}_{j})} + \epsilon}
+		w^{[l]}_{jk} := w^{[l]}_{jk}-\gamma \frac{\hat{m}(w^{[l]}_{jk})}{\sqrt{\hat{v}(w^{[l]}_{jk})} + \varepsilon} \\
+		b^{[l]}_{j} := b^{[l]}_{j}-\gamma \frac{\hat{m}(b^{[l]}_{j})}{\sqrt{\hat{v}(b^{[l]}_{j})} + \varepsilon}
 	\end{align}
 \end{subequations}
-updates the parameters, where $\epsilon$ is a small constant for preventing a division by zero.
+updates the parameters, where $\varepsilon$ is a small constant for preventing a division by zero.
 As for other optimization algorithms the learning rate $\gamma$ needs to be tuned.
-The remaining hyperparameters are recommended by \textit{Kingma et al.} to be $\beta_1 = 0.9$, $\beta_2 = 0.999$ and $\epsilon = 10^{-8}$.
+The remaining hyperparameters are recommended by \textit{Kingma et al.} to be $\beta_1 = 0.9$, $\beta_2 = 0.999$ and $\varepsilon = 10^{-8}$.
 However, the latter has no big impact on the optimization.

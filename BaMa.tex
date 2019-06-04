@@ -113,6 +113,8 @@
 \DeclareMathAlphabet\mathbb{U}{fplmbb}{m}{n}
 \DeclareMathOperator{\sigmoid}{sigmoid}
 \DeclareMathOperator{\floor}{floor}
+\DeclareMathOperator{\E}{\mathrm{E}}
+\DeclareMathOperator{\Var}{\mathrm{Var}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -202,7 +204,7 @@
 }
 \end{BaMaAbstract}
 
-\setcounter{secnumdepth}{4} % Überschriften bis 4. Ebene nummerieren
+\setcounter{secnumdepth}{2} % Überschriften bis 4. Ebene nummerieren
 \tableofcontents		% setzt das Inhaltsverzeichnis
 \listoffigures			% setzt das Abbildungsverzeichnis; keine Bilder? -> auskommentieren
 \listoftables			% setzt das Tabellenverzeichnis; keine Tabellen? -> auskommentieren
@@ -213,8 +215,8 @@
  
 \mainmatter				% zuständig für den Hauptteil der Arbeit (Kapitel 1 bis ...), arabische Seitenzahlen
 \input{tex/introduction.tex}
-\input{tex/related_work.tex}
 \input{tex/fundamentals.tex}
+\input{tex/related_work.tex}
 \input{tex/methods.tex}
 \input{tex/results.tex}
 \input{tex/discussion.tex}

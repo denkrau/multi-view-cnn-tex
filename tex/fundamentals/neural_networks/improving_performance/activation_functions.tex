@@ -16,7 +16,7 @@ This leads to an undesired zigzag pattern of the parameter updates for several s
 However, the use of mini-batches smooths out this effect.
 The tanh activation function has a zero-centered output, though, the saturation of the output remains.
 The ReLU activation function accelerates the convergence process of stochastic gradient descent compared to sigmoid and tanh.
-According to \textit{Krizhevsky et al.}, it is six times faster on the CIFAR10 dataset compared to tanh activation functions\cite{Krizhevsky:2012:ICD:2999134.2999257}.
+According to \textit{Krizhevsky et al.}, it is six times faster on the CIFAR10 dataset \cite{Krizhevsky2009LearningML} compared to tanh activation functions \cite{Krizhevsky:2012:ICD:2999134.2999257}.
 This is due to its linear, non-saturation form.
 Another advantage is its simple and light computation.
 Furthermore, it makes the activations sparse from the perspective of a neural network.
@@ -26,7 +26,7 @@ However, its property of the evaluation to zero is also a disadvantage.
 This results in a gradient of zero as well and therefore in no related parameter updates.
 If the weights are initialized badly or an unfavorable update is applied, for example, due to a too large learning rate, a ReLU unit can die, because its evaluation and the gradient are zero for all further computations.
 In this case, a unit is very unlikely to recover.
-A solution forms the leaky ReLU, which adds a slight slope of like $s = 0.01$ to the horizontal line of 0, preventing the gradient to become zero.
+A solution forms the leaky ReLU, which adds a slight slope of like $\lambda = 0.01$ to the horizontal line of 0, preventing the gradient to become zero.
 Hence, the unit can recover.
 However, the results of this approach are very inconsistent.
 
@@ -88,7 +88,7 @@ The tanh activation should be generally preferred over the sigmoid one.
 		\phi(x) =
 		\begin{cases}
 		x & x \geq 0 \\
-		x\cdot \text{Slope $s$} & x < 0
+		x\cdot \text{Slope $\lambda$} & x < 0
 		\end{cases}
 		\end{equation*}
 		\caption{Leaky Rectified Linear Unit}
@@ -104,6 +104,6 @@ The tanh activation should be generally preferred over the sigmoid one.
 		\caption{Sigmoid}
 		\label{fig:sigmoid-activation}
 	\end{subfigure}
-	\caption[Common activation functions]{Plots and equations of common used activation functions. Where the Bias $b$ is the threshold value and $s$ adds a small slope. Usually, the latter is very small like $s=0.01$.}
+	\caption[Common activation functions]{Plots and equations of common used activation functions. Where the Bias $b$ is the threshold value and $\lambda$ adds a small slope. Usually, the latter is very small like $\lambda=0.01$.}
 	\label{fig:activation-functions}
 \end{figure}

@@ -11,16 +11,17 @@ The objective is to combine several features that were detected and use them as 
 Due to the weights, some attributes are more significant than others.
 For example, if four legs and a long nose are found, there is a dog in the image and not a cat.
 If the task is to distinguish only between cats and dogs, the nose feature is weighted more than the leg feature.
-For preventing overfitting and improving generalization, a fully-connected layer can be combined with the dropout regularization technique\cite{Srivastava:2014:DSW:2627435.2670313}.
+For preventing overfitting and improving generalization, a fully-connected layer can be combined with the dropout regularization technique \cite{Srivastava:2014:DSW:2627435.2670313}.
 This drops out nodes randomly during training depending on a given probability, i.e. changing their incoming and outgoing weights temporarily to zero.
 Hence, those nodes are excluded from the current classification and from backpropagation as well.
 So their weights experience no change, which achieves the desired effect.
-The interpretation of the outputs of a fully connected layer is simplified by applying an additional softmax function that squashes the output into a range of 0 and 1, whereas the sum of all outputs equals 1, to represent percentages of confidence or a probability distribution, respectively\cite{Bishop2006}.
+The interpretation of the outputs of a fully connected layer is simplified by applying an additional softmax function that squashes the output into a range of 0 and 1, whereas the sum of all outputs equals 1, to represent percentages of confidence or a probability distribution, respectively \cite{Bishop2006}.
+This corresponds to the output block in \figref{fig:cnn-layers}.
 The softmax function can be written as
 \begin{equation}
 	\label{eq:softmax}
-	S(y_i) = \frac{\exp(y_i)}{\sum_{j} \exp(y_j)}
+	S(y_i) = \frac{\exp(y_i)}{\sum_{j}^{n_y} \exp(y_j)}
 \end{equation}
-where $y$ are the outputs, $i$ an index of an output and $j$ a moving index over all outputs.
+where $\vec{y}$ are the outputs, $i$ an index of an output and $j$ a moving index over all outputs.
 This exploits the knowledge of mutually exclusive classes, i.e. that only one class is correct.
 Otherwise, for multi-label classification, a sigmoid function can be used, that squashes each output of the network into a range of 0 and 1.

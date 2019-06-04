@@ -12,10 +12,10 @@ For classifying whether an image is black or white, only a few training samples 
 Is the objective classifying objects within images, it depends on the number of possible objects and their complexity.
 If the objects are simple geometric shapes, then not as many samples are needed as if the objects are common objects like type of animals or cars.
 For the latter, the number of samples would probably be approximately 1000 examples per class.
-Luckily, there are several datasets available, that are already sorted and labeled, like the MNIST handwritten digits or the ImageNet dataset.
-Available datasets are not limited to images but can contain CAD models like the ModelNet dataset which is used for this network architecture.
+Luckily, there are several datasets available, that are already sorted and labeled, like the MNIST handwritten digits or the ImageNet dataset \cite{Russakovsky:2015:ILS:2846547.2846559}.
+Available datasets are not limited to images but can contain CAD models like the ModelNet dataset \cite{conf/cvpr/WuSKYZTX15} which is used for this network architecture.
 
-Samples of a dataset are split into a training and testing set, and sometimes a validation set\cite{James2014}.
+Samples of a dataset are split into a training and test set, and a validation set \cite{James2014}.
 The first contains data, the network trains on.
 From this data correlations of each input and label are found.
 After arbitrary training steps where parameter changes happened, the performance of the network is tested on the validation set.
@@ -39,33 +39,33 @@ Both cases are visualized in \figref{fig:overfitting}.
 		\input{images/overfitting_accuracy.tikz}
 		\caption[Accuracy]{Accuracy}
 	\end{subfigure}
-	\caption[Indicator of overfitting]{Indicator of overfitting. If the metrics for the validation set do not follow the direction of the ones from the training set the network does not generalize.}
+	\caption[Indicator of overfitting]{Indicator of overfitting. If the metrics for the validation set do not follow the direction of the ones from the training set the network does not generalize. The dashed line represents when training should have been stopped.}
 	\label{fig:overfitting}
 \end{figure}
 
-The testing set is data the network is not trained on as well.
+The test set is data the network is not trained on as well.
 It serves as a final performance check of the network to confirm its general accuracy.
-If no validation set is available, the testing set can be used.
+It is bad practice but if no validation set is available, the testing set can be used.
 How the dataset is split depends again on the number and complexity of samples and the objective.
 However, an equal distribution of samples in each set should be minded.
 Otherwise, the performance will not be satisfying.
 This means, if the network trains mostly on sweatshirts a test set with mostly pants would not yield an acceptable accuracy, because the network does not know these particular features.
 
-For processing the dataset, a one-hot encoding\cite{Harris2012} of the labels is recommended.
+For processing the dataset, a one-hot encoding \cite{Harris2012} of the labels is recommended.
 Usually, the labels are categorical data.
 This means, they contain label or string values, respectively, instead of numeric values, that the networks needs.
 For example, there is a fashion variable with the values "boot", "sweatshirt" and "pants".
 The network would not know how to interpret these.
 Thus, these values need to be converted to numeric values.
 Furthermore, if these label values are outputs of the network, it should be easily possible to convert them back from numeric values.
-Hence, they are converted to integers that represent a category.
+Hence, they are converted to integers that represent a class.
 Referring to the example, this results in the numeric values 0, 1 and 2 for the labels "boot", "sweatshirt" and "pants", respectively.
 But numeric values have a natural ordered relationship between each other, that neural networks could exploit.
 The index of "pants" is higher than the one of "boot", but neither of these categories is better or worse than the other.
 Therefore, the indices are one-hot encoded as well.
 This means removing the integer representation and inserting binary variables for simulating existing features.
-Applying this to the example results in the feature label vector $\vec{f}_1 = (0, 1, 0)^T$ for the "sweatshirt" label.
-This vector has a length of the number of different categories available, where every element is 0 except the one of the corresponding category which is 1.
+Applying this to the example results in the feature label vector $\vec{y}^{(2)} = (0, 1, 0)^T$ for the "sweatshirt" label.
+This vector has a length of the number of different classes available, where every element is 0 except the one of the corresponding category which is 1.
 \tabref{tab:one-hot-encoding} summarizes this approach.
 \begin{table}[]
 	\caption[One-Hot Encoding of Categorical Data]{One-hot encoding of categorical data. First, categorical label values are transformed to numeric values representing a category index. Then, this is replaced with binary variables to represent features, that removes the natural relationship of numeric values to each other. This vector has a length of the number of different categories, where every element is 0 except for the corresponding category which is 1.}
@@ -73,8 +73,8 @@ This vector has a length of the number of different categories available, where 
 	\centering
 	\begin{tabular}{l|l|l}
 		Categorical   & Integer & One-Hot                   \\ \hline
-		"Boot"       & 0       & $\vec{f}_0 = (1, 0, 0)^T$ \\
-		"Sweatshirt" & 1       & $\vec{f}_1 = (0,1, 0)^T$  \\
-		"Pants"      & 2       & $\vec{f}_2 = (0, 0, 1)^T$
+		"Boot"       & 0       & $\vec{y}^{(1)} = (1, 0, 0)^T$ \\
+		"Sweatshirt" & 1       & $\vec{y}^{(2)} = (0, 1, 0)^T$  \\
+		"Pants"      & 2       & $\vec{y}^{(3)} = (0, 0, 1)^T$
 	\end{tabular}
 \end{table}

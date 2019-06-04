@@ -40,7 +40,7 @@ Thus, the view scores are almost identical.
 Those little changes presumably depend on a different weight initialization and would even out after more training epochs.
 Although the scores are very low, the views are fully taken into account because they all belong to the same group with a weight of 1.
 However, in this particular case, a normalization of the group weight is not necessary.
-Without one the group weight would be $w = 0.0079$, thus, decreasing the shape descriptor enormously, but the network would learn that a descriptor close to 0 represents a blank object.
+Without one the group weight would be $w_G = 0.0079$, thus, decreasing the shape descriptor enormously, but the network would learn that a descriptor close to 0 represents a blank object.
 The decision rule would be, if the descriptor represents no feature, the objects show no feature.
 With the classification of more categories, though, this is not possible anymore, because a very small descriptor cannot just represent any blank object, but the object category class.
 If there are two objects, for example, and only one view each shows a different feature with a small discrimination score, they would be divided into two categories.

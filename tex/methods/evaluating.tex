@@ -10,13 +10,13 @@ However, the last batch has in general fewer elements than the ones before.
 Hence, a weighted average is performed with the batch sizes as the weights.
 This yields the averaged cost
 \begin{equation}
-	J\left(\hat{\bar{\vec{Y}}}, \bar{\vec{Y}}\right) =  \frac{\sum_{i}^{n_b} n_{b_i} \cdot J\left(\hat{\bar{\vec{Y}}}^{(i)}, \bar{\vec{Y}}^{(i)}\right)}{\left|\vec{n_b}\right|}
+	J\left(\hat{\bar{\vec{Y}}}, \bar{\vec{Y}}\right) =  \frac{\sum_{j}^{n_b} m_{b_j} \cdot J\left(\hat{\bar{\vec{Y}}}^{(i)}, \bar{\vec{Y}}^{(i)}\right)}{\left|\vec{m_b}\right|}
 \end{equation}
 and the averaged accuracy
 \begin{equation}
-	\alpha\left(\hat{\bar{\vec{Y}}}, \bar{\vec{Y}}\right) =  \frac{\sum_{i}^{n_b} n_{b_i} \cdot \alpha\left(\hat{\bar{\vec{Y}}}^{(i)}, \bar{\vec{Y}}^{(i)}\right)}{\left|\vec{n_b}\right|}
+	\alpha\left(\hat{\bar{\vec{Y}}}, \bar{\vec{Y}}\right) =  \frac{\sum_{j}^{n_b} m_{b_j} \cdot \alpha\left(\hat{\bar{\vec{Y}}}^{(i)}, \bar{\vec{Y}}^{(i)}\right)}{\left|\vec{m_b}\right|}
 \end{equation}
-where $\vec{n_b}$ is a vector containing the batch sizes.
+where $\vec{m_b}$ is a vector containing the batch sizes.
 As mentioned, this is performed separately on the training set and the testing set.
 Those results are also stored for plotting purposes.
 Comparing both related units can reveal if training should be continued or if overfitting or underfitting occurs.
@@ -30,11 +30,11 @@ Furthermore, all plots are saved to disk.
 To plots, whose shown values $\vec{p}$ oscillate, a moving average $\vec{q}$ of the values is added.
 A single averaged value is calculated by
 \begin{equation}
-	q_i = \frac{\sum_{j = \max(1,i-s+1)}^{i} p_j}{\max(0,i-s)}
+	q_i = \frac{\sum_{j = \max(1,i-f+1)}^{i} p_j}{\max(0,i-f)}
 \end{equation}
-where $s$ is the window size, that defines how many values are taken into account for averaging a certain sample.
+where $f$ is the window size, that defines how many values are taken into account for averaging a certain sample.
 If the window is larger than the available number of samples, in particular in the beginning, the window size is adapted temporarily.
-By default it is set to $s=\floor\left( 0.1 \left| \vec{p} \right| \right)$ for a dynamical size.
+By default it is set to $f=\floor\left( 0.1 \left| \vec{p} \right| \right)$ for a dynamical size.
 
 For evaluating the whole network model regarding its practical use, the accuracies for each class, each category and each material are calculated.
 In general, the accuracy states how many samples are classified correctly.
@@ -74,12 +74,12 @@ Each feature's values $\vec{F}_i$ are normalized by
 to a range of 0 and 1 for making it visualizable.
 Finally, each feature is saved as an gray-scale image.
 Moreover, each view discrimination score, group weight, and group index is stored for showing them with their associated view afterwards.
-Furthermore, a saliency map $\vec{S}_j^{(i)}$ is computed for each view $\vec{V}_j^{(i)}$ showing how much each pixel influences the raw output of the network $\vec{z}^{(i)}$.
+Furthermore, a saliency map $\vec{S}_v^{(i)}$ is computed for each view $\tilde{\vec{X}}_v^{(i)}$ showing how much each pixel influences the raw output of the network $\vec{z}^{(i)}$.
 Here, the direct output of the eighth layer is taken, that means no softmax is applied.
 A single saliency map can be defined as the derivative of the output with respect to a single view yielding
 \begin{equation}
 	\label{eq:saliency-map}
-	\vec{S}_j^{(i)} = \frac{\partial \vec{z}^{(i)}}{\partial \vec{V}_j^{(i)}}
+	\vec{S}_j^{(i)} = \frac{\partial \vec{z}^{(i)}}{\partial \tilde{\vec{X}}_v^{(i)}}
 \end{equation}
 as a general expression.
 For plotting each saliency map is normalized with \eqref{eq:normalize} and visualized in gray-scale.

@@ -58,10 +58,10 @@ Therefore, a threshold of above the mean is desired to skip all those lathy face
 Additionally, larger faces should be preferred.
 Thus, the area of the optimal face have to satisfy
 \begin{equation}
-	a_{opt} > (a_{mean} + a_{max}) \cdot s
+	\alpha_{\text{opt}} > (\alpha_{\text{mean}} + \alpha_{\text{max}}) \cdot \lambda
 \end{equation}
-where $a$ are the related areas and $s$ a scalar.
-With $s = 0.3$ satisfying results are achieved.
+where $\alpha$ are the related areas and $\lambda$ a scalar.
+With $\lambda = 0.3$ satisfying results are achieved.
 
 Furthermore, it needs to be guaranteed, that the optimal face is visible in at least one view and not visible in at least one view.
 This is validated by casting rays from the camera center onto the possible optimal face for every camera position that was defined in \secref{sec:dataset-rendering}.
@@ -70,11 +70,11 @@ Fortunately, there is a function in Blender performing this approach and returni
 However, this cannot be performed for every pixel of a face due to performance issues.
 Thus, the trade-off against accuracy is only checking the vertices defining the face.
 This can raise errors, though, because a vertex can define multiple faces and it is not certain which face index the function returns.
-Hence, each checkpoint $\vec{p}_i$ is moved slightly to the center of the face by
+Hence, each checkpoint $\vec{p}_i$ is moved slightly to the center of the face $\mathbb{F} = (v_{f1}, v_{f2}, v_{f3})$ by
 \begin{equation}
-	\vec{p}_i = \vec{v}_i + 0.05 \cdot (\vec{f}_0 - \vec{v}_i)
+	\vec{p}_{fi} = \vec{v}_{fi} + 0.05 \cdot (\vec{f}_o - \vec{v}_{fi})
 \end{equation}
-where $\vec{v}_i$ is the related vertex and $\vec{f}_0$ the center of the face.
+where $\vec{v}_{fi}$ is the related vertex and $\vec{f}_o$ the center of the face.
 If the ray cast is valid for at least one checkpoint the face is supposed to be visible.
 If all rays hit the wrong face, the current face is supposed to be not visible.
 As soon as both conditions are satisfied for the examined face among all views, it becomes the optimal face.

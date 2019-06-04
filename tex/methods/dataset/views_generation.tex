@@ -85,9 +85,9 @@ Due to the verification from \textit{Su et al.} \cite{Su2018} of the setup from 
 The camera is elevated 30 degrees from the ground plane, pointing towards its origin.
 This results in the first rotation vector
 \begin{equation}
-	r_{c,0} = \left( \frac{r_{x,deg} \cdot \pi}{180}, 0, 0 \right)^T = \left( \frac{60 \cdot \pi}{180}, 0, 0 \right)^T
+	r_{c,0} = \left( \frac{r_{x,\text{deg}} \cdot \pi}{180}, 0, 0 \right)^T = \left( \frac{60 \cdot \pi}{180}, 0, 0 \right)^T
 \end{equation}
-in radians, where $r_{x,deg}$ is the rotation around the $x$-axis in degrees.
+in radians, where $r_{x,\text{deg}}$ is the rotation around the $x$-axis in degrees.
 Because the camera points along the negative $z$-axis by default, $r_x = 60$ corresponds to the just mentioned setup.
 The next step is fitting the camera view to the model just by changing the location of the camera.
 Fortunately, Blender supports this with a single API call.
@@ -122,16 +122,16 @@ For gathering multiple views, the camera needs to be repositioned.
 Hence, the following steps are repeated for the desired number of views.
 The rotation of the camera is set to
 \begin{equation}
-	\vec{r}_c = \left(  \frac{60 \cdot \pi}{180}, 0, \frac{k \cdot s \cdot \pi}{180} \right)^T
+	\vec{r}_c(v_i) = \left(  \frac{60 \cdot \pi}{180}, 0, \frac{v_i \cdot \varphi \cdot \pi}{180} \right)^T
 \end{equation}
-where $k$ is the view index, originally starting at 0, and $s$ the moving interval in degrees.
+where $v_i$ is the view index, originally starting at 0, and $\varphi$ the moving interval in degrees.
 The latter is set to
 \begin{equation}
-	s = \frac{360}{n_v} = \frac{360}{12} = 30
+	\varphi = \frac{360}{n_v} = \frac{360}{12} = 30
 \end{equation}
 where $n_v$ equals the number of views.
 For the ability to compare this work to related researches, $n_v = 12$ is defined.
 The number of objects per set corresponds to \cite{Su:2015:MCN:2919332.2919750}.
-That means, 90 objects per category for the training set and 30 for the testing set.
+That means, 90 objects per category for the training set and 30 for the test set.
 However, for simplicity and considering further manipulations with material features, only four categories are picked from the ModelNet10 dataset.
 Those embrace bathtubs, dressers, sofas, and monitors.

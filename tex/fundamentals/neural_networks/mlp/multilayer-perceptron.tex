@@ -1,7 +1,7 @@
 \subsubsection{Multilayer Perceptron}
 \label{sec:mlp-multilayer-perceptron}
-A multilayer perceptron consists of multiple perceptrons divided into layers and solves complex tasks\cite{Bishop1995}.
-It is a universal approximator for every function\cite{Cybenko1989} regardless of the activation functions used\cite{Hornik1991}.
+A multilayer perceptron consists of multiple perceptrons divided into layers and solves complex tasks \cite{Bishop1995}.
+It is a universal approximator for every function \cite{Cybenko1989} regardless of the activation functions used \cite{Hornik1991}.
 Because of the multiple layers and the non-linear activation functions non-linearity is introduced into the network.
 Thus, it can distinguish data that is not linearly separable as most real-world data is.
 
@@ -18,8 +18,12 @@ Although the weights and biases are not displayed for clarity, they still exist 
 	\caption[Multilayer perceptron]{Multilayer perceptron with three layers. Each layer consists of multiple perceptrons. The input layer transfers real-world data into the network. The output layer makes the computations of the network interpretable for humans. The layers in between, the hidden layers, perform calculations and feed forward the network data. Each connection between nodes has a weight, that is not displayed for clarity. Also, every node has its own bias.}
 	\label{fig:multilayer-perceptron}
 \end{figure}
-Like the single perceptrons every node in the networks still holds its activation, a single numerical value.
-In this kind of network architecture perceptrons are often referred to as nodes.
+Like the single perceptrons every perceptron in the networks still holds its activation, a single numerical value.
+A specific perceptron is referred to by its layer $l$ and position $j$ within this layer.
+Hence, its activation is denoted as $a^{[l]}_{j}$.
+Its weights are denoted as $w^{[l]}_{jk}$ where $k$ is the position of the preceding perceptron in layer $l-1$ and its bias as $b_j$.
+All weights of layer $l$ are stored in a compact matrix $\vec{W}^{[l]}$.
+In this kind of network architecture perceptrons are often referred to as nodes or units.
 
 The input layer serves as an interface for the data.
 It does not perform any calculations and just passes the data to the next layer.
@@ -28,8 +32,8 @@ If the real-world data is an image, for example, the number of nodes should be e
 
 The output layer is responsible for transferring the network data to the outside so that it can be interpreted and worked with.
 The number of nodes in this layer depends on the expected results.
-If kinds of animals need to be detected in an image, every output node would represent a single kind or category, respectively.
-Let's say there are three kinds of animals possible, then there need to be three output nodes.
+If kinds of animals need to be detected in an image, every output perceptron would represent a single kind or category, respectively.
+Assuming there are three kinds of animals possible, then there need to be three output perceptrons.
 In theory, the node representing the correct kind of animal holds a one and every other a zero if the values are squashed within this range.
 
 Every layer between the input and the output layer is a hidden layer.
@@ -43,18 +47,19 @@ So, the network models the function
 \end{equation}
 where
 \begin{align}
-	\vec{x} = (x_0, x_1, \cdots, x_n) \\
-	\vec{y} = (y_0, y_1, \cdots, y_m)
+	\vec{x} = (x_0, x_1, \cdots, x_{n_x}) \\
+	\vec{y} = (y_0, y_1, \cdots, y_{n_y})
 \end{align}
-are the input vector with $n$ elements and output vector with $m$ elements, respectively.
+are the input vector with $n_x$ elements and output vector with $n_y$ elements, respectively.
 Every element represents the activation of a neuron in the input layer or output layer, respectively.
 
-Let's take again an image as an example.
-The task is to classify a handwritten digit from the MNIST dataset\cite{Lecun98}.
+For the next example again an image is used.
+The task is to classify a handwritten digit from the MNIST dataset \cite{Lecun98}.
 \begin{figure}
 	\centering
-	\includegraphics[width=.8\textwidth]{images/mnist-digit}
-	\caption[Handwritten digits from the MNIST digit dataset]{Handwritten Digits from the MNIST Digit Dataset. Represented as a $28 \times 28$ pixel matrix. Each cell represents a pixel.}
+	\includegraphics[]{images/mnist_digit_3a.png}
+	\includegraphics[]{images/mnist_digit_3b.png}
+	\caption[Handwritten digits from the MNIST digit dataset]{Handwritten digits from the MNIST digit dataset. Represented as a $28 \times 28$ pixel matrix. Each cell represents a pixel.}
 	\label{fig:mnist-digit}
 \end{figure}
 The digit can be seen in \figref{fig:mnist-digit}.

@@ -28,36 +28,36 @@ Hence, a common initialization approach is using a Gaussian distribution like $N
 However, this way the variance of this distribution of each neuron's output grows with the number of its inputs.
 Therefore, a normalization of the variance of each neuron's output to 1 is performed.
 This is done by scaling its weights by the square root of its number of inputs.
-This can be derived with the $n$ inputs $\vec{x}$ and weights $\vec{w}$ by
+This can be derived with its $n_{\text{in}}$ inputs $\vec{a}^{[l-1]}$ and weights $\vec{w}^{[l]}$ by
 \begin{align*}
-	Var(z) &= Var \left( \sum_{i}^{n} w_i x_i \right) \\
-	&= \sum_{i}^{n} Var \left( w_i x_i \right) \\
-	&= \sum_{i}^{n} \left[ E(w_i)^2 \right] Var(x_i) + E \left[ (x_i) \right]^2 Var(w_i) + Var(x_i) Var(w_i) \\
-	&= \sum_{i}^{n} Var(x_i) Var(w_i) \\
-	&= (n Var(\vec{w})) Var(\vec{x}) \\
+	\Var(z^{[l]}_{j}) &= \Var \left( \sum_{k}^{n_{\text{in}}} w^{[l]}_{jk} a^{[l-1]}_k \right) \\
+	&= \sum_{k}^{n_{\text{in}}} \Var \left( w^{[l]}_{jk} a^{[l-1]}_k \right) \\
+	&= \sum_{k}^{n_{\text{in}}} \left[ \E(w^{[l]}_{jk})^2 \right] \Var(a^{[l-1]}_k) + \E \left[ (a^{[l-1]}_k) \right]^2 \Var(w^{[l]}_{jk}) + \Var(a^{[l-1]}_k) \Var(w^{[l]}_{jk}) \\
+	&= \sum_{k}^{n_{\text{in}}} \Var(a^{[l-1]}_k) \Var(w^{[l]}_{jk}) \\
+	&= (n_{\text{in}} \Var(\vec{w}^{[l]}_j)) \Var(\vec{a}^{[l-1]}) \\
 \end{align*}
-where zero mean inputs and weights are assumed and an identical distribution of all $w_i$ and $x_i$.
-Now, $z$ needs to have the same variance as all of its inputs $\vec{x}$, which yields $Var(w) = 1/n$ as every weights variance.
+where zero mean inputs and weights are assumed and an identical distribution of all $\vec{w}^{[l]}_{j}$ and $\vec{a}^{[l-1]}$.
+Now, $z_j^{[l]}$ needs to have the same variance as all of its inputs $\vec{a}^{[l-1]}$, which yields $\Var(\vec{W}^{[l]}) = 1/n_{\text{in}}$ as every weights variance.
 Hence,
 \begin{equation}
-	\vec{w} = \frac{N(0,1)}{\sqrt{n}}
+	\vec{W}^{[l]} = \frac{N(0,1)}{\sqrt{n_{\text{in}}}}
 \end{equation}
 initializes the weights.
 This is mostly universal, but must be used for $\tanh$ activation functions.
 A similar analysis is done by \textit{Glorot and Bengio} \cite{Glorot10understandingthe} whose recommendation is
 \begin{equation*}
-	Var(\vec{w}) = \frac{2}{n_{in} + n_{out}}
+	\Var(\vec{W}^{[l]}) = \frac{2}{n_{\text{in}} + n_{\text{out}}}
 \end{equation*}
-where $n_{in}$ and $n_{out}$ is the number of neurons in the incoming and outgoing layer, respectively.
+where $n_{\text{in}}$ and $n_{\text{out}}$ is the number of neurons in the incoming and outgoing layer, respectively.
 Their motivation is, that by doing the earlier variance calculations for the backpropagated signal, it turns out that
 \begin{equation}
-	Var(\vec{w}) = \frac{1}{n_{out}}
+	\Var(\vec{W}^{[l]}) = \frac{1}{n_{\text{out}}}
 \end{equation}
 is needed for keeping the variance of the input and output the same.
-Because in general the constraint $n_{in} = n_{out}$ is not fulfilled, they make a compromise by taking the average.
+Because in general the constraint $n_{\text{in}} = n_{\text{out}}$ is not fulfilled, they make a compromise by taking the average.
 Though, these initializations are not valid for, for example, ReLU units, due to their positive mean.
 Fortunately, \textit{He et al.} \cite{DBLP:journals/corr/HeZR015} states the initialization
 \begin{equation}
-	\vec{w} = N(0,1) \cdot \sqrt{\frac{2}{n}}
+	\vec{W}^{[l]} = N(0,1) \cdot \sqrt{\frac{2}{n_{\text{in}}}}
 \end{equation}
 especially for ReLU neurons.

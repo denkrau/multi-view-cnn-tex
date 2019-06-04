@@ -32,25 +32,35 @@
 \abk[Aa04 ]{$\bar{\vec{X}}$}{Tensor with a Batch Dimension as the First One}
 
 %%% b - Sizes
-\abk[Ba01 ]{m}{Number of Examples in the Dataset}
-\abk[Ba02 ]{$n_x$}{Input Size}
-\abk[Ba03 ]{$n_y$}{Output Size}
-\abk[Ba04 ]{$n_l$}{Number of Classes}
+\abk[Ba01 ]{$m$}{Number of Samples in the Dataset}
+\abk[Ba02 ]{$m_{\text{set}}$}{Number of Samples in Subset "set"}
+\abk[Ba03 ]{$n_x$}{Input Size}
+\abk[Ba04 ]{$n_y$}{Output Size}
 \abk[Ba05 ]{$n_h^{[l]}$}{Number of Hidden Units in the $l$-th Layer}
 \abk[Ba06 ]{L}{Number of Layers in the Network}
+\abk[Ba07 ]{$s$}{Stride}
+\abk[Ba08 ]{$p$}{Padding}
+\abk[Ba09 ]{$\gamma$}{Learning Rate}
+\abk[Ba10 ]{$n_v$}{Number of Views per Multi-View}
 
 %%% c - Objects
-\abk[Ca01 ]{$\vec{X} \in \mathbb{R}^{n_x \times m}$}{Input Matrix}
-\abk[Ca02 ]{$\vec{x}^{(i)} \in \mathbb{R}^{n_x}$}{$i$-th Sample Represented as a Column Vector}
-\abk[Ca03 ]{$\vec{Y} \in \mathbb{R}^{n_y \times m}$}{Label Matrix}
-\abk[Ca04 ]{$\vec{y}^{(i)} \in \mathbb{R}^{n_x}$}{Label for the $i$-th Sample}
-\abk[Ca05 ]{$w_{jk}^{[l]}$}{Weight of Edge Connecting $k$-th Unit in Layer $l-1$ with $j$-th Unit in Layer $l$}
-\abk[Ca06 ]{$\vec{W}^{[l]} \in \mathbb{R}^{\text{number of units in the l-th layer} \times \text{number of units in the previous layer}}$}{Weight Matrix of Layer $l$}
-\abk[Ca07 ]{$\vec{b}^{[l]} \in \mathbb{R}^{\text{number of units in the l-th layer}}$}{Bias Vector of $l$-th Layer}
-\abk[Ca08 ]{$b_{j}^{[l]}$}{Bias of $j$-th Unit in $l$-th Layer}
-\abk[Ca09 ]{$\hat{\vec{y}}^{(i)} \in \mathbb{R}^{n_y}$}{Prediction of the $i$-th Sample}
+\abk[Ca01 ]{$\vec{x}^{(i)} \in \mathbb{R}^{n_x}$}{$i$-th Sample Represented as Column Vector}
+\abk[Ca02 ]{$\vec{X} \in \mathbb{R}^{n_x \times m}$}{Input Matrix Containing Samples as Column Vectors}
+\abk[Ca03 ]{$\tilde{\vec{X}} \in \mathbb{R}^{n_v \times n_x \times m}$}{Multi-View Input Matrix}
+\abk[Ca04 ]{$\vec{y}^{(i)} \in \mathbb{R}^{n_y}$}{Label for $i$-th Sample}
+\abk[Ca05 ]{$\vec{Y} \in \mathbb{R}^{n_y \times m}$}{Label Matrix Containing Labels as Column Vectors}
+\abk[Ca06 ]{$\tilde{\vec{Y}} \in \mathbb{R}^{n_v \times n_y \times m}$}{Multi-View Label Matrix}
+\abk[Ca07 ]{$w_{jk}^{[l]}$}{Weight of Edge Connecting $k$-th Unit in Layer $l-1$ with $j$-th Unit in Layer $l$}
+\abk[Ca08 ]{$\vec{W}^{[l]} \in \mathbb{R}^{\text{number of units in l-th layer} \times \text{number of units in previous layer}}$}{Weight Matrix of Layer $l$}
+\abk[Ca09 ]{$b_{j}^{[l]}$}{Bias of $j$-th Unit in $l$-th Layer}
+\abk[Ca10 ]{$\vec{b}^{[l]} \in \mathbb{R}^{\text{number of units in l-th layer}}$}{Bias Vector of $l$-th Layer}
+\abk[Ca11 ]{$\hat{\vec{y}}^{(i)} \in \mathbb{R}^{n_y}$}{Prediction of $i$-th Sample}
+\abk[Ca12 ]{$\vec{K}$}{Filter Matrix}
+\abk[Ca13 ]{$\vec{F}$}{Feature Map Matrix}
 
 %%% d - mathematische Ausdrücke
 \abk[Da01 ]{$\text{floor}(\cdot)$}{Rounding off to Integer Representation}
 \abk[Da02 ]{$\phi(\cdot)$}{Activation Function}
-\abk[Da03 ]{$\vec{a}^{[l]} = \phi^{[l]} \left( \vec{W}^{[l]} \vec{a}^{[l-1]} + \vec{b}^{[l]} \right)$}{Activation of Unit}
+\abk[Da03 ]{$\vec{z}^{[l]} = \vec{W}^{[l]} \vec{a}^{[l-1]} + \vec{b}^{[l]}$}{Weighted Sum of Units in $l$-th Layer}
+\abk[Da04 ]{$\vec{a}^{[l]} = \phi^{[l]} \left( \vec{z}^{[l]} \right)$}{Activation of Units in $l$-th Layer}
+\abk[Da05 ]{$J(\hat{\vec{y}}, \vec{y})$}{Cost Function}

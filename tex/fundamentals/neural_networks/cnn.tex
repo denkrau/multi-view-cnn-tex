@@ -1,12 +1,22 @@
 \subsection{Convolutional Neural Networks}
 \label{sec:neural-networks-convolutional-neural-networks}
-Convolutional neural networks are suited for image processing tasks because they perform better than the multilayer perceptrons architecture regarding the accuracy and the number of parameters\cite{Lecun98}\cite{LeCun1998cnn}.
+Convolutional neural networks are suited for image processing tasks because they perform better than the multilayer perceptrons architecture regarding the accuracy and the number of parameters \cite{Lecun98} \cite{LeCun1998cnn}.
 The reason for the first one is most likely that they are invariant regarding the position of an object within an image.
 Convolutional neural networks do not have an as strict separation in multiple layers as multilayer perceptrons do.
-They rather have a pool of several layers which can be arbitrarily connected to fulfill one's needs.
-Combinations of these layers and their hyperparameters are called architecture.
+They rather have a pool of several layers which can be arbitrarily connected, repeated, and tuned with respect to their parameters to fulfill one's needs as illustrated in \figref{fig:cnn-layers}.
+\begin{figure}
+	\centering
+	\includegraphics[]{images/cnn_layers.pdf}
+	\caption[Layers of a convolutional neural network]{Layers of a convolutional neural network. Each combination of convolutional layer and pooling layer or fully-connected and dropout can be arbitrarily repeated. Moreover, pooling layers and dropout regularization layers are optional.}
+	\label{fig:cnn-layers}
+\end{figure}
+Commonly, convolutional layers are combined with pooling layers and fully-connected layers with dropout regularization layers.
+However, the latter combinations are optional.
+Each of them is explained in the following sections.
+Combinations and repetitions of those layers with their own hyperparameters are called architecture.
+Usually, convolutional and pooling layers manipulate the input and the resulting activations before fully-connected layers appear.
 There are different proposed architectures with their weights and biases available.
-The most common ones are AlexNet, VGG, GoogleNet and, ResNet.
+The most common ones are AlexNet \cite{Krizhevsky:2012:ICD:2999134.2999257}, VGG \cite{Simonyan15}, GoogLeNet \cite{szegedy2015} and, ResNet \cite{He2016ResNet}.
 
 \input{tex/fundamentals/neural_networks/cnn/convolution.tex}
 \input{tex/fundamentals/neural_networks/cnn/pooling.tex}
