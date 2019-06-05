@@ -42,7 +42,7 @@ If multiple convolutions are performed, the feature map constantly shrinks until
 	\label{fig:convolution-padding}
 \end{figure}
 In practical terms, there are two common conventions for convolutions, which are called valid and same in the following.
-The former defines that no padding is applied and therefore a kind of valid convolution is performed because only the real input is minded.
+The former defines that no padding is applied and therefore a valid convolution is performed because only the real input and full kernel windows are minded.
 This means that the feature map has a size of $\vec{F} \in \mathbb{R}^{\dim(\vec{F})_1 \times \dim(\vec{F})_2}$.
 The latter means, that the size of the feature map equals the one of the input.
 Thus, a padding $p$ can be applied to the input.

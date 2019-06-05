@@ -25,7 +25,7 @@ Therefore, the view descriptor matrix is flattened into a row-wise vector, which
 This results in a single value to which a bias $b^{[d4]}$ is added.
 A dropout is not performed, because with only one node it is not desirable.
 Dropping out this node represents a view discrimination score of 0.
-Of course, this would generalize the view score, but a kind of overfitting on detailed features is desirable for evaluating views.
+Of course, this would generalize the view score, but some overfitting on detailed features is desirable for evaluating views.
 It is supposed that those discriminative features are reoccurring in different views if the latter is actually discriminative.
 Thus, the more discriminative features a view has, the more discriminative it is.
 Hence, they should be kept and used for training.
@@ -113,7 +113,7 @@ Analog to before, views of a group are found by checking the group index vector 
 This time the related view scores are summed up and divided by their number for calculating a mean.
 In mathematical terms,
 \begin{equation}
-	{w}_G = \frac{\sum_{\vec{V} \in \mathbb{G}_g} \theta(\vec{V})}{|\mathbb{G}_g|}
+	{w}_g = \frac{\sum_{\vec{V} \in \mathbb{G}_g} \theta(\vec{V})}{|\mathbb{G}_g|}
 \end{equation}
 calculates the weight of the $g$-th group, where $\theta(\vec{V})$ is the score of a view $\vec{V}$ in $\mathbb{G}_g$.
 Furthermore, the weight of a group is normalized by
@@ -129,4 +129,4 @@ The calculation of the group weights is illustrated in \figref{fig:grouping-modu
 	\label{fig:grouping-module-weights}
 \end{figure}
 The weights of the padded group descriptors equal 0 for being ignored in a later matrix multiplication.
-Hence, the shape of the tensor $\bar{\vec{W}}_G$ storing all group weights is $Batch \times n_v$.
+Hence, the shape of the tensor $\bar{\vec{W}}_g$ storing all group weights is $Batch \times n_v$.

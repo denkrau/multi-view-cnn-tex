@@ -118,6 +118,6 @@ Then the next face along its normal needs to be found by ray casting and then th
 Thus, this process leads to excessive ray cast validations and therefore not followed up on.
 However, it is considered, that faces at a similar location as the original optimal face are well-suited as well.
 Thus, the choices of further optimal faces are narrowed down by sorting all remaining faces by their distance from their center to the center of the first optimal face in descending order.
-The intention is that choosing faces with the largest distances result in either a kind of opposite face or in a face that is that far away to not be visible at the same time. as the first optimal face.
+The intention is that choosing faces with the largest distances result in either an opposite face or in a face that is that far away to not be visible at the same time. as the first optimal face.
 Of course, the tasks of checking the visibility and finding identical faces are performed on the new face as well.
 If no additional optimal face is found, the model is skipped, although, this never happened during execution.

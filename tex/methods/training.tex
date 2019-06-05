@@ -1,6 +1,6 @@
 \section{Training the Architecture}
 \label{sec:methods-training}
-The multi-view network architecture is trained by inputting the generated multi-view images $\tilde{\vec{X}}_{train}^{(i)}$ and $\tilde{\vec{X}}_{test}^{(i)}$ and comparing the prediction $\hat{\vec{Y}}^{(i)}$ of the network with the corresponding one-hot encoded labels $\tilde{\vec{Y}}_{train}^{(i)}$ and $\tilde{\vec{Y}}_{test}^{(i)}$.
+The multi-view network architecture is trained by inputting the generated multi-view images $\tilde{\vec{X}}_{train}^{(i)}$ and $\tilde{\vec{X}}_{test}^{(i)}$ and comparing the prediction $\hat{\vec{y}}^{(i)}$ of the network with the corresponding one-hot encoded labels $\tilde{\vec{y}}_{train}^{(i)}$ and $\tilde{\vec{y}}_{test}^{(i)}$.
 However, the test set is only used for supervising the training process for now.
 This is the general idea that will be explained more detailed in the following.
 
@@ -16,7 +16,7 @@ Thus, the last batch is filled with all the remaining samples.
 After each epoch, the training set is shuffled so that batches do not contain the same samples as before.
 This is done by combining corresponding multi-view images and labels to a list like
 \begin{equation}
-\tilde{\vec{L}} = \left( \left[ \tilde{\vec{X}}_{test}^{(1)}, \tilde{\vec{Y}}_{test}^{(1)} \right], \left[ \tilde{\vec{X}}_{test}^{(2)}, \tilde{\vec{Y}}_{test}^{(2)} \right], \cdots , \left[ \tilde{\vec{X}}_{test}^{(m_{test})}, \tilde{\vec{Y}}_{test}^{(m_{test})} \right] \right)
+\tilde{\vec{L}} = \left( \left[ \tilde{\vec{X}}_{test}^{(1)}, \tilde{\vec{y}}_{test}^{(1)} \right], \left[ \tilde{\vec{X}}_{test}^{(2)}, \tilde{\vec{y}}_{test}^{(2)} \right], \cdots , \left[ \tilde{\vec{X}}_{test}^{(m_{test})}, \tilde{\vec{y}}_{test}^{(m_{test})} \right] \right)
 \end{equation}
 where each pair builds a list element for experiencing the same operations.
 This list is then randomly shuffled element-wise and split again into multi-view images and labels.
@@ -31,23 +31,23 @@ For updating the parameters with the goal of minimizing the cost function the Ad
 One of its advantages is adapting a learning rate for each parameter, which is supposed to achieve better results in such a network with many parameters.
 Moreover, in many recent researches it outperforms the classical stochastic gradient approach due to fixing its downsides, hence, it is supposed to be valid here as well.
 
-The prediction $\hat{\bar{\vec{Y}}}^{(i)}$ of the network needs to be compared to the ground-truth labels $\bar{\vec{Y}}^{(i)}$ of the batch sample $i$ for checking the network's accuracy.
+The prediction $\hat{\bar{\tilde{\vec{Y}}}}^{(i)}$ of the network needs to be compared to the ground-truth labels $\bar{\tilde{\vec{Y}}}^{(i)}$ of the $i$-th batch for checking the network's accuracy.
 Due to the batch operations, the single dataset samples in a batch are referred to as batch samples.
 How the comparing is performed, though, depends on the type of classification.
-In the case of a single-label one, the index of the largest value in the batch element prediction $\hat{\bar{\vec{Y}}}^{(i)}$ is located.
-The same operation is performed on the corresponding ground-truth label $\bar{\vec{Y}}^{(i)}$.
+In the case of a single-label one, the index of the largest value in the batch element prediction $\hat{\tilde{\vec{y}}}^{(i)}$ is located.
+The same operation is performed on the corresponding ground-truth label $\tilde{\vec{y}}^{(i)}$.
 Each index represents a certain class, which is declared the predicted or actual one, respectively.
 Now a binary comparison of both indices is performed, resulting in 0 if they are different and 1 if they are equal.
-This is repeated for each batch element while storing all results in a vector $\vec{e}$.
-Finally, the accuracy $\alpha$ is calculated by
+This is repeated for each batch element while storing all results in a vector $\bar{\vec{e}}$.
+Finally, the accuracy $\bar{\alpha}$ is calculated by
 \begin{equation}
 	\label{eq:accuracy-mean}
-	\alpha^{(i)} = \frac{\sum_{j} e_j}{|\vec{e}|}
+	\bar{\alpha}^{(i)} = \frac{\sum_{j} \bar{e}_j^{(i)}}{|\bar{\vec{e}}^{(i)}|}
 \end{equation}
 for the current batch $i$.
 In the case of multi-label classification, a probability threshold needs to be defined when a predicted feature is actually considered predicted.
 In this case, the threshold is $p_{\text{thres}}=0.5$, hence, the values of the prediction vector can be rounded.
-Now an identical binary comparison as before can be applied to both label vectors resulting in a vector $\vec{e}$ as well.
+Now an identical binary comparison as before can be applied to both label vectors resulting in a vector $\bar{\vec{e}}^{(i)}$ as well.
 The accuracy is calculated with \eqref{eq:accuracy-mean}.
 
 Furthermore, a starting learning rate is necessary.

@@ -40,14 +40,14 @@ Thus, the view scores are almost identical.
 Those little changes presumably depend on a different weight initialization and would even out after more training epochs.
 Although the scores are very low, the views are fully taken into account because they all belong to the same group with a weight of 1.
 However, in this particular case, a normalization of the group weight is not necessary.
-Without one the group weight would be $w_G = 0.0079$, thus, decreasing the shape descriptor enormously, but the network would learn that a descriptor close to 0 represents a blank object.
+Without one the group weight would be $w_g = 0.0079$, thus, decreasing the shape descriptor enormously, but the network would learn that a descriptor close to 0 represents a blank object.
 The decision rule would be, if the descriptor represents no feature, the objects show no feature.
 With the classification of more categories, though, this is not possible anymore, because a very small descriptor cannot just represent any blank object, but the object category class.
 If there are two objects, for example, and only one view each shows a different feature with a small discrimination score, they would be divided into two categories.
 Without a normalization, all views would pretty much account to the same amount to the shape descriptor.
 Hence, the weights in the fully-connected layers for each specific present feature needs to be very large.
 With normalization, however, the group with one view is much higher weighted than the not discriminative views.
-Hence, normalization kind of removes noise, i.e. not discriminative views, that could influence the prediction unfavorably.
+Hence, normalization removes noise, i.e. not discriminative views, that could influence the prediction unfavorably.
 \figref{fig:grouping-0-3-green} and \figref{fig:grouping-0-3-red} show the expected result.
 The views showing the material feature are by far the top-rated views referring to their score.
 It looks like, that the network prefers the slightly tilted vertical edge with a feature to its right for recognizing material features.

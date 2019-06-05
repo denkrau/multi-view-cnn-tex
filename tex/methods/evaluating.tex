@@ -10,11 +10,11 @@ However, the last batch has in general fewer elements than the ones before.
 Hence, a weighted average is performed with the batch sizes as the weights.
 This yields the averaged cost
 \begin{equation}
-	J\left(\hat{\bar{\vec{Y}}}, \bar{\vec{Y}}\right) =  \frac{\sum_{j}^{n_b} m_{b_j} \cdot J\left(\hat{\bar{\vec{Y}}}^{(i)}, \bar{\vec{Y}}^{(i)}\right)}{\left|\vec{m_b}\right|}
+	J\left(\hat{\bar{\tilde{\vec{Y}}}}, \bar{\tilde{\vec{Y}}}\right) =  \frac{\sum_{i}^{n_b} m_{b_i} \cdot J\left(\hat{\bar{\tilde{\vec{Y}}}}^{(i)}, \bar{\tilde{\vec{Y}}}^{(i)}\right)}{\left|\vec{m_b}\right|}
 \end{equation}
 and the averaged accuracy
 \begin{equation}
-	\alpha\left(\hat{\bar{\vec{Y}}}, \bar{\vec{Y}}\right) =  \frac{\sum_{j}^{n_b} m_{b_j} \cdot \alpha\left(\hat{\bar{\vec{Y}}}^{(i)}, \bar{\vec{Y}}^{(i)}\right)}{\left|\vec{m_b}\right|}
+	\alpha\left(\hat{\bar{\tilde{\vec{Y}}}}, \bar{\tilde{\vec{Y}}}\right) =  \frac{\sum_{i}^{n_b} m_{b_i} \cdot \alpha\left(\hat{\bar{\tilde{\vec{Y}}}}^{(i)}, \bar{\tilde{\vec{Y}}}^{(i)}\right)}{\left|\vec{m_b}\right|}
 \end{equation}
 where $\vec{m_b}$ is a vector containing the batch sizes.
 As mentioned, this is performed separately on the training set and the testing set.
@@ -61,7 +61,7 @@ This is performed for every material to analyze if different colored material ma
 For predicting the classes and gathering information of certain inputs, the file name of a single view of each object needs to be given.
 By splitting the filename into three parts, where the second is the view index, the third the extension and the first the remaining part, it can be combined again to represent the filename of each view by replacing the view index.
 Those files are then combined to a multi-view image.
-Performing this on each sample results in a common input tensor $\bar{\vec{X}}^{(i)}$ representing a batch.
+Performing this on each sample results in a common input tensor $\bar{\tilde{\vec{X}}}^{(i)}$ representing the $i$-th batch.
 If the number of samples, that are going to be predicted, exceeds the defined batch size, they need to be divided into an appropriate number of batches.
 This tensor is now propagated through the network as usual.
 Meanwhile, the activations of the first convolutional layer are stored for visualizing the extracted features in each view.

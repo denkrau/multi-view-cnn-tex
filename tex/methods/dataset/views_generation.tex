@@ -115,7 +115,7 @@ Because every pixel can only have a single color, edges usually have a step patt
 This is not realistic, hence, it is smoothed out by anti-aliasing techniques.
 This works by rendering the related image region in a higher resolution, taking several samples of pixel values and averaging them to get the value of the pixel in the desired resolution.
 The best available sample size in Blender is 16, hence, it is chosen.
-The background color is left at the default RGB color $\vec{c} = (64, 64, 64)$ for adding some kind of noise to the views.
+The background color is left at the default RGB color $\vec{c} = (64, 64, 64)$ for adding some noise to the views.
 A black background would yield inputs of 0 and resembles, in general, no real-world views.
 Finally, this view is saved as a PNG file with a trailing view index in its file name, while preserving the original folder structure.
 For gathering multiple views, the camera needs to be repositioned.

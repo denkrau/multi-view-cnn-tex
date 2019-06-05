@@ -37,14 +37,14 @@ As a reminder, they are the mean of all view scores of each group and, thus, an 
 Hence, a weighted average is calculated for considering this relation.
 For having a valid matrix multiplication, the group shape descriptor $\bar{\vec{S}_g}$ needs to be transposed while keeping the batch dimension as the first one.
 Hence its size changes from $Batch \times n_v \times 4096$ to $Batch \times 4096 \times n_v$.
-Furthermore, the group weights tensor $\bar{\vec{W}}_G$ is expanded with a third dimension yielding the shape $Batch \times n_v \times 1$.
+Furthermore, the group weights tensor $\bar{\vec{W}}_g$ is expanded with a third dimension yielding the shape $Batch \times n_v \times 1$.
 For this weighted average calculation a tensor holding the sums of the weights in inevitable.
-Thus, $\bar{\vec{W}}_{G,\text{sum}}$ stores the sum of the group weights tensor along its first dimension, i.e. each element is the sum of all group weights of an object.
+Thus, $\bar{\vec{W}}_{g,\text{sum}}$ stores the sum of the group weights tensor along its first dimension, i.e. each element is the sum of all group weights of an object.
 For a valid matrix division, a third dimension must be expanded as well.
-This yields a tensor $\bar{\vec{W}}_{G,\text{sum}}$ of the shape $Batch \times 1 \times 1$ with weight sums.
+This yields a tensor $\bar{\vec{W}}_{g,\text{sum}}$ of the shape $Batch \times 1 \times 1$ with weight sums.
 Now the weighted average can be computed by
 \begin{equation}
-	\bar{\vec{S}} = \frac{\bar{\vec{S}_g} \bar{\vec{W}}_G} {\bar{\vec{W}}_{G,\text{sum}}}
+	\bar{\vec{S}} = \frac{\bar{\vec{S}_g} \bar{\vec{W}}_g} {\bar{\vec{W}}_{g,\text{sum}}}
 \end{equation}
 where the division is performed element-wise.
 Due to the matrix multiplication, the padded entries have no impact.
