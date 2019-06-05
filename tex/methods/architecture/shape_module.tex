@@ -44,18 +44,18 @@ For a valid matrix division, a third dimension must be expanded as well.
 This yields a tensor $\bar{\vec{W}}_{g,\text{sum}}$ of the shape $Batch \times 1 \times 1$ with weight sums.
 Now the weighted average can be computed by
 \begin{equation}
-	\bar{\vec{S}} = \frac{\bar{\vec{S}_g} \bar{\vec{W}}_g} {\bar{\vec{W}}_{g,\text{sum}}}
+	\vec{S} = \frac{\vec{S}_g \vec{W}_g} {\vec{W}_{g,\text{sum}}}
 \end{equation}
 where the division is performed element-wise.
 Due to the matrix multiplication, the padded entries have no impact.
-The result has a shape of $Batch \times 4096 \times 1$ and represents the final single shape descriptor.
+The result of the assembled tensor $\bar{\vec{S}}$ has a shape of $Batch \times 4096 \times 1$ and represents the final single shape descriptor.
 This can be made more compact by changing the shape to $Batch \times 4096$ without losing any information because the number of elements stays the same.
 
 This representation is directly compatible with the last fully-connected layer, which is responsible for calculating the predictions of the network, thus, $\bar{\vec{S}}$ is fed into it.
 The number of neurons in this layer equals the number of different labels or categories, respectively, where each neuron has 4096 edges.
 The performed operations are identical to the ones earlier and are described by
 \begin{equation}
-	\vec{z}^{[8]} = \vec{W}^{[8]} \bar{\vec{S}} + \vec{b}^{[8]}
+	\vec{z}^{[8]} = \vec{W}^{[8]} \vec{S} + \vec{b}^{[8]}
 \end{equation}
 using the related weights and biases.
 However, no activation function is applied here.

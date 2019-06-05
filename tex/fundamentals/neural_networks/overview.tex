@@ -1,28 +1,27 @@
 \subsection{Overview}
 \label{sec:neural-networks-overview}
-Artificial neural networks are vaguely inspired by the biological neural networks that constitute animal brains for recognizing patterns.
-Its task is being a universal approximator for any unknown function $f(x) = y$ where $x$ is the input and $y$ the output.
+Artificial neural networks are inspired by biological neural networks that constitute animal brains for recognizing patterns.
+Its task can be interpreted as being a universal approximator for any unknown function $f(x) = y$ where $x$ is the input and $y$ the output.
 There are two conditions that need to be fulfilled.
-One is the relation of $x$ and $y$ and the other is the presence of numerical data.
-So every data like images, text or time series must be translated.
+One is a present correlation between $x$ and $y$ and the other is the presence of numerical data.
+So every physical data like images, text or time series that is going to be used as an input must be translated.
 The complexity of the approximated function depends on the use case but usually it is highly non-linear.
 General use cases for neural networks embrace classification, clustering, and regression.
 
-Classification means the network divides given data like images into categories by recognizing patterns.
-This is the task used in this work.
-The correct category of each input is given as an additional label.
-Therefore, the network learns the correlation between data and labels.
-A downside here with respect to effort is that every input must be labeled by human knowledge beforehand.
-This type of learning is called supervised learning because each predicted class by the network needs to be compared with the ground truth label.
-Use cases are for example the classification of cars in images or even the type of car in an image or whether an email is spam.
-Again, it all depends on the wanted use case and given data.
+Classification means the network divides given data like images into classes by recognizing patterns.
+The correct class of each input is given as an additional label.
+Therefore, the network learns the correlation between input data and labels.
+A downside here with respect to effort is that every input must be labeled beforehand, usually by human knowledge.
+This type of learning is called supervised learning because each predicted class by the network of an input sample is compared with its given ground truth label.
+Use cases, for example, are the classification of cars or pedestrians in images or even the type of car in an image or whether an email is spam.
+In this work a classification is performed on images of objects.
 
 Clustering divides data into clusters or groups, respectively, but without requiring labels.
 Therefore, this learning type is called unsupervised learning.
 So it is a classification task with dynamic class creation.
-Use cases are comparing data to each other and finding similarities or anomalies.
-Because unlabeled data occurs way more often than labeled data in real-world examples, a network can train on a broader range of related data and probably gets more accurate than a classification one.
+Use cases are comparing data samples to each other and to find similarities or anomalies.
+Because unlabeled data occurs way more often than labeled data in real-world examples, a network could train on a broader range of related data independently of humans or given ground-truth labels, respectively, and probably gets more generalized than a classification one.
 
-Regression is the prediction of a future event by establishing correlations between past events and future events.
+Regression is the prediction of an event, either current or in the future, by establishing correlations between past events and if existing additionally future events.
 A simple use case is the prediction of the price of a house given its size and the size-price data pairs of different houses.
 A more advanced use case is the prediction of hardware breakdowns by establishing correlations of already known data.

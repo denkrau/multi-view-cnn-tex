@@ -20,16 +20,17 @@ Thanks to the grouping system it knows if a view is discriminative enough for a 
 Hence, this work examines how each view is treated and what are features the network looks for.
 If this is known it could be manipulated for the certain use case.
 
-In the following the outline of this work is presented.
+This work is structured as follows.
 In \secref{sec:fundamentals}, the fundamentals are explained.
-They cover the general idea and development of artificial neural networks, followed by the concept of convolutional neural networks, that are more suited for image processing tasks.
-Furthermore, it is stated what data networks use, how it is propagated through it and how the actual learning process works.
+It covers the general idea and development of artificial neural networks, followed by the concept of convolutional neural networks, that are more suited for image processing tasks.
+Furthermore, it is stated how data needs to be prepared, how it is propagated through a network and how the actual learning process works.
 Moreover, it introduces hyperparameters and how they need to be chosen for achieving a satisfiable network performance and continues with metrics that examine that performance.
 It finishes with a brief overview of the used software and framework.
 The third chapter \secref{sec:related-work} summarizes recent researches building the fundamentals for this work and supplying the knowledge for being able to choose an approach for this work.
-\secref{sec:methods} presents how everything is implemented.
+\secref{sec:methods} presents this work's approach and its implementation.
 This includes the creation of the dataset, the applying of face material manipulations and the conversion from single-views to multi-views.
-Furthermore, the network architecture is explained detailed by dividing it into modules.
+Furthermore, the network architecture based on \cite{Feng2018} is explained in detail by dividing it into modules.
 It continues with how hyperparameters are chosen and finishes with how the network is evaluated.
-\secref{sec:results} presents all results divided into the overall performance of the networks and the grouping mechanism and discusses why wrong predictions happen.
-This work finishes with \secref{sec:discussion} that summarizes all results and gives an outlook.
+\secref{sec:results} presents all results divided into the overall performance of the networks and the grouping mechanism and discusses why wrong predictions occur.
+In the second part, in particular, a theory is set up for explaining why certain views are more discriminative than others.
+This work finishes with \secref{sec:discussion} that summarizes all results and gives an outlook on improving them.
