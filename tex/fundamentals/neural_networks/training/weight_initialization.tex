@@ -1,15 +1,15 @@
 \subsubsection{Weight Initialization}
 \label{sec:training-weight-initialization}
 Before the actual training starts, the parameters, the weights and biases, of the network need to be initialized.
-If this is done right, i.e. the values are in a range that supports training, optimization will be achieved in lesser or least time.
+If this is done right, i.e. the values are in a range that supports training, optimization will be achieved in less time.
 In the other case, a converging to optimal values can be impossible.
-Reasons for this are the exploding or vanishing of gradients during backpropagation\cite{Hochreiter1991}.
+Reasons for this can be the exploding or vanishing of gradients during backpropagation \cite{Hochreiter1991}.
 In the backward-pass, the gradients are computed for every layer and are passed from end to beginning using the chain rule.
 For example, the derivative of the sigmoid function as it can be seen in \figref{fig:sigmoid-derivative} is in the range of $(0, 0.25]$.
 If this is multiplied several times, the gradients at the beginning are way smaller than at the end.
 If the weights are too small or too large, this effect is intensified.
-This is partly true for other activation functions like the ReLU as well.
-But here the gradients can become very large too if the weights are really large.
+This is true for other activation functions like the tanh as well.
+For the ReLU the accumulated gradients can become very large if the weights are really large.
 None of these scenarios is desirable, because the optimal weights are either not reached or skipped.
 \begin{figure}
 	\setlength\figureheight{.4\textwidth}
@@ -25,7 +25,7 @@ If the weights are initialized with 0, every neuron would compute the same outpu
 This leads to an identical gradient for each one and therefore identical parameter updates.
 All in all, this would reduce the network to a linear one.
 Hence, a common initialization approach is using a Gaussian distribution like $N(\mu, \sigma^2) = N(0, 0.01)$.
-However, this way the variance of this distribution of each neuron's output grows with the number of its inputs.
+However, this way the variance of the distribution of each neuron's output grows with the number of its inputs, because their variances are accumulated.
 Therefore, a normalization of the variance of each neuron's output to 1 is performed.
 This is done by scaling its weights by the square root of its number of inputs.
 This can be derived with its $n_{\text{in}}$ inputs $\vec{a}^{[l-1]}$ and weights $\vec{w}^{[l]}$ by

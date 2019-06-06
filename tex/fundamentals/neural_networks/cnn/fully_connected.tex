@@ -1,27 +1,22 @@
 \subsubsection{Fully-Connected Layer}
 \label{sec:cnn-fully-connected}
-The last part of a convolutional neural network consists of at least one fully connected layer.
-This is identical to \figref{fig:multilayer-perceptron} but instead of directly inputting real-world values the output or activations, respectively, of the previous convolutional or pooling layer, is used.
-However, fully-connected layers can be stacked, so the outputs of one can be the inputs of another one.
-Every edge has a weight and every node has a bias.
-The values flowing over an edge are multiplied with the related weight and summed up.
-To this weighted sum, the bias of the neuron is added and the result is fed into an activation function.
-Describing this in a mathematical sense can be done with \eqref{eq:perceptron-activation}.
+The last part of a convolutional neural network mostly consists of at least one fully connected layer.
+Such a layer is identical to a perceptron layer in \figref{fig:multilayer-perceptron} but uses the outputs or activations, respectively, of the previous convolutional or pooling layer.
 The objective is to combine several features that were detected and use them as attributes for classifying the input.
 Due to the weights, some attributes are more significant than others.
-For example, if four legs and a long nose are found, there is a dog in the image and not a cat.
-If the task is to distinguish only between cats and dogs, the nose feature is weighted more than the leg feature.
+For example, if four legs and a long snout are found, there is a dog in the image and not a cat.
+If the task is to distinguish only between cats and dogs, the snout feature is weighted more than the leg feature.
 For preventing overfitting and improving generalization, a fully-connected layer can be combined with the dropout regularization technique \cite{Srivastava:2014:DSW:2627435.2670313}.
-This drops out nodes randomly during training depending on a given probability, i.e. changing their incoming and outgoing weights temporarily to zero.
-Hence, those nodes are excluded from the current classification and from backpropagation as well.
-So their weights experience no change, which achieves the desired effect.
-The interpretation of the outputs of a fully connected layer is simplified by applying an additional softmax function that squashes the output into a range of 0 and 1, whereas the sum of all outputs equals 1, to represent percentages of confidence or a probability distribution, respectively \cite{Bishop2006}.
-This corresponds to the output block in \figref{fig:cnn-layers}.
-The softmax function can be written as
+This drops out nodes randomly during training with a given probability, i.\,e. changing their incoming and outgoing weights temporarily to zero.
+Hence, their weights are not adapted.
+The interpretation of the activations of the last fully-connected layer in the architecture is simplified by applying an additional softmax function that squashes them into a range of 0 and 1, whereas the sum of all equals 1, to represent percentages of confidence or a probability distribution, respectively \cite{Bishop2006}.
+The prediction $\hat{y}$ of a class $c$ manipulated with the softmax function can be written as
 \begin{equation}
 	\label{eq:softmax}
-	S(y_i) = \frac{\exp(y_i)}{\sum_{j}^{n_y} \exp(y_j)}
+	\hat{y}_c = \frac{\exp(a^{[L]}_c)}{\sum_{j}^{n_y} \exp(a^{[L]}_j)}
 \end{equation}
-where $\vec{y}$ are the outputs, $i$ an index of an output and $j$ a moving index over all outputs.
-This exploits the knowledge of mutually exclusive classes, i.e. that only one class is correct.
+where $\vec{a}^{[L]}$ are the activations of the last layer.
+Because the softmax manipulation outputs a probability distribution, it can only be performed when the classes are mutually exclusive, i.\,e. when only one class is correct.
 Otherwise, for multi-label classification, a sigmoid function can be used, that squashes each output of the network into a range of 0 and 1.
+The softmax or sigmoid manipulation corresponds to the output block in \figref{fig:cnn-layers}.
+Combining the last fully-connected layer with a dropout layer is not desirable because this would remove some predictions of classes.

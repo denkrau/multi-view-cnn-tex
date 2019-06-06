@@ -1,13 +1,15 @@
 \subsection{Convolutional Neural Networks}
 \label{sec:neural-networks-convolutional-neural-networks}
-Convolutional neural networks are suited for image processing tasks because they perform better than the multilayer perceptrons architecture regarding the accuracy and the number of parameters \cite{Lecun98} \cite{LeCun1998cnn}.
-The reason for the first one is most likely that they are invariant regarding the position of an object within an image.
+Convolutional neural networks are suited for image processing tasks because they are invariant regarding the position of an object within an image.
+Moreover, they need fewer parameters than multilayer perceptrons for finding features because the weights of local features can be shared and applied to different regions of an image \cite{LeCun1998cnn, Lecun98}.
+Hence, they yield higher accuracies on generalized images in less training time.
+The latter refers to the process of finding well-suited parameters.
 Convolutional neural networks do not have an as strict separation in multiple layers as multilayer perceptrons do.
 They rather have a pool of several layers which can be arbitrarily connected, repeated, and tuned with respect to their parameters to fulfill one's needs as illustrated in \figref{fig:cnn-layers}.
 \begin{figure}
 	\centering
 	\includegraphics[]{images/cnn_layers.pdf}
-	\caption[Layers of a convolutional neural network]{Layers of a convolutional neural network. Each combination of convolutional layer and pooling layer or fully-connected and dropout can be arbitrarily repeated. Moreover, pooling layers and dropout regularization layers are optional.}
+	\caption[Layers of a convolutional neural network]{Layers of a convolutional neural network. Each combination of convolutional layer and pooling layer or fully-connected and dropout can be arbitrarily repeated. Moreover, pooling layers and dropout regularization layers are optional. The last fully-connected layer is not combined with a dropout layer.}
 	\label{fig:cnn-layers}
 \end{figure}
 Commonly, convolutional layers are combined with pooling layers and fully-connected layers with dropout regularization layers.

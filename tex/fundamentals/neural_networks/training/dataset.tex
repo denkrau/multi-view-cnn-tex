@@ -1,32 +1,31 @@
-\subsubsection{Dataset Generation}
+\subsubsection{Dataset}
 \label{sec:dataset-generation}
-The whole training process is based on the dataset from which the network learns the correlations of input and label.
-Usually, a dataset consists of input-label pairs, where the input is the data that is fed into the network and the label is the ground-truth.
-In the case of a classification task, the label represents the category.
+The whole training process is based on the dataset from which the network is supposed to learn correlations of each input to label.
+Usually, a dataset consists of input-label pairs, where the input is the data that is fed into the network and the label is the ground-truth of its class.
+In the case of a classification task, the label represents the class.
 However, there is no general rule for the amount of data.
-It can be said, that more data is better for generalization, but too many samples can lead to overfitting the network to the shown data.
+It can be said, that more data is better for generalization, but processing too many samples can lead to overfitting the network to the shown data.
 The latter means, that the network is trained too long or to intensive on the shown data.
-The consequence is, that it adjusts its weights and biases to classify this data perfectly, but cannot reliably classify general, unknown data of same objects anymore, because they slightly differ.
+The consequence is, that it adjusts its weights and biases to classify this data perfectly, but cannot reliably generalize to unknown data, because it slightly differs.
 Basically, the amount of data depends on the objective of the network.
-For classifying whether an image is black or white, only a few training samples would be needed.
+For classifying whether an image is black or white, only a few training samples would be needed, because this could be classified with the help of few filters, hence, few parameters that need to be adapted.
 Is the objective classifying objects within images, it depends on the number of possible objects and their complexity.
 If the objects are simple geometric shapes, then not as many samples are needed as if the objects are common objects like type of animals or cars.
-For the latter, the number of samples would probably be approximately 1000 examples per class.
-Luckily, there are several datasets available, that are already sorted and labeled, like the MNIST handwritten digits or the ImageNet dataset \cite{Russakovsky:2015:ILS:2846547.2846559}.
-Available datasets are not limited to images but can contain CAD models like the ModelNet dataset \cite{conf/cvpr/WuSKYZTX15} which is used for this network architecture.
+There are several datasets available, that are already sorted and labeled, like the MNIST handwritten digits or the ImageNet dataset \cite{Russakovsky:2015:ILS:2846547.2846559}.
+Available datasets are not limited to images but may include CAD models like the ModelNet dataset \cite{conf/cvpr/WuSKYZTX15} which is used for the network architecture going to be presented.
 
-Samples of a dataset are split into a training and test set, and a validation set \cite{James2014}.
-The first contains data, the network trains on.
-From this data correlations of each input and label are found.
-After arbitrary training steps where parameter changes happened, the performance of the network is tested on the validation set.
+Usually, samples of a dataset are split into a training set, test set, and a validation set \cite{James2014}.
+The first contains data, the network is trained on.
+From this data correlations of each input to label are found.
+After an arbitrary number of training steps where parameter changes are executed, the performance of the network is tested on the validation set.
 This is data, the network is not trained on.
-The objective is to check if overfitting occurs.
+The objective here is to check if overfitting occurs.
 If the loss of the training set decreases, the loss of the validation set has to decrease as well.
 This shows that the network still learns and gets better.
 If the loss of the training set decreases, but the loss of the validation set stays the same or increases, it is an indicator for overfitting.
-This concept is also valid for the accuracy.
-However, it is usually supposed to increase.
+This concept is also valid for the accuracy but reversed.
 Both cases are visualized in \figref{fig:overfitting}.
+The dotted line indicates when training should have been stopped.
 \begin{figure}
 	\setlength\figureheight{.4\textwidth}
 	\setlength\figurewidth{.5\textwidth}
@@ -39,7 +38,7 @@ Both cases are visualized in \figref{fig:overfitting}.
 		\input{images/overfitting_accuracy.tikz}
 		\caption[Accuracy]{Accuracy}
 	\end{subfigure}
-	\caption[Indicator of overfitting]{Indicator of overfitting. If the metrics for the validation set do not follow the direction of the ones from the training set the network does not generalize. The dashed line represents when training should have been stopped.}
+	\caption[Indicator of overfitting]{Indicator of overfitting. If loss or accuracy of the validation set do not follow the direction of the one of the training set the network does not generalize. The dashed line represents when training should have been stopped.}
 	\label{fig:overfitting}
 \end{figure}
 
@@ -47,11 +46,10 @@ The test set is data the network is not trained on as well.
 It serves as a final performance check of the network to confirm its general accuracy.
 It is bad practice but if no validation set is available, the testing set can be used.
 How the dataset is split depends again on the number and complexity of samples and the objective.
-However, an equal distribution of samples in each set should be minded.
-Otherwise, the performance will not be satisfying.
+However, an equal distribution of samples in terms of samples per class in each set should be minded.
 This means, if the network trains mostly on sweatshirts a test set with mostly pants would not yield an acceptable accuracy, because the network does not know these particular features.
 
-For processing the dataset, a one-hot encoding \cite{Harris2012} of the labels is recommended.
+For processing the dataset, a one-hot encoding \cite{Harris2012} of the labels can be performed.
 Usually, the labels are categorical data.
 This means, they contain label or string values, respectively, instead of numeric values, that the networks needs.
 For example, there is a fashion variable with the values "boot", "sweatshirt" and "pants".
@@ -61,14 +59,15 @@ Furthermore, if these label values are outputs of the network, it should be easi
 Hence, they are converted to integers that represent a class.
 Referring to the example, this results in the numeric values 0, 1 and 2 for the labels "boot", "sweatshirt" and "pants", respectively.
 But numeric values have a natural ordered relationship between each other, that neural networks could exploit.
-The index of "pants" is higher than the one of "boot", but neither of these categories is better or worse than the other.
+The index of "pants" is higher than the one of "boot", but neither of these classes is better or worse than the other.
 Therefore, the indices are one-hot encoded as well.
 This means removing the integer representation and inserting binary variables for simulating existing features.
-Applying this to the example results in the feature label vector $\vec{y}^{(2)} = (0, 1, 0)^T$ for the "sweatshirt" label.
-This vector has a length of the number of different classes available, where every element is 0 except the one of the corresponding category which is 1.
+Applying this to the example results in the label vector $\vec{y}^{(2)} = (0, 1, 0)^T$ for the "sweatshirt" label.
+This vector has a length of the number of different classes available, where every element is 0 except the one of the corresponding class which is 1.
 \tabref{tab:one-hot-encoding} summarizes this approach.
+This encoding needs to be performed on each label in the dataset.
 \begin{table}[]
-	\caption[One-Hot Encoding of Categorical Data]{One-hot encoding of categorical data. First, categorical label values are transformed to numeric values representing a category index. Then, this is replaced with binary variables to represent features, that removes the natural relationship of numeric values to each other. This vector has a length of the number of different categories, where every element is 0 except for the corresponding category which is 1.}
+	\caption[One-Hot Encoding of Categorical Data]{One-hot encoding of categorical data. First, categorical label values are transformed to numeric values representing a class index. Then, this is replaced with binary variables to represent features, that removes the natural relationship of numeric values to each other. This vector has a length of the number of different classes, where every element is 0 except for the corresponding class which is 1.}
 	\label{tab:one-hot-encoding}
 	\centering
 	\begin{tabular}{l|l|l}

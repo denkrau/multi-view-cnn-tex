@@ -6,15 +6,16 @@ Its objective is illustrated in \figref{fig:rmsprop}.
 The ellipses represent contour lines.
 The orange line visualizes the process of gradient descent.
 Using it can result in parameters oscillating in one direction while making progress in another one moving to the minimum.
-The objective of RMSProp, represented by the blue line, tries to dampen the oscillations by slowing down learning of the responsible parameter and fasten up the other one.
+The objective of RMSProp, represented by the blue line, tries to dampen the oscillations by slowing down learning of the responsible parameter and accelerating the other one.
+In this example, the vertical parameter would be damped while the horizontal one is accelerated.
 Hence, it can use a larger learning rate and reaches the minimum more quickly.
 \begin{figure}
 	\centering
 	\includegraphics[]{images/rmsprop.pdf}
-	\caption[Process of gradient descent and RMSProp]{Process of gradient descent and RMSProp using contour lines. The orange line illustrates the process of gradient descent. It oscillates and moves slowly to the minimum. The blue line shows the process of the RMSProp algorithm. While one parameter changes slower the other one changes faster. Hence, it dampens oscillations and moves faster to the minimum.}
+	\caption[Process of gradient descent and RMSProp]{Process of gradient descent and RMSProp using contour lines. The orange line illustrates the process of gradient descent. It oscillates and moves slowly to the minimum. The blue line shows the process of the RMSProp algorithm. While the vertical parameter changes slower the horizontal one changes faster. Hence, RMSProp dampens oscillations and moves faster to the minimum.}
 	\label{fig:rmsprop}
 \end{figure}
-RMSProp adapts a learning rate to each of the parameters.
+RMSProp adapts the learning rate to each of the parameters.
 Furthermore, it divides the learning rate for a parameter by a weighted running average of the magnitudes of its previous gradients.
 The weighted running average is calculated by
 \begin{subequations}
@@ -41,7 +42,7 @@ In reference to \figref{fig:rmsprop} assume $w_1$ as the horizontal parameter an
 Due to the oscillations, the gradient $\nabla \vec{J}(w_2)$ is much larger than $\nabla \vec{J}(w_1)$.
 Hence, $v_2$ is larger than $v_1$ resulting in a smaller update for $w_2$ and a larger one for $w_1$.
 This yields a more direct moving to the minimum.
-However, this approach does not make it easier to configure the learning rate as the step size is independent of it.
+However, this approach does not simplify the choice of learning rate as the step size is independent of it.
 Though, it improves the speed of the optimization process because a better set of weights is discovered in fewer training steps than with pure gradient descent.
 The Adam (Adaptive Moment Estimation) optimization is an update to the RMSProp algorithm by adding a momentum
 \begin{subequations}
@@ -89,4 +90,3 @@ Finally,
 updates the parameters, where $\varepsilon$ is a small constant for preventing a division by zero.
 As for other optimization algorithms the learning rate $\gamma$ needs to be tuned.
 The remaining hyperparameters are recommended by \textit{Kingma et al.} to be $\beta_1 = 0.9$, $\beta_2 = 0.999$ and $\varepsilon = 10^{-8}$.
-However, the latter has no big impact on the optimization.

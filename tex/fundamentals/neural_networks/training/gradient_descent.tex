@@ -1,13 +1,12 @@
 \subsubsection{Backpropagation with Gradient Descent}
 \label{sec:training-gradient-descent}
-Due to the non-linearity in the network, the minimum of the cost function cannot be computed analytically but numerically.
-Hence, it is evaluated at a certain point.
-Using backpropagation \cite{rumelhart1986learning} \cite{Goodfellow-et-al-2016} results in a gradient for each parameter.
+Due to the non-linearities in the network induced by the activation functions, the minimum of the cost function cannot be computed analytically but numerically.
+Using backpropagation \cite{rumelhart1986learning, Goodfellow-et-al-2016} results in a gradient for each parameter.
 Depending on these values representing the slope of the parameters, and, hence, their impact on the output, the parameters are changed to move closer to the minimum.
-This optimization is done by using the gradient descent algorithm \cite{kiefer1952} \cite{robbins1951}.
+This optimization is done by using the gradient descent algorithm \cite{kiefer1952, robbins1951}.
 \figref{fig:gradient-descent} illustrates this approach.
-The gradients point into each direction of steepest ascent.
-Because a minimum needs to be found, those are negated for pointing into the direction of steepest descent.
+The gradients point into the direction of steepest ascent.
+To reach the minimum, those are negated for pointing into the direction of steepest descent.
 Finally, the parameters are moved along this direction.
 \begin{figure}
 	\centering
@@ -15,10 +14,9 @@ Finally, the parameters are moved along this direction.
 	\caption[Schematic of gradient descent]{Schematic of gradient descent. Cost is evaluated, its negative gradients are computed and the parameters are moved along this direction until the minimum is reached.}
 	\label{fig:gradient-descent}
 \end{figure}
-Following this approach means for the whole network that the cost function is backpropagated layer for layer to the beginning of the network using partial derivatives and the chain rule.
+Following this approach means for the whole network that the cost function is backpropagated layer by layer to the beginning of the network using partial derivatives and the chain rule.
 When this is completed, it is known how the parameters are influencing the output and therefore how they need to be changed depending on their slope.
 
-In the following the math of those statements is presented.
 The goal of backpropagation is to compute the partial derivatives
 \begin{subequations}
 	\label{eq:backpropagation}
@@ -27,7 +25,7 @@ The goal of backpropagation is to compute the partial derivatives
 		\frac{\partial J}{\partial b^{[l]}_j} &= \frac{1}{m_{\text{train}}} \sum_{i}^{m_{\text{train}}} \frac{\partial J^{(i)}}{\partial b^{[l]}_j}
 	\end{align}
 \end{subequations}
-of the cost function w.r.t. the parameters by averaging the partial derivatives of cost functions of $m_{\text{train}}$ samples that were passed through the network.
+of the cost function w.r.t. the parameters by averaging the partial derivatives of cost functions of $m_{\text{train}}$ samples from the training set that were passed through the network.
 These $m_{\text{train}}$ samples build a so-called batch in this context.
 \figref{fig:backpropagation-influences} recaps the data flow in a neuron in the last layer.
 By checking stepwise how a parameter directly influences a subsequently one, \eqref{eq:backpropagation} can be written as
@@ -116,24 +114,24 @@ On its way, the slope steadily gets smaller which intensifies this effect.
 A similar effect arises by moving over plateaus.
 Surely, the minimum will be found more exactly than with a large learning rate, but it would make learning really slow.
 However, a large learning rate can steadily overshoot the minimum leading to no convergence.
-These effects are illustrated in \figref{fig:learning-rate}.
+These effects are roughly exemplified in \figref{fig:learning-rate}.
 Thus, a trade-off must be found or an adaption of the learning rate to certain circumstances like the magnitude of the slope is necessary.
 \begin{figure}
 	\centering
 	\includegraphics[]{images/gradient_descent_learning_rate.pdf}
-	\caption[Comparison of learning rates]{Comparison of learning rates. A small learning rate finds the minimum slowly but more exactly than a high learning rate. However, the latter tends to overshoot the minimum.}
+	\caption[Comparison of learning rates]{Comparison of learning rates. A small learning rate finds the minimum slowly but more exactly than a high learning rate. However, the latter tends to overshoot the minimum. This is roughly exemplified.}
 	\label{fig:learning-rate}
 \end{figure}
 According to \textit{Bengio} \cite{DBLP:journals/corr/abs-1206-5533} a traditional default value for the learning rate is $\gamma_0 = 0.1$ or $\gamma_0 = 0.01$ for standard multilayer neural networks.
-However, "it would be foolish to rely exclusively on this default value".
-The learning rate should be greater than $10^{-6}$ and less than $1.0$.
-\textit{Goodfellow et al.} \cite{Goodfellow-et-al-2016} state, "in practice, it is common to decay the learning rate linearly until iteration $\tau$. After iteration $\tau$ it is common to leave [the learning rate] constant."
+However, it remains a hyperparameter that is problem-specific, hence, only guidelines can be provided.
+One of them is, that the learning rate should be greater than $10^{-6}$ and less than $1.0$.
+Another approach is decaying the initial learning rate either linearly or exponentially until iteration $\tau$ and then leaving it constant \cite{Goodfellow-et-al-2016}.
 The underlying idea is to move quickly to close proximity to the minimum and then carefully to it.
 Another common approach is an exponential decay like
 \begin{equation}
 	\gamma(\tau) = \gamma_0 \exp(-\lambda\tau)
 \end{equation}
-where $\gamma_0$ is the initial learning rate, $\lambda$ a factor and $\tau$ the time step.
+where $\gamma_0$ is the initial learning rate, $\lambda$ a factor and $\tau$ the iteration step.
 The concept of changing the learning rate over time is called learning rate schedule. Its values are arbitrary and do not inevitably need to be results of a decay but can be fixed values that are active depending on the time step $\tau$, for example.
 
 Due to the number of parameters and the use of hidden layers, cost functions are highly dimensional and neither convex nor concave.

@@ -2,9 +2,8 @@
 \label{sec:neural-networks-overview}
 Artificial neural networks are inspired by biological neural networks that constitute animal brains for recognizing patterns.
 Its task can be interpreted as being a universal approximator for any unknown function $f(x) = y$ where $x$ is the input and $y$ the output.
-There are two conditions that need to be fulfilled.
-One is a present correlation between $x$ and $y$ and the other is the presence of numerical data.
-So every physical data like images, text or time series that is going to be used as an input must be translated.
+Naturally, those variables are numeric.
+So every physical data like images, text or time series that is going to be used as an input or output must be translated.
 The complexity of the approximated function depends on the use case but usually it is highly non-linear.
 General use cases for neural networks embrace classification, clustering, and regression.
 
@@ -14,7 +13,7 @@ Therefore, the network learns the correlation between input data and labels.
 A downside here with respect to effort is that every input must be labeled beforehand, usually by human knowledge.
 This type of learning is called supervised learning because each predicted class by the network of an input sample is compared with its given ground truth label.
 Use cases, for example, are the classification of cars or pedestrians in images or even the type of car in an image or whether an email is spam.
-In this work a classification is performed on images of objects.
+In this work a classification is performed on images of objects with color marks.
 
 Clustering divides data into clusters or groups, respectively, but without requiring labels.
 Therefore, this learning type is called unsupervised learning.

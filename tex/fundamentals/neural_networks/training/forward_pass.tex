@@ -8,12 +8,12 @@ Performing a one-hot encoding on the labels and assuming in general flattened in
 	\mathbb{D} = \left( \vec{X} , \vec{Y} \right)
 \end{equation}
 where $\vec{X} \in \mathbb{R}^{n_x \times m}$ and $\vec{Y} \in \mathbb{R}^{n_y \times m}$ are representing each input and label as vectors, respectively, forming matrices.
-Hereby, $n_x$ represents the size of each input and $n_y$ the number of classes.
+Hereby, $n_x$ represents the size of each input image and $n_y$ the number of classes.
 This set is then divided into a training, validation and test set.
 Each of them contains $m_{\text{train}}$, $m_{\text{valid}}$ or $m_{\text{test}}$ samples, respectively.
-Furthermore, there is a neural network with $L$ layers each containing an arbitrary number of neuron.
+Furthermore, there is a neural network with $L$ layers each containing an arbitrary number of neurons.
 Expressing the activation of every perceptron with \eqref{eq:perceptron-sum} would get very confusing for a whole network.
-Hence, a matrix notation is the way to go in the long run.
+Hence, a matrix notation is preferred.
 First, for every $j$-th perceptron in the $l$-th layer its weights are summarized in a vector
 \begin{equation}
 	\label{eq:weights-vector}
@@ -61,9 +61,9 @@ for the $l$-th layers activations.
 Performing this for every layer results in 
 \begin{equation}
 	\label{eq:feedforward}
-	\hat{\vec{y}}^{(i)} = f(\vec{x}^{(i)}, \vec{W}, \vec{b})
+	\hat{\vec{y}}^{(i)} = f(\vec{x}^{(i)}, \vec{W}, \vec{B})
 \end{equation}
-as the network's prediction for the $i$-th data sample $\vec{x}^{(i)} \in \mathbb{R}^{n_x}$ where $\hat{\vec{y}}^{(i)} \in \mathbb{R}^{n_y}$.
+as the network's prediction for the $i$-th data sample $\vec{x}^{(i)} \in \mathbb{R}^{n_x}$ where $\hat{\vec{y}}^{(i)} \in \mathbb{R}^{n_y}$ and $\vec{W}$ and $\vec{B}$ are concatenated matrices storing the parameters.
 This superscript in round brackets is part of the used convention.
 Feeding this result into a sigmoid function forces the values to be in a range between 0 and 1 representing class probabilities.
 This prediction needs to be compared with the ground-truth label $\vec{y}^{(i)}$ for checking how good the network performs and, hence, how well the parameters fit.
@@ -78,37 +78,27 @@ where the first is the ground-truth label and the second the prediction.
 It can be clearly seen, that the prediction is completely wrong.
 The actual ground truth class has the second smallest probability in the prediction.
 Hence, the parameters need to be changed.
-In theory, an identical representation would be desirable.
-However, in practical terms a slight deviation is normal.
+In theory, an identical representation is desired.
 Because finding optimal parameters is an optimization problem, a metric for the performance of the network is necessary.
 This is served by a loss function that maps parameters to a loss value.
 The most common loss function for comparing two probability distributions of mutually exclusive classes is the cross-entropy loss function.
 It is defined as
 \begin{equation}
-	H(y,p) = -(y \log(p) + (1-y) \log(1-p))
+	H(y^{(i)},\hat{y}^{(i)}) = -(y^{(i)} \log(\hat{y}^{(i)}) + (1-y^{(i)}) \log(1-\hat{y}^{(i)}))
 \end{equation}
 for a single output representing two classes and as
 \begin{equation}
 	\label{eq:cross-entropy-loss}
-	H(\vec{y}, \vec{p}) = - \sum_{i}^{n_y} y_i \log (p_i)
+	H(\vec{y}^{(i)}, \hat{\vec{y}}^{(i)}) = - \sum_{j}^{n_y} y_j^{(i)} \log (\hat{y}_j^{(i)})
 \end{equation}
-for multi-class classification, where $n_y$ is the number of classes, $i$ the moving index, $\vec{y}$ the ground truth vector and $\vec{p}$ the predicted probabilities \cite{murphy2013machine}.
-Applying the previous notation to this yields
-\begin{subequations}
-	\begin{align}
-		\vec{y} &= \vec{y}^{(i)} \\
-		\vec{p} &= \hat{\vec{y}}^{(i)} \\
-		C &= n_y
-	\end{align}
-\end{subequations}
-as analogies.
+for multi-class classification \cite{murphy2013machine}, where $n_y$ is the number of classes, $\vec{y}^{(i)}$ the ground truth label and $\hat{\vec{y}}^{(i)}$ the predicted probabilities of the $i$-th sample.
 Due to the one-hot encoding of the labels, only the positive class $y_p^{(i)}$ is taken into account in the loss computation.
 Hence, \eqref{eq:cross-entropy-loss} is reduced to
 \begin{equation}
 	\label{eq:cross-entropy-loss-compact}
 	H(\vec{y}^{(i)}, \hat{\vec{y}}^{(i)}) = - y_p^{(i)} \log (\hat{y}_p^{(i)})
 \end{equation}
-where $y_p^{(i)}$ and $\hat{y}_p^{(i)}$ denote the probability of the positive label and its corresponding prediction, respectively.
+where $y_p^{(i)}$ and $\hat{y}_p^{(i)}$ denote the probability of the positive class and its corresponding prediction, respectively.
 A visualization of this expression is shown in \figref{fig:cross-entropy}.
 \begin{figure}
 	\setlength\figureheight{.5\textwidth}
@@ -120,13 +110,12 @@ A visualization of this expression is shown in \figref{fig:cross-entropy}.
 \end{figure}
 It can be seen, that large deviations in probability are strongly penalized.
 In the range of small deviations, the slope of the graph is small which leads to little changes in loss if the probability difference changes only slightly.
-Therefore, both kinds of errors are penalized.
-Using this loss function for computing a cost that averages all losses yields
+Using each sample's loss value for computing an averaged loss yields
 \begin{equation}
 	\label{eq:cross-entropy-cost}
-	J(\vec{x}, \vec{W}, \vec{b}, \vec{y}) = J(\hat{\vec{y}}, \vec{y}) = \frac{1}{m_{\text{train}}} \sum_{i=1}^{m_{\text{train}}} H(\vec{y}^{(i)}, \hat{\vec{y}}^{(i)})
+	J(\vec{x}, \vec{W}, \vec{B}, \vec{y}) = J(\hat{\vec{y}}, \vec{y}) = \frac{1}{m_{\text{train}}} \sum_{i=1}^{m_{\text{train}}} H(\vec{y}^{(i)}, \hat{\vec{y}}^{(i)})
 \end{equation}
 as the cost function for the training process.
 Computing the cost of a different set is possible by using the corresponding samples.
 This function depends on all weights and biases as regression parameters, hence, it is highly dimensional.
-Minimizing it with respect to the weights and biases yields optimal parameters.
+Minimizing it with respect to the weights and biases yields optimal parameters for a given training set.
