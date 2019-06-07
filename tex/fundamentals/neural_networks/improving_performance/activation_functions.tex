@@ -2,8 +2,7 @@
 \label{sec:improving-performance-activation-functions}
 The activation functions of a neural network affect its performance and convergence as well.
 Common activation functions are shown in \figref{fig:activation-functions}.
-The most common ones are going to be examined.
-The sigmoid function recently has fallen out of favor.
+The sigmoid function was the state-of-the-art, but has recently fallen out of favor.
 One disadvantage is its saturation which leads to a very small gradient.
 If this small gradient is often multiplied because of several layers, the gradient gets very small.
 This vanishing gradient leads to very small parameter updates.
@@ -15,9 +14,9 @@ That means, that, for example, if all data is positive, all related gradients po
 This leads to an undesired zigzag pattern of the parameter updates for several samples.
 However, the use of mini-batches smooths out this effect.
 The tanh activation function has a zero-centered output, though, the saturation of the output remains.
-The ReLU activation function accelerates the convergence process of stochastic gradient descent compared to sigmoid and tanh.
+The ReLU activation function accelerates the convergence process of gradient descent compared to sigmoid and tanh.
 According to \textit{Krizhevsky et al.}, it is six times faster on the CIFAR10 dataset \cite{Krizhevsky2009LearningML} compared to tanh activation functions \cite{Krizhevsky:2012:ICD:2999134.2999257}.
-This is due to its linear, non-saturation form.
+It is assumed that this is mainly due to its linear, non-saturation form.
 Another advantage is its simple and light computation.
 Furthermore, it makes the activations sparse from the perspective of a neural network.
 This means not all neurons are active due to the ReLU being zero for input values below zero.
@@ -28,16 +27,14 @@ If the weights are initialized badly or an unfavorable update is applied, for ex
 In this case, a unit is very unlikely to recover.
 A solution forms the leaky ReLU, which adds a slight slope of like $\lambda = 0.01$ to the horizontal line of 0, preventing the gradient to become zero.
 Hence, the unit can recover.
-However, the results of this approach are very inconsistent.
+However, the results of this approach are very inconsistent \cite{cs231n}.
 
-Taking all that information into account yields the recommendation of the ReLU activation function, if the weights and learning rate are chosen carefully
+Taking all that information into account yields the recommendation of the ReLU activation function, if the weights and learning rate are chosen carefully.
 Additionally, the fraction of dead units should be monitored.
 If the number is still concerning, leaky ReLU activations should be applied.
-The tanh activation should be generally preferred over the sigmoid one.
-
 \begin{figure}
 	\setlength\figureheight{.3\textwidth}
-	\setlength\figurewidth{.5\textwidth}
+	\setlength\figurewidth{.48\textwidth}
 	\centering
 	\begin{subfigure}{.5\textwidth}
 		\centering
@@ -52,7 +49,6 @@ The tanh activation should be generally preferred over the sigmoid one.
 		\caption{Threshold}
 		\label{fig:threshold-activation}
 	\end{subfigure}%
-	\hfill
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\input{images/heaviside-activation.tikz}
@@ -77,10 +73,9 @@ The tanh activation should be generally preferred over the sigmoid one.
 		0 & x < 0
 		\end{cases}
 		\end{equation*}
-		\caption{Rectified Linear Unit}
+		\caption{Rectified linear unit}
 		\label{fig:relu-activation}
 	\end{subfigure}%
-	\hfill
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\input{images/leakyrelu-activation.tikz}
@@ -91,7 +86,7 @@ The tanh activation should be generally preferred over the sigmoid one.
 		x\cdot \text{Slope $\lambda$} & x < 0
 		\end{cases}
 		\end{equation*}
-		\caption{Leaky Rectified Linear Unit}
+		\caption{Leaky rectified linear unit}
 		\label{fig:leakyrelu-activation}
 	\end{subfigure}
 	
@@ -103,6 +98,15 @@ The tanh activation should be generally preferred over the sigmoid one.
 		\end{equation*}
 		\caption{Sigmoid}
 		\label{fig:sigmoid-activation}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\input{images/tanh-activation.tikz}
+		\begin{equation*}
+		\phi(x) = \tanh(x)
+		\end{equation*}
+		\caption{Tanh}
+		\label{fig:tanh-activation}
 	\end{subfigure}
 	\caption[Common activation functions]{Plots and equations of common used activation functions. Where the Bias $b$ is the threshold value and $\lambda$ adds a small slope. Usually, the latter is very small like $\lambda=0.01$.}
 	\label{fig:activation-functions}

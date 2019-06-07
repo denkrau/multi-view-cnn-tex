@@ -1,25 +1,13 @@
-\subsection{Applying Material Feature Manipulations}
+\subsection{Applying Color Marks}
 \label{sec:dataset-material-feature}
-The objective is to clone every model and apply a color feature to every clone to be able to distinguish the same models.
-Cloning is a trivial task because this can be done by rendering the native object first and then the color featured one.
-One method for the color feature manipulation is preparing a color feature like a colored circle as an image and putting it on the model.
-This feature can be scaled dependently on all the face areas for achieving a similar scale across all models.
-However, clinging this image to a model considering all its edges is problematic.
-It would be necessary to find a way to unfold the model along its edges.
-This can be done by hand but is very time-consuming and complex.
-In fact, Blender supports an automatic way of unfolding, but its results are not satisfying.
-Therefore, this approach is not further pursued.
-Another method is to color vertices.
-However, for achieving reasonable features, a high number of vertices is necessary.
-There is an option to subdivide existing faces and add additional vertices, but this increases the data size extremely, which needs much more computer performance and has the risk of inducing unwanted geometry into the model.
-Hence, coloring single faces becomes the chosen approach due to its simplicity.
-In CAD modeling objects are assigned a material with a color that reacts to light which produces shadows.
-In Blender, the default material's color is a slightly darkened white.
-Changing the color of a face is performed by changing the color of its material.
-
-For following this approach, it is advisable to pre-define material presets.
-Those presets consist of the default material but have different colors.
-After making those presets available to the Blender scene, a well-suited face for being colored needs to be found.
+This work focuses on analyzing how views of the same objects but with different color marks contribute to the classification.
+Hence, their information content and significance is evaluated.
+This section covers how those color marks are applied.
+First, duplicates of every object are created.
+This is a trivial task because this can be done by rendering the native object first and then the colored one.
+In CAD modeling, objects or faces, in particular, are assigned a material with a color that reacts to light which produces shadows.
+Hence, coloring single faces differently becomes the chosen approach for applying color marks due to its simplicity.
+However, a well-suited face for being colored needs to be found.
 In the following those faces are referred to as an optimal face.
 It is important to filter all faces of an object by their area size.
 \figref{fig:face-area-filter} shows why and the results of several thresholds.

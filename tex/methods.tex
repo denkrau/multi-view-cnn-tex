@@ -1,8 +1,13 @@
 \chapter{Methods}
 \label{sec:methods}
-This chapter explains the generation and preparation of the dataset and the implementation of the neural network architecture for classifying objects depending on their color feature.
-The input consists of multiple views of an object, while percentages of class memberships are outputted.
-The creation of the dataset is supported by the Blender API interface, while the model is written in Python using the tensorflow framework.
+This chapter explains the implementation of the neural network architecture for classifying objects and the generation and preparation of the dataset.
+Each data sample used as an input for the network consists of multiple viewing perspectives of an object, a so-called multi-view.
+Each object has duplicates, where a different color mark is applied to each copy.
+The intention is to examine how the multi-view approach known from \cite{Su:2015:MCN:2919332.2919750} and, in particular, \cite{Feng2018} relates to multi-views where the shape of objects is the same but only differs in color marks.
+Furthermore, it is analyzed how each view of a data sample contributes to the classification result.
+In this context, the class of each object is referred to by a combination of its type of object and color mark.
+Hence, the terminology category describes the first and color the latter.
+The creation of the dataset is performed with the Blender API interface, while the model is written in Python using the tensorflow framework.
 
 \input{tex/methods/dataset.tex}
 \input{tex/methods/prepare_data.tex}

@@ -1,0 +1,25 @@
+% This file was created by matplotlib2tikz v0.7.3.
+\begin{tikzpicture}
+
+\begin{axis}[
+height=\figureheight,
+tick align=outside,
+tick pos=left,
+width=\figurewidth,
+x grid style={white!69.01960784313725!black},
+xmajorgrids,
+xmin=-0.6, xmax=27.5,
+xtick style={color=black},
+xtick={-0.6,0.4,1.4,2.4,3.4,4.4,5.4,6.4,7.4,8.4,9.4,10.4,11.4,12.4,13.4,14.4,15.4,16.4,17.4,18.4,19.4,20.4,21.4,22.4,23.4,24.4,25.4,26.4,27.4},
+xticklabels={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29},
+y grid style={white!69.01960784313725!black},
+ymajorgrids,
+ymin=-0.6, ymax=27.5,
+ytick style={color=black},
+ytick={-0.6,0.4,1.4,2.4,3.4,4.4,5.4,6.4,7.4,8.4,9.4,10.4,11.4,12.4,13.4,14.4,15.4,16.4,17.4,18.4,19.4,20.4,21.4,22.4,23.4,24.4,25.4,26.4,27.4},
+yticklabels={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29}
+]
+\addplot graphics [includegraphics cmd=\pgfimage,xmin=-0.5, xmax=27.5, ymin=27.5, ymax=-0.5] {tmp-000.png};
+\end{axis}
+
+\end{tikzpicture}

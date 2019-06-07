@@ -1,13 +1,13 @@
 \subsubsection{Optimal Learning Rate}
 \label{sec:improving-performance-learning-rate}
 The learning rate is the most important hyperparameter in a neural network.
-If it is too small, learning converges exactly, though, really slow.
+If it is too small, learning converges very precisely, though, really slow.
 If it is too large, the minimum is steadily overshot and learning maybe diverges.
 
 \textit{Smith} introduces the cyclical learning rate \cite{DBLP:journals/corr/Smith15a}.
 For being cyclical, the learning rate needs a lower and upper bound.
 This builds a range of optimal learning rates.
-With these values in between, the evaluations of the cost function are effectively decreased over time.
+With the values in between, the cost function is effectively decreased over time.
 Hence, for finding that optimal range, the learning rate is initialized with a very small value and slightly increased after each training step.
 For each of the steps the cost function is evaluated.
 \figref{fig:optimal-learning-rate-range} shows a typical plot of the cost function against the learning rate on a logarithmic $x$-scale.
@@ -19,17 +19,18 @@ For each of the steps the cost function is evaluated.
 	\caption[Optimal range of learning rates]{Optimal range of learning rates highlighted in blue. The learning rate is increased exponentially.}
 	\label{fig:optimal-learning-rate-range}
 \end{figure}
-It can be seen, that if the learning rate is small, the cost function does not improve noticeably.
+It can be seen that the cost function does not noticeably improve with a low learning rate.
 When the learning rate gets into its optimal range, the cost function suddenly becomes smaller.
 This continues with a large gradient until the learning rate exits its optimal range.
 This passage is detected when the cost function starts to oscillate.
 If the learning rate still gets increased, the cost function starts to diverge eventually.
+However, the actual range of optimal learning rates is only estimated based on a plot like \figref{fig:optimal-learning-rate-range} or its derivative.
+For the derivative plot, the optimal range is where the gradients are smallest and not in the oscillating region.
 \textit{Smith} suggests a triangular learning rate policy which first increases the learning rate from the lower bound to the upper bound and then decreases it back to the lower bound.
 Each change happens linearly.
-The actual learning rate depends on the time step.
+The actual learning rate depends on the iteration step.
 
 Another approach is doing warm restarts of the learning rate after several iterations, hence, it is called Stochastic Gradient Descent with Warm Restarts \cite{DBLP:journals/corr/LoshchilovH16a}.
-This is especially combined with the gradient descent algorithm.
 The idea behind it is to swing out of a tight local minimum if the algorithm seems to get stuck there.
 If well-suited parameters are found for a cost function, the latter can slightly change if the dataset changes.
 Hence, the once well-suited parameters lead to a worse cost now.
@@ -66,7 +67,7 @@ This process is visualized in \figref{fig:sgdr-annealing-normal}.
 	\caption{Annealing of stochastic gradient descent with warm restarts}
 	\label{fig:sgdr-annealing}
 \end{figure}
-So, first, the cost is decreased until the learning rate reset happens.
+First, the cost is decreased until the learning rate reset happens.
 Then, it is possible to overshoot the local minimum that much, that a different one is targeted.
 However, this minimum is flat enough that another learning rate restart does not change the targeted minimum.
 Due to the objective of finding flat regions, it is advisable to steadily extend each learning rate cycle like it is shown in \figref{fig:sgdr-annealing-extended}.

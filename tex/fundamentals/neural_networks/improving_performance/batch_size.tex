@@ -1,31 +1,29 @@
 \subsubsection{Optimal Batch Size and Number of Epochs}
 \label{sec:improving-performance-batch-size}
-First, a brief recap of the terminology is presented.
 The batch size defines how many samples are propagated through the network at once.
 Moreover, the adaption of parameters due to backpropagation depends only on the current batch.
-This means, $m_{\text{train}}$ in the cost function in \eqref{eq:cross-entropy-cost} and in the partial derivatives in \eqref{eq:backpropagation} can be replaced with an arbitrary batch size as long as it is smaller than the actual number of samples in the corresponding set.
+This means, $m_{\text{train}}$ in the cost function in \eqref{eq:cross-entropy-cost} and in the partial derivatives in \eqref{eq:backpropagation} can be replaced with a given batch size as long as it is smaller than the actual number of samples in the corresponding set.
 For each sample within a batch the gradients of the cost function with respect to all parameters are calculated and finally averaged over all batch samples for yielding how the parameters need to be changed.
-The updates resulting from a batch are called an iteration.
 That process is repeated for different batches until the whole dataset is propagated forward and backwards.
-Processing all samples from a set, in particular the training set, is called an epoch.
+Then it can be repeated with a shuffled dataset, hence, different batches.
 
-For finding the optimal batch size, first examine the two extremes.
+For finding the optimal batch size, the most obvious choices are examined first.
 On the one hand, the whole training set can form a batch.
 This way the best direction to a minimum can be calculated.
 In terms of number of iterations, this method is the best.
 However, it is very expensive in terms of resources, because usually the amount of data can not be held in the RAM or GPU.
 This means, either more memory needs to be bought or a continual reload of data happens, which slows down the overall training process.
-An even more significant downside is that large batch sizes like 512 result in an impaired quality of the model in terms of generalization \cite{DBLP:journals/corr/KeskarMNST16}.
+An even more significant downside is that large batch sizes in relation to the dataset result in a worse performance of the model in terms of generalization \cite{DBLP:journals/corr/KeskarMNST16}.
 Because the parameter updates follow the best direction to a minimum does not mean, that this minimum is well-suited for other data.
-Usually, the model converges to a sharp minimizer similar to \figref{fig:sgdr-cost}.
+Usually, the model converges to a tight minimum, similar to \figref{fig:sgdr-cost}, due to their frequency.
 On the other hand, a batch size of one is used, which is called stochastic.
 The parameter updates are noisy and can point into a completely wrong direction, while still pointing along the steepest descent.
 Hence, they wander around the cost function and eventually reach the minimum after a long training time.
-However, the cost of computing the gradients of a single sample is quite trivial.
+However, the computing cost of the gradients of a single sample is quite trivial.
 Thus, a trade-off must be found for a so-called mini-batch.
-One requirement is that the training needs to converge in a reasonable amount of time.
+One requirement is that the training converges in a reasonable amount of time.
 This includes averaging out the noise of the gradients for more accurate steps leading to an earlier convergence.
-Hence, the batch size also depends on the learning rate.
+Hence, the batch size to choose also depends on the learning rate.
 A smaller batch size is better suited for a small learning rate due to the noise.
 A good balance is found if the batch is small enough to avoid the poor minima but stays in the flatter, better-performing ones.
 Another requirement is the computational cost.
@@ -34,9 +32,7 @@ Hence, a batch size should be larger than one, usually, and less than the whole 
 Common batch sizes are 32, 64, 128 and 256.
 
 When using mini-batches the number of epochs is a hyperparameter, that can be tuned, as well.
-In general, smaller learning rates require more epochs because more parameter updates are necessary.
-But more important is the generalization of the network.
-The objective is to prevent underfitting or overfitting, which is explained in \secref{sec:dataset-generation}).
+Important is the generalization of the network, while preventing underfitting or overfitting.
 Thus, the number of epochs cannot be determined beforehand but depends on the data.
 However, the training set needs to be shuffled every epoch, so that different batches are created compared to earlier epochs.
 This improves generalization due to the computation of different batch gradients.

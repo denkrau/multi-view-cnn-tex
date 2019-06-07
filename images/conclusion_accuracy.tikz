@@ -1,0 +1,52 @@
+% This file was created by matplotlib2tikz v0.7.3.
+\begin{tikzpicture}
+
+\definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
+\definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
+
+\begin{axis}[
+height=\figureheight,
+legend cell align={left},
+legend style={at={(0.97,0.03)}, anchor=south east, draw=white!80.0!black},
+tick align=outside,
+tick pos=left,
+width=\figurewidth,
+x grid style={white!69.01960784313725!black},
+xmin=-0.785, xmax=8.785,
+xtick style={color=black},
+xtick={0,1,2,3,4,5,6,7,8},
+xticklabels={0-3,0-4,0-5,0-6,4-0,4-3,4-4,4-5,4-6},
+y grid style={white!69.01960784313725!black},
+ylabel={Accuracy},
+ymin=0, ymax=1.05,
+ytick style={color=black},
+ytick={0,0.2,0.4,0.6,0.8,1,1.2},
+yticklabels={0.0,0.2,0.4,0.6,0.8,1.0,}
+]
+\draw[fill=color0,draw opacity=0] (axis cs:-0.35,0) rectangle (axis cs:0,0.978448275862069);
+\addlegendimage{ybar,ybar legend,fill=color0,draw opacity=0};
+\addlegendentry{Training}
+
+\draw[fill=color0,draw opacity=0] (axis cs:0.65,0) rectangle (axis cs:1,0.980769230769231);
+\draw[fill=color0,draw opacity=0] (axis cs:1.65,0) rectangle (axis cs:2,0.923469387755102);
+\draw[fill=color0,draw opacity=0] (axis cs:2.65,0) rectangle (axis cs:3,0.882902298508019);
+\draw[fill=color0,draw opacity=0] (axis cs:3.65,0) rectangle (axis cs:4,0.994047619047619);
+\draw[fill=color0,draw opacity=0] (axis cs:4.65,0) rectangle (axis cs:5,0.983870967741935);
+\draw[fill=color0,draw opacity=0] (axis cs:5.65,0) rectangle (axis cs:6,0.98030303030303);
+\draw[fill=color0,draw opacity=0] (axis cs:6.65,0) rectangle (axis cs:7,0.954710144927536);
+\draw[fill=color0,draw opacity=0] (axis cs:7.65,0) rectangle (axis cs:8,0.941028225806452);
+\draw[fill=color1,draw opacity=0] (axis cs:0,0) rectangle (axis cs:0.35,1);
+\addlegendimage{ybar,ybar legend,fill=color1,draw opacity=0};
+\addlegendentry{Testing}
+
+\draw[fill=color1,draw opacity=0] (axis cs:1,0) rectangle (axis cs:1.35,0.990740740740741);
+\draw[fill=color1,draw opacity=0] (axis cs:2,0) rectangle (axis cs:2.35,0.948148148148148);
+\draw[fill=color1,draw opacity=0] (axis cs:3,0) rectangle (axis cs:3.35,0.839506172839506);
+\draw[fill=color1,draw opacity=0] (axis cs:4,0) rectangle (axis cs:4.35,0.972222222222222);
+\draw[fill=color1,draw opacity=0] (axis cs:5,0) rectangle (axis cs:5.35,0.925925925925926);
+\draw[fill=color1,draw opacity=0] (axis cs:6,0) rectangle (axis cs:6.35,0.935185185185185);
+\draw[fill=color1,draw opacity=0] (axis cs:7,0) rectangle (axis cs:7.35,0.888888888888889);
+\draw[fill=color1,draw opacity=0] (axis cs:8,0) rectangle (axis cs:8.35,0.856259659969088);
+\end{axis}
+
+\end{tikzpicture}

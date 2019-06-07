@@ -1,0 +1,68 @@
+% This file was created by matplotlib2tikz v0.7.3.
+\begin{tikzpicture}
+
+\definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
+\pgfplotsset{ticks=none}
+\begin{axis}[
+height=\figureheight,
+legend cell align={left},
+legend style={at={(0.97,0.03)}, anchor=south east, draw=white!80.0!black},
+tick pos=left,
+width=\figurewidth,
+xlabel={Epoch},
+xmin=-0.95, xmax=19.95,
+ylabel={Accuracy},
+ymin=0.931485, ymax=0.998915
+]
+\draw[dashed] (4,0) -- (4,1);
+\addplot [semithick, green!50.0!black]
+table {%
+0 0.93455
+1 0.970033333333333
+2 0.9786
+3 0.983083333333333
+4 0.986416666666667
+5 0.987733333333333
+6 0.990233333333333
+7 0.99035
+8 0.992116666666667
+9 0.992666666666667
+10 0.992883333333333
+11 0.9939
+12 0.9933
+13 0.99435
+14 0.9946
+15 0.995116666666667
+16 0.9953
+17 0.99505
+18 0.99555
+19 0.99585
+};
+\addlegendentry{Training}
+\addplot [semithick, color0]
+table {%
+0 0.9608
+1 0.9735
+2 0.9754
+3 0.9762
+4 0.9823
+5 0.9825
+6 0.9818
+7 0.9799
+8 0.9806
+9 0.9823
+10 0.984
+11 0.9823
+12 0.9826
+13 0.9839
+14 0.9849
+15 0.9838
+16 0.982
+17 0.9823
+18 0.9829
+19 0.9833
+};
+\addlegendentry{Validation}
+\end{axis}
+
+\end{tikzpicture}
