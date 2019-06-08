@@ -16,26 +16,6 @@ This generates a single shape descriptor describing the actual object.
 Propagating this through the last fully-connected layer, the eighth one, yields the prediction of the network.
 Combining this with a softmax layer yields the prediction probabilities for the classes.
 A summary of the layers is given in \tabref{tab:network-layers}.
-\begin{table}[]
-\centering
-\caption{Network layer summary}
-\label{tab:network-layers}
-	\begin{tabular}{lllll}
-		Operation & Window       & Output Size                & Stride & Padding \\ \hline
-		Conv1     & $7 \times 7$ & $109 \times 109 \times 96$ & 2      & Valid   \\
-		Pool1     & $3 \times 3$ & $54 \times 54 \times 96$   & 2      & Valid   \\ \hline
-		Conv2     & $5 \times 5$ & $27 \times 27 \times 256$  & 2      & Same    \\
-		Pool2     & $3 \times 3$ & $13 \times 13 \times 256$  & 2      & Valid   \\ \hline
-		Conv3     & $3 \times 3$ & $13 \times 13 \times 384$  & 1      & Same    \\ \hline
-		Conv4     & $3 \times 3$ & $13 \times 13 \times 384$  & 1      & Same    \\ \hline
-		Conv5     & $3 \times 3$ & $13 \times 12 \times 256$  & 1      & Same    \\
-		Pool5     & $3 \times 3$ & $6 \times 6 \times 256$    & 2      & Valid   \\ \hline
-		Fc1       &              & 4096                       &        &         \\ \hline
-		Fc2       &              & 4096                       &        &         \\ \hline
-		Fc3       &              & \# of Classes              &        &         \\ \hline
-		Softmax   &              &                            &        &         \\ \hline
-	\end{tabular}
-\end{table}
 
 For the grouping mechanism, the following results are observed.
 The 0-3 network treats views with a visible material feature the most discriminative.

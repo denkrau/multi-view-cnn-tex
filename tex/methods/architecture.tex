@@ -1,26 +1,69 @@
 \section{Multi-View Network Architecture}
 \label{sec:methods-architecture}
-Because convolutional neural networks are well-suited for image classification tasks, this approach is pursued.
-Furthermore, in \cite{Su:2015:MCN:2919332.2919750} the VGG-M \cite{journals/corr/ChatfieldSVZ14} architecture is used and in \cite{Feng2018} GoogLeNet \cite{szegedy2015}.
-Both are convolutional neural networks, where the first uses 8 layers and the latter, that is more recent, 22, however, both of them yield satisfying results.
-The number of parameters of both is too large for the available resources for this work, though.
-Hence, the AlexNet architecture \cite{Krizhevsky:2012:ICD:2999134.2999257} is chosen.
-It is very similar to the VGG-M one but uses larger filters for convolutions and fewer nodes in the fully connected layers.
-However, the lesser parameters are a trade-off for accuracy.
+Researches showed that convolutional neural networks are well-suited for image classification tasks \cite{Simonyan15, He2016ResNet, SzegedyInceptionv4}.
+Furthermore, in \cite{Su:2015:MCN:2919332.2919750} the VGG-M \cite{journals/corr/ChatfieldSVZ14} architecture is used for classifying multi-views.
+This convolutional neural network uses eight layers and yields satisfying classification results for either single- or multi-views.
+\textit{Feng et al.} \cite{Feng2018} show that the performance of this multi-view classification architecture can be improved by grouping views with similar informational content and weighting the groups accordingly.
+A schematic of their group-view convolutional neural network architecture, short GVCNN, is illustrated in \figref{fig:gvcnn-framework}.
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{images/gvcnn_framework.png}
+	\caption{Group-view convolutional neural network architecture (from \cite{Feng2018})}
+	\label{fig:gvcnn-framework}
+\end{figure}
+Their architecture is based on GoogLeNet \cite{szegedy2015} and uses 22 layers.
+Each view of a multi-view input is propagated through the same subset containing the first five main convolutional layers, labeled "FCN" in the figure, yielding a raw view descriptor for each.
+Those are further propagated through the remaining main convolutional layers, labeled "CNN" in the figure, yielding a final view descriptor for each.
+Based on those raw view descriptors a discrimination score for each view is calculated by propagating them through a fully-connected layer for dividing each view, in particular each final view descriptor, in groups.
+Depending on the discrimination scores of all views in a certain group, this group is assigned a weight.
+Furthermore, an inter-group view descriptor pooling yields a group descriptor for each group.
+Combining all group descriptors depending on their weight, a final compact shape descriptor is generated that describes the shape of the object.
+This is propagated through a final fully-connected layer, labeled "FC" in the figure, to get the classification result.
 
-In \cite{Feng2018} it is shown that the performance of the network from \cite{Su:2015:MCN:2919332.2919750} can be improved even more by grouping views with similar informational content and giving their descriptors more weight during the classification.
-It is supposed that in particular the grouping process suits the task of distinguishing same models with different materials very well.
-Because the material is the only difference, the related views should be weighted the most while all others should only play a marginal role in the classification process.
-This would reduce noise and thus results in a better performance.
-Hence, the network is divided into three important modules as illustrated in \figref{fig:architecture-modules}.
+It is supposed that in particular the grouping process can be adapted to the task of distinguishing the same models with different color marks very well.
+Furthermore, a view discrimination score supports the analysis of the information content of views.
+Because the color mark is the only difference, the related views should be weighted the most while all others should only play a marginal role in the classification process.
+This would reduce noise, thus, resulting in a better performance.
+However, using the exact same architecture of GVCNN is not possible due to its number of parameters that exceeds the available resources for this work.
+Hence, the AlexNet architecture \cite{Krizhevsky:2012:ICD:2999134.2999257} is chosen that consists of eight layers.
+Regarding its layers it is very similar to the VGG-M but uses larger but less filters for convolutions and fewer nodes in the fully connected layers.
+However, the less parameters are a trade-off for accuracy.
+Because of the less layers compared to GVCNN the position of the generation of the view discrimination scores and the shape descriptor within the network is different.
+The discrimination scores depend on the last main convolutional layer that is actually the fifth as well.
+In MVCNN two of three fully-connected layers are used to generate a shape descriptor based on its single pooled view descriptor, while the third classifies it.
+Based on this, each group descriptor is propagated through two fully-connected layers in this work's architecture for generating group shape descriptors.
+Those are combined regarding their weights to a final, compact shape descriptor that is used for classification in the third fully-connected layer.
+
+%A summary of this work's architecture is presented in \tabref{tab:network-layers}.
+%\begin{table}[]
+%\centering
+%\caption{Network layer summary}
+%\label{tab:network-layers}
+%	\begin{tabular}{lllll}
+%		Operation & Window       & Output Size                & Stride & Padding \\ \hline
+%		Conv1     & $7 \times 7$ & $109 \times 109 \times 96$ & 2      & Valid   \\
+%		Pool1     & $3 \times 3$ & $54 \times 54 \times 96$   & 2      & Valid   \\ \hline
+%		Conv2     & $5 \times 5$ & $27 \times 27 \times 256$  & 2      & Same    \\
+%		Pool2     & $3 \times 3$ & $13 \times 13 \times 256$  & 2      & Valid   \\ \hline
+%		Conv3     & $3 \times 3$ & $13 \times 13 \times 384$  & 1      & Same    \\ \hline
+%		Conv4     & $3 \times 3$ & $13 \times 13 \times 384$  & 1      & Same    \\ \hline
+%		Conv5     & $3 \times 3$ & $13 \times 12 \times 256$  & 1      & Same    \\
+%		Pool5     & $3 \times 3$ & $6 \times 6 \times 256$    & 2      & Valid   \\ \hline
+%		Fc1       &              & 4096                       &        &         \\ \hline
+%		Fc2       &              & 4096                       &        &         \\ \hline
+%		Fc3       &              & \# of Classes              &        &         \\ \hline
+%		Softmax   &              &                            &        &         \\ \hline
+%	\end{tabular}
+%\end{table}
+This work's network architecture is divided into three important modules as illustrated in \figref{fig:architecture-modules}.
 The feature module takes all views of an object and calculates a descriptor for each.
-Those are fed to the grouping module, that groups views dependent on their information content and generates a descriptor for every group and additionally their weight.
-Dependent on those outputs a single descriptor is calculated, that describes the inputted shape or object, respectively, and is used for the classification.
+Those are fed to the grouping module, that groups views dependent on their information content and outputs a descriptor for every group and additionally their weight.
+Dependent on those outputs a single, compact descriptor is calculated, that describes the inputted shape or object, respectively, and is used for the classification.
 Each of the modules is examined in detail in the following sections.
 \begin{figure}
 	\centering
 	\includegraphics[]{images/multi_view_architecture.pdf}
-	\caption{Modules of the multi-view architecture}
+	\caption{Modules of the multi-view architecture. The feature, grouping and shape modules are executed consecutively. Each module's operations are executed from left to right according their illustrated flow by arrows.}
 	\label{fig:architecture-modules}
 \end{figure}
 

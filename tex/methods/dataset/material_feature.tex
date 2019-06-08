@@ -4,13 +4,14 @@ This work focuses on analyzing how views of the same objects but with different 
 Hence, their information content and significance is evaluated.
 This section covers how those color marks are applied.
 First, duplicates of every object are created.
-This is a trivial task because this can be done by rendering the native object first and then the colored one.
+This is a trivial task because it can be done by rendering the native object first and then the colored one.
 In CAD modeling, objects or faces, in particular, are assigned a material with a color that reacts to light which produces shadows.
 Hence, coloring single faces differently becomes the chosen approach for applying color marks due to its simplicity.
 However, a well-suited face for being colored needs to be found.
 In the following those faces are referred to as an optimal face.
 It is important to filter all faces of an object by their area size.
-\figref{fig:face-area-filter} shows why and the results of several thresholds.
+Otherwise, unremarkable ones are probably chosen.
+\figref{fig:face-area-filter} illustrates this scenario and the results of several thresholds.
 \begin{figure}
 	\centering
 	\begin{subfigure}{.32\textwidth}
@@ -31,24 +32,23 @@ It is important to filter all faces of an object by their area size.
 		\caption{Max Face Area Dependent}
 		\label{fig:face-area-max-dependent}
 	\end{subfigure}
-	\caption{Threshold setup for filtering faces by their area size}
+	\caption[Threshold setup for filtering faces by their area size]{Threshold setup for filtering faces by their area size. The first face that meets the requirement is colored.}
 	\label{fig:face-area-filter}
 \end{figure}
 If faces are not filtered at all, any face can result in being the optimal one.
-However, it is not guaranteed that this face has a decent size and can be seen and recognized by the network easily.
-This assumption was later verified by a not changing loss value during training.
+However, it is not guaranteed that this face has a decent size and can be seen properly.
 Like in \figref{fig:face-area-unfiltered} the optimal face is comparatively small to the whole model.
 Accepting only faces as the optimal face, that have at least the size of the mean of all faces lead to a result like in \figref{fig:face-area-mean}.
 The optimal face can be seen more easily than before, but this threshold often results in long and slender optimal faces.
-This is due to the fact, that the chosen object categories mostly contain objects that are built using such faces because they have longish surfaces.
-Hence, filtering by the mean of the faces amplifies the probability to choose such a face as an optimal one.
-Therefore, a threshold of above the mean is desired to skip all those lathy faces like it is shown in \figref{fig:face-area-max-dependent}.
+This is due to the fact, that at least the extracted object classes are mostly modeled with faces in such a shape.
+Hence, filtering by the mean of the faces increases the probability to choose such a face as an optimal one.
+Therefore, a threshold of above the mean is desired to skip all those long and slender faces like it is shown in \figref{fig:face-area-max-dependent}.
 Additionally, larger faces should be preferred.
-Thus, the area of the optimal face have to satisfy
+Thus, the area of the optimal face has to satisfy
 \begin{equation}
 	\alpha_{\text{opt}} > (\alpha_{\text{mean}} + \alpha_{\text{max}}) \cdot \lambda
 \end{equation}
-where $\alpha$ are the related areas and $\lambda$ a scalar.
+where $\alpha_{\text{mean}}$ and $\alpha_{\text{max}}$ are the mean and maximum of all face areas, respectively, and $\lambda$ a scalar.
 With $\lambda = 0.3$ satisfying results are achieved.
 
 Furthermore, it needs to be guaranteed, that the optimal face is visible in at least one view and not visible in at least one view.
@@ -58,26 +58,29 @@ Fortunately, there is a function in Blender performing this approach and returni
 However, this cannot be performed for every pixel of a face due to performance issues.
 Thus, the trade-off against accuracy is only checking the vertices defining the face.
 This can raise errors, though, because a vertex can define multiple faces and it is not certain which face index the function returns.
-Hence, each checkpoint $\vec{p}_i$ is moved slightly to the center of the face $\mathbb{F} = (v_{f1}, v_{f2}, v_{f3})$ by
+Hence, checkpoint vertices $\vec{p}_{fi}$ are defined for each face $\mathbb{F}_f = (\vec{v_{f1}}, \vec{v_{f2}}, \vec{v_{f3}})$.
+Those are initialized with the coordinates of the vertices $\vec{v}_{fi}$ and slightly moved to the center of the face.
+Their actual position is calculated by 
 \begin{equation}
-	\vec{p}_{fi} = \vec{v}_{fi} + 0.05 \cdot (\vec{f}_o - \vec{v}_{fi})
+	\vec{p}_{fi} = \vec{v}_{fi} + 0.05 \cdot (\vec{v}_{fo} - \vec{v}_{fi})
 \end{equation}
-where $\vec{v}_{fi}$ is the related vertex and $\vec{f}_o$ the center of the face.
+where $\vec{v}_{fi}$ is the related vertex and $\vec{v}_{fo}$ the center of the face.
 If the ray cast is valid for at least one checkpoint the face is supposed to be visible.
 If all rays hit the wrong face, the current face is supposed to be not visible.
 As soon as both conditions are satisfied for the examined face among all views, it becomes the optimal face.
 Otherwise, the next possible face is investigated.
 If the conditions are never satisfied for each possible face, the object is skipped at all.
 
-It is found, that a single optimal face is not enough, because some models have several duplicated faces.
-Those are different faces where the coordinates of all the describing vertices are identical to the ones of other faces.
-Hence, there are faces laying into each other.
-This results in rendering issues like it is shown in \figref{fig:optimal-face}, because the rendering engine does not know, which material should be rendered on the surface.
+It is noticed, that some models have duplicated faces.
+That are different faces, that are described with the same coordinates as other faces.
+Hence, those faces are identical and lie into each other.
+If only one of them is colored, rendering issues as visualized in \figref{fig:optimal-face} emerge, because the rendering engine does not know, which color should be rendered on the surface.
+Thus, if an optimal face has corresponding identical faces, all of them need to be part of the optimal face and colored as well.
 In \figref{fig:optimal-face-single} only one of two identical faces is colored, which leads to the noticeable transparency effect.
 That is one of the brighter effects, though.
-It is also possible that one optimal face is shown normally and only on the edge rendering issues are visible like a dotted line with the colors of all optimal faces. 
+It is also possible that one optimal face is shown normally and only on the edge rendering issues are visible like a dotted line with the colors of the related identical faces. 
 Nevertheless, any of these effects could induce false correlations into the dataset that are not available on real-world objects, hence, leading to a not practical network.
-Thus, in \figref{fig:optimal-face-all} the materials of all identical faces are changed, which leads to realistic color representations.
+Thus, in \figref{fig:optimal-face-all} the colors of all identical faces are changed, which leads to realistic color representations.
 \begin{figure}
 	\centering
 	\begin{subfigure}{.49\textwidth}
@@ -92,20 +95,20 @@ Thus, in \figref{fig:optimal-face-all} the materials of all identical faces are 
 		\caption{All Optimal Faces}
 		\label{fig:optimal-face-all}
 	\end{subfigure}
-	\caption{Material manipulation on duplicated optimal faces}
+	\caption{Color manipulation on duplicated optimal faces}
 	\label{fig:optimal-face}
 \end{figure}
 
-Regarding a validation of the later model, an examination of two material features per object would be interesting.
-Hence, for applying another material change on a model, another optimal face or faces, respectively, needs to be found.
-A requirement for this is the presence of only one material feature in a single view.
-Due to the automation of this task, a reliable solution is necessary.
+Moreover, two color marks are applied on an object for examining how this changes the impact of views on the classification.
+Hence, for applying a second color mark on a model, another optimal face or faces, respectively, needs to be found.
+A requirement for this is the presence of only one color feature in a single view.
+Due to the automation of the rendering, a reliable solution is necessary.
 One approach would be using the other side of the surface of the first optimal face.
 However, this fails if the surface has a thickness of more than a single face.
 Then the next face along its normal needs to be found by ray casting and then the visibility of this face needs to be verified.
-Thus, this process leads to excessive ray cast validations and therefore not followed up on.
+Thus, this process leads to excessive ray cast validations and therefore is not pursued.
 However, it is considered, that faces at a similar location as the original optimal face are well-suited as well.
 Thus, the choices of further optimal faces are narrowed down by sorting all remaining faces by their distance from their center to the center of the first optimal face in descending order.
-The intention is that choosing faces with the largest distances result in either an opposite face or in a face that is that far away to not be visible at the same time. as the first optimal face.
+The intention is that choosing faces with the largest distances result in either an opposite face or in a face that is that far away to not be visible at the same time as the first optimal face.
 Of course, the tasks of checking the visibility and finding identical faces are performed on the new face as well.
 If no additional optimal face is found, the model is skipped, although, this never happened during execution.

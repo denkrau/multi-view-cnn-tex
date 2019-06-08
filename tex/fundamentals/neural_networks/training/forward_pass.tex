@@ -10,7 +10,7 @@ Performing a one-hot encoding on the labels and assuming in general flattened in
 where $\vec{X} \in \mathbb{R}^{n_x \times m}$ and $\vec{Y} \in \mathbb{R}^{n_y \times m}$ are representing each input and label as vectors, respectively, forming matrices.
 Hereby, $n_x$ represents the size of each input image and $n_y$ the number of classes.
 This set is then divided into a training, validation and test set.
-Each of them contains $m_{\text{train}}$, $m_{\text{valid}}$ or $m_{\text{test}}$ samples, respectively.
+Each of them contains $m_{\text{train}}$, $m_{\text{valid}}$ or $m_{\text{test}}$ samples, respectively, where $m = m_{\text{train}} + m_{\text{valid}} + m_{\text{test}}$.
 Furthermore, there is a neural network with $L$ layers each containing an arbitrary number of neurons.
 Expressing the activation of every perceptron with \eqref{eq:perceptron-sum} would get very confusing for a whole network.
 Hence, a matrix notation is preferred.

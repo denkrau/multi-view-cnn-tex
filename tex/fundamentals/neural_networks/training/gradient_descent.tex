@@ -28,7 +28,7 @@ The goal of backpropagation is to compute the partial derivatives
 of the cost function w.r.t. the parameters by averaging the partial derivatives of cost functions of $m_{\text{train}}$ samples from the training set that were passed through the network.
 These $m_{\text{train}}$ samples build a so-called batch in this context.
 \figref{fig:backpropagation-influences} recaps the data flow in a neuron in the last layer.
-By checking stepwise how a parameter directly influences a subsequently one, \eqref{eq:backpropagation} can be written as
+By checking stepwise how a parameter directly influences a subsequent one, \eqref{eq:backpropagation} can be written as
 \begin{subequations}
 	\label{eq:backpropagation-last}
 	\begin{align}

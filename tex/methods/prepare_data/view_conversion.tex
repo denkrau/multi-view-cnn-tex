@@ -1,32 +1,25 @@
 \subsection{Single-View to Multi-View Conversion}
 \label{sec:prepare-data-view-conversion}
-The views created in \secref{sec:dataset-material-feature} exist in a single view representation.
-Thus, a multi-view classification should be performed by the network.
-This means each input represents a model with all its corresponding views.
-Hence, each model's single views need to be converted into a related multi-view representation.
-For achieving this the single views need to be collected first.
-From a given custom file path to the dataset all model views are collected recursively in a sorted order.
-This is necessary for keeping related views in the order by which they are created.
-Due to the self-explanatory folder structure, models for the training and testing set can be handled independently.
-To each of the sets belongs a matrix $\vec{X}_{set}$ for storing all related views in RGB color representation.
-Now, each view's pixel values are read, normalized to a range between 0 and 1, flattened to a vector $\vec{x}^{(i)}$ and then stored in one of the just mentioned view matrices.
-Simultaneously to the view gathering each one-hot encoded label needs to be created as well and put into a matrix $\vec{Y}_{set}$ similar to the views.
-Getting the category is quite simple because the file path of the view is known.
-Hence, the second to last element of the view's file path represents the category label.
-The file name of a view is built like \textit{category\_object-id\_material-id\_view-id.ext}.
-Here is the material index label extracted by splitting the file name by "\textit{\_}" first and then taking the third split element.
-Depending on the classification task of the model, those two labels possibly need to be combined.
+The objective of the network is to classify multi-views of objects.
+This means each input represents an object with all its corresponding views.
+However, the views created in \secref{sec:dataset-material-feature} exist in single view representation because they are rendered successively.
+Thus, each model's single views need to be converted into a related multi-view representation.
+For achieving this, all single views are collected in order of their creation for keeping their relation.
+Each view's pixel values are read, normalized to a range between 0 and 1, flattened to a vector $\vec{x}^{(i)}$ and stored in the input matrix $\vec{X}_{\text{set}}$ of the corresponding set.
+Simultaneously to the view gathering each one-hot encoded label $\vec{y}^{(i)}$ needs to be created as well and put into the label matrix $\vec{Y}_{set}$ of the corresponding set similar to the views.
+Each label may contain an object class, the so-called category, and a color mark class, the so-called color.
+Depending on the type of classification, these two classes possibly need to be combined.
 The single-label classification case embraces the following configurations.
-If categories and materials are classified, both labels are appended to each other.
-This results in $n_y = n_c \cdot n_m$ classes, where $n_c$ is the number of categories and $n_m$ the number of materials.
-If only categories or materials are classified, the final label is the category label or the material label, respectively.
-Logically, the number of classes, is either $n_y = n_c$ or $n_y = n_m$.
+If categories and colors are classified, both classes are appended to each other.
+This results in $n_y = n_c \cdot n_m$ classes for classification, where $n_c$ is the number of categories and $n_m$ the number of color marks.
+If only categories or color marks are classified, the final label contains only the category class or the material class, respectively.
+Logically, the number of classes for classification, is either $n_y = n_c$ or $n_y = n_m$.
 In the multi-label classification case, both labels are used independently.
-Hence, the number of classes equals $n_y = n_c + n_m$.
+Hence, the number of classes for classification equals $n_y = n_c + n_m$.
 An example of those configurations is shown in \tabref{tab:label-generation}.
 \begin{table}[]
 	\centering
-	\caption[Label generation]{Label generation with example categories "bathtub" and "sofa" and materials "0" and "1" for different cases of classifications.}
+	\caption[Label generation]{Label generation with example category classes "bathtub" and "sofa" and color mark classes "0" and "1" for different cases of classifications.}
 	\label{tab:label-generation}
 	\begin{tabular}{l|l|l}
 		Classification      & Single-Label                                                                        & Multi-Label                                                    \\ \hline
@@ -48,12 +41,10 @@ Dividing each input and output matrix into datasets yields
 where each column of $\vec{X}$ and $\vec{Y}$ of the same set are building an input-output pair.
 
 Those single view and label representations need to be converted to a multi-view representation yielding $\tilde{\vec{X}}_{\text{set}}$ and $\tilde{\vec{Y}}_{\text{set}}$, respectively.
-Because sorted data was read in, it is known that each 12 elements belong together and need to put together somehow.
-Looking at common definitions yields, that images are a three-dimensional matrix with the shape definition $Height \times Width \times Channels$.
+Because sorted data was read in, it is known that each $n_v=12$ elements belong together and need to put together somehow.
+Looking at common definitions yield, that images are a three-dimensional matrix with the shape definition $Height \times Width \times Channels$.
 Furthermore, tensorflow mostly uses the shape definition $Batch \times Height \times Width \times Channels$ for tensors.
-Hence, assuming each view as a batch element is a reasonable approach.
+Hence, reshaping each view back to a matrix representation of its original size and assuming it as a batch element is a reasonable approach for generating a multi-view of an object.
 If an actual batch dimension becomes necessary it is inserted as a new first dimension.
-This yields a reduction of \eqref{eq:dataset-train} and \eqref{eq:dataset-test} to a $n_v$-th of its size, where $n_v$ is the number of views.
-The labels can be processed similar, however, much easier.
-Because each $n_v$ labels are identical, it is sufficient to just keep every $n_v$-th label.
+Because each $n_v$ labels are identical, it is sufficient to just keep every $n_v$-th label for the multi-view representation.
 For a later lookup of the labels, they are saved to the disk as a text file.

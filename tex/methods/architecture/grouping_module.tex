@@ -1,43 +1,43 @@
 \subsection{Grouping Module: Generating Group Descriptors}
 \label{sec:architecture-grouping-module}
-The objective of the grouping module is grouping several view descriptors of an object depending on their information content.
+The objective of the grouping module is grouping each view descriptor $\vec{V}^{[5]}_v$ of an object depending on its information content.
+This weights discriminative ones more than others, hence, improves the classification performance.
+Moreover, based on each view's discrimination score an analysis of its information content is supported.
 The view descriptors $\vec{V}^{[5]}_v$ of each group $\mathbb{G}_g$ are then combined to a group descriptor $\vec{G}_g$.
-Hence, the module's input are the view descriptors coming from the feature module.
+Hence, this module's inputs are the view descriptors coming from the feature module.
 \begin{figure}
 	\centering
 	\includegraphics[]{images/grouping_module_groups.pdf}
-	\caption{Group creation and view sorting in grouping module}
+	\caption{Group creation and view sorting in grouping module. Each view descriptor $\vec{V}^{[5]}_v$ is propagated through the same fully-connected layer yielding a view discrimination score $\theta_v$ based on which the view or view descriptor, respectively, is divided into a group $\mathbb{G}_g$.}
 	\label{fig:grouping-module-groups}
 \end{figure}
 First, the informational content of each view needs to be calculated.
 The simplest and most intuitive way is to give every view a single number representing its score of discrimination.
 One approach would be to make the score directly depend on the pixel values.
 This could be performed with a fully-connected layer with the pixels as inputs and the score as output.
-However, like with fully-connected neural networks, this leads to a stiffness of the network due to its translation-variance of input values. 
-This could be overcome by using convolutions first for extracting features.
-However, such features are already extracted, presumably much more accurate than a few convolutions for the score would do. 
-Hence, the followed approach is that each view's score depends on its latest descriptor.
+However, like with fully-connected neural networks, this leads to many additional parameters for the network due to the translation-variance of input values. 
+This could be overcome by using convolutions first for extracting features for the score.
+However, discriminative features are already extracted, presumably much more accurate than a few convolutions for the score would do. 
+Hence, the followed approach is that each view's score depends on its most recent descriptor $\vec{V}^{[5]}_v$.
 It is worth noting, that in \cite{Feng2018} the view scores do not depend on the last convolution.
-However, their network architecture uses more than five convolutional layers, but their scores depend on the fifth one.
-This is probably because later features are too detailed and would result in too divergent discrimination scores for a reliable group generation.
-Each latest view descriptor is fed into the same single fully-connected layer with 1 node.
+However, their network architecture uses more than five convolutional layers, but the scores depend on the fifth one as well.
+This is probably because later features of deeper view descriptors are too detailed and would result in too divergent discrimination scores for a reliable group generation.
+In this work's architecture each latest view descriptor $\vec{V}^{[5]}_v$ is fed into the same single fully-connected layer with one node.
 Therefore, the view descriptor matrix is flattened into a row-wise vector, which is multiplied with the corresponding weight matrix $\vec{W}^{[d4]}$ of shape $6 \cdot 6 \cdot 256 \times 1$.
-This results in a single value to which a bias $b^{[d4]}$ is added.
+To this result a bias $b^{[d4]}$ is added yielding the weighted sum $z^{[d4]}$ with a single value.
+This is fed into its activation function.
+In contrast to every other layer in this network, a leaky ReLU activation function is applied to this unit.
 A dropout is not performed, because with only one node it is not desirable.
 Dropping out this node represents a view discrimination score of 0.
-Of course, this would generalize the view score, but some overfitting on detailed features is desirable for evaluating views.
-It is supposed that those discriminative features are reoccurring in different views if the latter is actually discriminative.
-Thus, the more discriminative features a view has, the more discriminative it is.
-Hence, they should be kept and used for training.
-Finally, the weighted sum of a node is fed into its activation function.
-It was found during training, that the unit died at the beginning of the training most of the time when using ReLU activation functions.
-This is due to its characteristic.
-If the weighted sum is zero or below at the beginning of the training due to an unsuited weight initialization, the activation is zero, hence, the neuron dies immediately.
-Another reason could be a too large learning rate, allowing the weights to update in too big steps leading to a weighted sum of 0 or below.
-This results in a view score of $0$ for every view that is not changed during later training steps due to a gradient of 0.
-The learning rate should suit the whole network and not only this layer, though.
-So, in contrast to every other layer in this network, leaky ReLU activation functions are applied to those units.
-Their gradient is always unequal to zero, hence, it is solving the dying ReLU unit problem.
+This would generalize the view scores way to strong, hence, unnecessarily extending training time.
+Finding well-suited parameters for this layer would presumable take longer than for the others, thus, generating a bottle-neck in the architecture.
+%It was found during training, that the unit died at the beginning of the training most of the time when using ReLU activation functions.
+%This is due to its characteristic.
+%If the weighted sum is zero or below at the beginning of the training due to an unsuited weight initialization, the activation is zero, hence, the neuron dies immediately.
+%Another reason could be a too large learning rate, allowing the weights to update in too big steps leading to a weighted sum of 0 or below.
+%This results in a view score of $0$ for every view that is not changed during later training steps due to a gradient of 0.
+%The learning rate should suit the whole network and not only this layer, though.
+%Their gradient is always unequal to zero, hence, it is solving the dying ReLU unit problem.
 
 For interpretation purposes, the activation is squeezed into a range from 0 to 1 using the sigmoid function according to \cite{Feng2018} representing a probability of discrimination.
 Because the sigmoid function saturates at values higher than around $\abs{5}$, but the activation of the fully-connected layer is assumed to be larger, the natural logarithm of the activation is computed first.
@@ -46,9 +46,9 @@ For having a continuous function the absolute value of the activation is taken b
 This yields the expression for a view's score
 \begin{equation}
 	\label{eq:view-discrimination-score}
-	\theta = \sigmoid\left( \log \left( \abs{a^{[d4]}} + \varepsilon \right) \right)
+	\theta_v = \sigmoid\left( \log \left( \abs{a^{[d4]}} + \varepsilon \right) \right)
 \end{equation}
-where $a^{[d4]}$ is the output or activation, respectively, of the fully-connected layer.
+where $a^{[d4]}$ is the output or activation, respectively, of the corresponding fully-connected layer.
 The small constant $\varepsilon=10^{-6}$ is added for numerical stability for avoiding $\log(0)$.
 A plot of this function is shown in \figref{fig:view-discrimination-score}.
 \begin{figure}
@@ -61,32 +61,31 @@ A plot of this function is shown in \figref{fig:view-discrimination-score}.
 \end{figure}
 All view discrimination scores for a batch are stored in a tensor $\bar{\vec{\Theta}}$ with shape $Batch \times Views$.
 
-Dependent on each view score, the related views are divided into groups.
+Dependent on each view score, the related views or view descriptors, respectively, are divided into groups.
 For maximum flexibility, the number of groups $n_g$ equals the number of views $n_v$.
-Hence, the size of each group $r_g$ is related to the number of views $n_v$ per object and the range of possible view scores $r_\theta$.
+Hence, the size of each group bin $r_g$ is related to the number of views $n_v$ per object and the range of possible view scores $r_\theta$.
 With the limit of \eqref{eq:view-discrimination-score}
 \begin{equation}
-	\lim_{x\rightarrow \infty} \sigmoid\left( \log \left( \abs{a^{[d4]}} + \varepsilon \right) \right) = 1
+	\lim_{a^{[d4]}\rightarrow \infty} \sigmoid\left( \log \left( \abs{a^{[d4]}} + \varepsilon \right) \right) = 1
 \end{equation}
 and only positive values from the ReLU, scores are in the range $r_\theta = 1 - 0 = 1$.
 Dividing $r_\theta$ in equal sized parts yields
 \begin{equation}
 	r_g = \frac{r_\theta}{n_v} = \frac{1}{12} \approx 0.083
 \end{equation}
-as each group's size.
-Hence, a group $\mathbb{G}_g$ contains views with scores of $(g-1) \cdot r_g \leq \theta < g \cdot r_\theta$ where $g = {1,2, \dots, n_v}$.
-\figref{fig:grouping-module-groups} illustrates the basic view score calculation and group dividing.
+as each group bin's size related to the discrimination score values.
+Hence, a group $\mathbb{G}_g$ contains views with scores of $(g-1) \cdot r_g \leq \theta < g \cdot r_\theta$ where $g \in \{1,2, \dots, n_v\}$.
+\figref{fig:grouping-module-groups} illustrates the basic view score calculation and grouping.
 This example assumes a group size of $0.33$.
 The group to which each view $\tilde{\vec{X}}^{(i)}_v$ belongs is calculated by
 \begin{equation}
-	g = \floor \left( \frac{\vec{\theta}_v}{r_g} \right)
+	g_v = \floor \left( \frac{\vec{\theta}_v}{r_g} \right)
 \end{equation}
 yielding the group's index, where $\vec{\theta}_v$ is the view score of the $v$-th view of the corresponding multi-view sample.
 Those are stored for every view resulting in the group index vector $\vec{g}_{\text{idx}} = \left( g_1, g_2, \cdots, g_{n_v}\right)^T$.
 The subscripts correspond to the view indices, e.g. $g_2$ belongs to $\tilde{\vec{X}}^{(i)}_2$.
 With this approach, it is possible for groups to remain empty.
 Based on the group indices, related view descriptors are averaged across their first dimension.
-This means every channel of one view descriptor is averaged element-wise with the corresponding channel of the other view descriptors.
 In brief, every feature is averaged.
 This is illustrated in \figref{fig:grouping-module-group-descriptors}.
 \begin{figure}
@@ -95,27 +94,27 @@ This is illustrated in \figref{fig:grouping-module-group-descriptors}.
 	\caption[Generating group descriptors]{Generating group descriptors by calculating the average of related features.}
 	\label{fig:grouping-module-group-descriptors}
 \end{figure}
-A normal average is chosen, because all views in a group should have similar extracted features, e.g. the left and right side of a car.
-If the maximum of all features were taken, the group would presumably contain all views where important features were extracted for creating a group descriptor containing as many features as possible.
+Because all view descriptors in a group should have similar extracted features, they can be combined by averaging them without a significant loss in information.
+If the maximum of all features were taken, though, the group would presumably contain all view descriptors where important features were extracted for creating a group descriptor containing as many features as possible.
 However, this is not desirable for the use case.
 This results in a group descriptor
 \begin{equation}
 	\vec{G}_g = \frac{\sum_{\vec{D} \in \mathbb{G}_g} \vec{D}}{|\mathbb{G}_g|}
 \end{equation}
-with the same size as a view descriptor, where $\vec{D}$ is a view descriptor $\vec{V}^{[5]}$ of group $\mathbb{G}_g$. The addition and division are calculated element-wise.
+with the same size as a view descriptor, where $\vec{D}$ is a view descriptor $\vec{V}_v^{[5]}$ of group $\mathbb{G}_g$.
+The addition and division are calculated element-wise.
 However, the views of different objects are not necessarily divided into the same number of groups, thus, leading to a different number of group descriptors.
-Due to tensorflow's constraint, that a tensor is not allowed to change its shape in a graph during execution, additional empty group descriptors need to be created for reaching the maximum possible number of group descriptors of $n_v$.
-So, the final shape of the tensor $\bar{\vec{G}}$ containing all group descriptors is $Batch \times n_v \times 6 \times 6 \times 256$.
+Hence, the final shape of the tensor $\bar{\vec{G}}$ containing all group descriptors is $Batch \times n_g \times 6 \times 6 \times 256$.
 
-Every group $\vec{G}_g$ gets a weight $w_g$ assigned representing its discrimination.
+Every group $\mathbb{G}_g$ gets a weight $w_g$ assigned representing its discrimination.
 This depends on the scores of its contained views.
-Analog to before, views of a group are found by checking the group index vector $\vec{g}$.
+Analog to before, views of a group are found by checking the group index vector $\vec{g}_{\text{idx}}$.
 This time the related view scores are summed up and divided by their number for calculating a mean.
 In mathematical terms,
 \begin{equation}
-	{w}_g = \frac{\sum_{\vec{V} \in \mathbb{G}_g} \theta(\vec{V})}{|\mathbb{G}_g|}
+	{w}_g = \frac{\sum_{\vec{D} \in \mathbb{G}_g} \theta_v(\vec{D})}{|\mathbb{G}_g|}
 \end{equation}
-calculates the weight of the $g$-th group, where $\theta(\vec{V})$ is the score of a view $\vec{V}$ in $\mathbb{G}_g$.
+calculates the weight of the $g$-th group, where $\theta_v(\vec{D})$ is the score of a view descriptor $\vec{V}_v^{[5]}$ in $\mathbb{G}_g$.
 Furthermore, the weight of a group is normalized by
 \begin{equation}
 	w_g = \frac{\hat{w}_g}{\max(\theta(\mathbb{G}_g))}
@@ -128,5 +127,4 @@ The calculation of the group weights is illustrated in \figref{fig:grouping-modu
 	\caption{Calculation of group weights in grouping module}
 	\label{fig:grouping-module-weights}
 \end{figure}
-The weights of the padded group descriptors equal 0 for being ignored in a later matrix multiplication.
-Hence, the shape of the tensor $\bar{\vec{W}}_g$ storing all group weights is $Batch \times n_v$.
+The shape of the tensor $\bar{\vec{W}}_g$ storing all group weights of a batch is $Batch \times n_g$.
