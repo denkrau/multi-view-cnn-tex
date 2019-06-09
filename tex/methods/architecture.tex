@@ -34,27 +34,29 @@ In MVCNN two of three fully-connected layers are used to generate a shape descri
 Based on this, each group descriptor is propagated through two fully-connected layers in this work's architecture for generating group shape descriptors.
 Those are combined regarding their weights to a final, compact shape descriptor that is used for classification in the third fully-connected layer.
 
-%A summary of this work's architecture is presented in \tabref{tab:network-layers}.
-%\begin{table}[]
-%\centering
-%\caption{Network layer summary}
-%\label{tab:network-layers}
-%	\begin{tabular}{lllll}
-%		Operation & Window       & Output Size                & Stride & Padding \\ \hline
-%		Conv1     & $7 \times 7$ & $109 \times 109 \times 96$ & 2      & Valid   \\
-%		Pool1     & $3 \times 3$ & $54 \times 54 \times 96$   & 2      & Valid   \\ \hline
-%		Conv2     & $5 \times 5$ & $27 \times 27 \times 256$  & 2      & Same    \\
-%		Pool2     & $3 \times 3$ & $13 \times 13 \times 256$  & 2      & Valid   \\ \hline
-%		Conv3     & $3 \times 3$ & $13 \times 13 \times 384$  & 1      & Same    \\ \hline
-%		Conv4     & $3 \times 3$ & $13 \times 13 \times 384$  & 1      & Same    \\ \hline
-%		Conv5     & $3 \times 3$ & $13 \times 12 \times 256$  & 1      & Same    \\
-%		Pool5     & $3 \times 3$ & $6 \times 6 \times 256$    & 2      & Valid   \\ \hline
-%		Fc1       &              & 4096                       &        &         \\ \hline
-%		Fc2       &              & 4096                       &        &         \\ \hline
-%		Fc3       &              & \# of Classes              &        &         \\ \hline
-%		Softmax   &              &                            &        &         \\ \hline
-%	\end{tabular}
-%\end{table}
+A summary of this work's architecture is presented in \tabref{tab:network-layers}.
+Each layer's hyperparameters are explained in the following sections.
+\begin{table}[]
+\centering
+\caption{Network layer summary}
+\label{tab:network-layers}
+	\begin{tabular}{lllll}
+		Operation & Window       & Output Size                & Stride & Padding \\ \hline
+		Conv1     & $7 \times 7$ & $109 \times 109 \times 96$ & 2      & Valid   \\
+		Pool1     & $3 \times 3$ & $54 \times 54 \times 96$   & 2      & Valid   \\ \hline
+		Conv2     & $5 \times 5$ & $27 \times 27 \times 256$  & 2      & Same    \\
+		Pool2     & $3 \times 3$ & $13 \times 13 \times 256$  & 2      & Valid   \\ \hline
+		Conv3     & $3 \times 3$ & $13 \times 13 \times 384$  & 1      & Same    \\ \hline
+		Conv4     & $3 \times 3$ & $13 \times 13 \times 384$  & 1      & Same    \\ \hline
+		Conv5     & $3 \times 3$ & $13 \times 12 \times 256$  & 1      & Same    \\
+		Pool5     & $3 \times 3$ & $6 \times 6 \times 256$    & 2      & Valid   \\ \hline
+		FcGroup   & 			 & 1					      &        &         \\ \hline
+		Fc1       &              & 4096                       &        &         \\ \hline
+		Fc2       &              & 4096                       &        &         \\ \hline
+		Fc3       &              & \# of Classes              &        &         \\ \hline
+		Softmax   &              &                            &        &         \\ \hline
+	\end{tabular}
+\end{table}
 This work's network architecture is divided into three important modules as illustrated in \figref{fig:architecture-modules}.
 The feature module takes all views of an object and calculates a descriptor for each.
 Those are fed to the grouping module, that groups views dependent on their information content and outputs a descriptor for every group and additionally their weight.

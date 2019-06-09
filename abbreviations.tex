@@ -42,14 +42,15 @@
 \abk[Ba08 ]{$p$}{Padding}
 \abk[Ba09 ]{$\gamma$}{Learning Rate}
 \abk[Ba10 ]{$n_v$}{Number of Views per Multi-View}
+\abk[Ba11 ]{$n_g$}{Number of Groups per Multi-View}
 
 %%% c - Objects
 \abk[Ca01 ]{$\vec{x}^{(i)} \in \mathbb{R}^{n_x}$}{$i$-th Sample Represented as Column Vector}
 \abk[Ca02 ]{$\vec{X} \in \mathbb{R}^{n_x \times m}$}{Input Matrix Containing Samples as Column Vectors}
-\abk[Ca03 ]{$\tilde{\vec{X}} \in \mathbb{R}^{n_v \times n_x \times m/n_v}$}{Multi-View Input Matrix}
+\abk[Ca03 ]{$\tilde{\vec{X}} \in \mathbb{R}^{m/n_v \times n_v \times Height \times Width \times Channels}$}{Multi-View Input Matrix}
 \abk[Ca04 ]{$\vec{y}^{(i)} \in \mathbb{R}^{n_y}$}{Label for $i$-th Sample}
 \abk[Ca05 ]{$\vec{Y} \in \mathbb{R}^{n_y \times m}$}{Label Matrix Containing Labels as Column Vectors}
-\abk[Ca06 ]{$\tilde{\vec{Y}} \in \mathbb{R}^{n_v \times n_y \times m/n_v}$}{Multi-View Label Matrix}
+\abk[Ca06 ]{$\tilde{\vec{Y}} \in \mathbb{R}^{n_y \times m/n_v}$}{Multi-View Label Matrix}
 \abk[Ca07 ]{$w_{jk}^{[l]}$}{Weight of Edge Connecting $k$-th Unit in Layer $l-1$ with $j$-th Unit in Layer $l$}
 \abk[Ca08 ]{$\vec{W}^{[l]} \in \mathbb{R}^{\text{number of units in l-th layer} \times \text{number of units in previous layer}}$}{Weight Matrix of Layer $l$}
 \abk[Ca09 ]{$b_{j}^{[l]}$}{Bias of $j$-th Unit in $l$-th Layer}

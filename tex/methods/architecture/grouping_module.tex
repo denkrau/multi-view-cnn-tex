@@ -63,7 +63,7 @@ All view discrimination scores for a batch are stored in a tensor $\bar{\vec{\Th
 
 Dependent on each view score, the related views or view descriptors, respectively, are divided into groups.
 For maximum flexibility, the number of groups $n_g$ equals the number of views $n_v$.
-Hence, the size of each group bin $r_g$ is related to the number of views $n_v$ per object and the range of possible view scores $r_\theta$.
+Hence, the size of each group bin $r_{\text{bin}}$ is related to the number of views $n_v$ per object and the range of possible view scores $r_\theta$.
 With the limit of \eqref{eq:view-discrimination-score}
 \begin{equation}
 	\lim_{a^{[d4]}\rightarrow \infty} \sigmoid\left( \log \left( \abs{a^{[d4]}} + \varepsilon \right) \right) = 1
@@ -71,15 +71,15 @@ With the limit of \eqref{eq:view-discrimination-score}
 and only positive values from the ReLU, scores are in the range $r_\theta = 1 - 0 = 1$.
 Dividing $r_\theta$ in equal sized parts yields
 \begin{equation}
-	r_g = \frac{r_\theta}{n_v} = \frac{1}{12} \approx 0.083
+	r_{\text{bin}} = \frac{r_\theta}{n_v} = \frac{1}{12} \approx 0.083
 \end{equation}
 as each group bin's size related to the discrimination score values.
-Hence, a group $\mathbb{G}_g$ contains views with scores of $(g-1) \cdot r_g \leq \theta < g \cdot r_\theta$ where $g \in \{1,2, \dots, n_v\}$.
+Hence, a group $\mathbb{G}_g$ contains view descriptors $\vec{V}_v^{[5]}$ of views with scores of $(g-1) \cdot r_{\text{bin}} \leq \theta_v < g \cdot r_{\text{bin}}$ where $g \in \{1,2, \dots, n_v\}$.
 \figref{fig:grouping-module-groups} illustrates the basic view score calculation and grouping.
 This example assumes a group size of $0.33$.
 The group to which each view $\tilde{\vec{X}}^{(i)}_v$ belongs is calculated by
 \begin{equation}
-	g_v = \floor \left( \frac{\vec{\theta}_v}{r_g} \right)
+	g_v = \floor \left( \frac{\vec{\theta}_v}{r_{\text{bin}}} \right)
 \end{equation}
 yielding the group's index, where $\vec{\theta}_v$ is the view score of the $v$-th view of the corresponding multi-view sample.
 Those are stored for every view resulting in the group index vector $\vec{g}_{\text{idx}} = \left( g_1, g_2, \cdots, g_{n_v}\right)^T$.
@@ -91,7 +91,7 @@ This is illustrated in \figref{fig:grouping-module-group-descriptors}.
 \begin{figure}
 	\centering
 	\includegraphics[]{images/grouping_module_group_descriptors.pdf}
-	\caption[Generating group descriptors]{Generating group descriptors by calculating the average of related features.}
+	\caption[Generating group descriptors]{Generating group descriptors $\vec{G}_g$ by calculating the average of view descriptors $\vec{V}^{[5]}_v$ in each group $\mathbb{G}_g$.}
 	\label{fig:grouping-module-group-descriptors}
 \end{figure}
 Because all view descriptors in a group should have similar extracted features, they can be combined by averaging them without a significant loss in information.
@@ -104,6 +104,8 @@ This results in a group descriptor
 with the same size as a view descriptor, where $\vec{D}$ is a view descriptor $\vec{V}_v^{[5]}$ of group $\mathbb{G}_g$.
 The addition and division are calculated element-wise.
 However, the views of different objects are not necessarily divided into the same number of groups, thus, leading to a different number of group descriptors.
+For a valid matrix representation when using batches group descriptors of zero need to be added that the number of all batch's group descriptors match.
+However, in the following $n_g$ is used for the group dimension for simplicity.
 Hence, the final shape of the tensor $\bar{\vec{G}}$ containing all group descriptors is $Batch \times n_g \times 6 \times 6 \times 256$.
 
 Every group $\mathbb{G}_g$ gets a weight $w_g$ assigned representing its discrimination.
@@ -112,7 +114,7 @@ Analog to before, views of a group are found by checking the group index vector 
 This time the related view scores are summed up and divided by their number for calculating a mean.
 In mathematical terms,
 \begin{equation}
-	{w}_g = \frac{\sum_{\vec{D} \in \mathbb{G}_g} \theta_v(\vec{D})}{|\mathbb{G}_g|}
+	\hat{w}_g = \frac{\sum_{\vec{D} \in \mathbb{G}_g} \theta_v(\vec{D})}{|\mathbb{G}_g|}
 \end{equation}
 calculates the weight of the $g$-th group, where $\theta_v(\vec{D})$ is the score of a view descriptor $\vec{V}_v^{[5]}$ in $\mathbb{G}_g$.
 Furthermore, the weight of a group is normalized by
@@ -127,4 +129,5 @@ The calculation of the group weights is illustrated in \figref{fig:grouping-modu
 	\caption{Calculation of group weights in grouping module}
 	\label{fig:grouping-module-weights}
 \end{figure}
-The shape of the tensor $\bar{\vec{W}}_g$ storing all group weights of a batch is $Batch \times n_g$.
+All group weights of an object are stored in a vector $\vec{w}_{\text{groups}}$ of size $n_g$.
+The corresponding tensor $\bar{\vec{W}}_{\text{groups}}$ has a size of $Batch \times n_g$.

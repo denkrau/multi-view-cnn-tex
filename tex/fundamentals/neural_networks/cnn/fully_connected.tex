@@ -17,6 +17,7 @@ The prediction $\hat{y}$ of a class $c$ manipulated with the softmax function ca
 \end{equation}
 where $\vec{a}^{[L]}$ are the activations of the last layer.
 Because the softmax manipulation outputs a probability distribution, it can only be performed when the classes are mutually exclusive, i.\,e. when only one class is correct.
+This is called single-label classification.
 Otherwise, for multi-label classification, a sigmoid function can be used, that squashes each output of the network into a range of 0 and 1.
 The softmax or sigmoid manipulation corresponds to the output block in \figref{fig:cnn-layers}.
 Combining the last fully-connected layer with a dropout layer is not desirable because this would remove some predictions of classes.
