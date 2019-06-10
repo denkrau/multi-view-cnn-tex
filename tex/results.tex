@@ -24,6 +24,7 @@ Furthermore, the dropout probability of layer 6 and 7 is specified as $0.5$ duri
 Otherwise this layer is ignored, hence, is assigned a dropout probability of $0.0$.
 Any dataset samples presented or predicted belong to the test set, thus, on data the network is not trained on.
 This means, the training and test set contain the same classes, either category or color, but different data samples.
+Each network is only trained once due to a lack of time, hence, all presented results refer to a particular training process and are not averages of several ones.
 \begin{table}[]
 \centering
 \caption[Classification classes of each network]{Classification classes of each network. The notation follows \emph{\#categories-\#colors}.}
@@ -36,7 +37,7 @@ Red            & x                       & x                       & x          
 Green-Red      &                         & x                       & x                       & x                       &                         &                         & x                       & x                       & x                       \\
 Green-Green    &                         &                         & x                       & x                       &                         &                         &                         & x                       & x                       \\
 Red-Red        &                         &                         &                         & x                       &                         &                         &                         &                         & x                       \\ \hline
-Object classes & 0                       & 0                       & 0                       & 0                       & 4                       & 4                       & 4                       & 4                       & 4                      
+Category classes & 0                       & 0                       & 0                       & 0                       & 4                       & 4                       & 4                       & 4                       & 4                      
 \end{tabular}
 \end{table}
 

@@ -1,42 +1,43 @@
 \subsection{Class Accuracies}
 \label{sec:predictions-accuracies}
 The class accuracies of the single-category networks are presented in \tabref{tab:single-category-accuracies}.
-Every material consists of 27 multi-views.
-Supported by its small loss, the 0-3 network has an overall accuracy of 100\%.
-The more materials are added, the worse the accuracies of the related models get.
-This decrease is only slightly, though.
-Furthermore, it can be seen, that the accuracies of the blank models are always exact.
+Each color class consists of multi-views of the same 27 objects but with the related color mark.
+Supported by its small loss, the 0-3 network has an overall accuracy of $\alpha_{\text{p}}=100\,\%$.
+The more color marks or color classes, respectively, are added, the worse the accuracies of the related networks get.
+This decrease is significant for the 0-4 network compared to the 0-3 one but for the remaining ones only slightly, though.
+Furthermore, it can be seen, that the accuracies of the blank objects are always exact across all networks.
 Due to being the most simple case, it is not surprising.
-The networks just need to realize, that there is no specific material color present.
-For the 0-4 network, something strange happens.
-Although the accuracies seem ordinary, the misclassifications are interesting.
-It classifies 5 images with a red material feature as blank objects.
-Something similar happens for the green-red material features.
-There are 5 ones classified as green.
+
+Although the accuracies seem ordinary for the 0-4 network, the misclassifications are interesting.
+It classifies five objects with a red color mark as blank objects.
+Something similar happens for the green-red color marks.
+There are five ones classified as green.
 However, this is more understandable than the blank misclassifications, due to the actual existence of that color.
-How this could happen is discussed for all networks based on the actual views, but for reasons of overview just in the following subsection.
-The 0-5 network classifies 14 objects as green-green when they only have one green feature, hence the bad accuracy of this class.
-This is understandable, though.
-Perhaps those features are placed next to each other and seem like a single one.
-For the green-green class, only two multi-views are predicted wrong.
+How those wrong predictions could happen is going to be discussed for all networks based on the actual views, but for reasons of overview only in the following subsection.
+
+The 0-5 network classifies 14 objects as green-green when they only have one green color mark, hence the bad accuracy of this class.
+This matches the most expected prediction error.
+It is possible, that those color marks are placed next to each other and seem like a single one.
+For the green-green class, only two multi-views of objects are predicted wrong.
 In fact as the single-green class.
 This shows, that the network generally prefers a green-green prediction.
-Those misclassifications would even out perhaps with more training epochs or data samples for learning better correlations.
-The results of the 0-5 network are similar to the 0-4 one.
-14 actual green material multi-views are predicated as green-green ones, while the other way round only 2 are misclassified as single green material objects.
+Those misclassifications are expected to be compensated with more training epochs or data samples for learning better correlations.
+The results of the 0-5 network are similar to the ones of 0-4.
+14 objects with a green color mark are predicted as green-green ones, while the other way round only two are misclassified as single green color mark objects.
+
 The 0-6 network predicts similar as well.
-However, the single-feature as double-feature misclassifications are much better for the red material.
-Only 4 red ones are misclassified while 12 green ones are misclassified.
-The predictions vice versa are better for the green material, though.
-Only 2 are wrongly predicted as a single-material feature for the green ones and 8 for the red ones.
-It seems like the networks prefer double green features and single red features.
+However, the single color mark as double color mark misclassifications are much better for the red one.
+Only four red ones are misclassified while 12 green ones are misclassified.
+The predictions vice versa are better for the green color mark, though.
+Only two are wrongly predicted as a single color mark for the green ones and eight for the red ones.
+It seems like the networks prefer double green color mark classifications and single red ones.
 Because this is valid for all of them, taking the weight initialization as the reason is unlikely.
-Moreover, for each object, the same optimal faces are colored, so an unbalanced learning due to the dataset prevented.
-But why exactly the networks behave like that remains unknown for now. 
+Moreover, for each object, the same optimal faces are colored, so an unbalanced learning due to the dataset is prevented.
+But why exactly the networks behave like that remains unknown. 
 %TODO why does the network prefer double green and single red?
 \begin{table}[]
 	\centering
-	\caption{Accuracy per class of single-category networks}
+	\caption{Accuracy $\alpha_{\text{p}}$ per class of single-category networks}
 	\label{tab:single-category-accuracies}
 	\begin{tabular}{l|llll}
 		            & 0-3 & 0-4   & 0-5   & 0-6   \\ \hline
@@ -49,49 +50,54 @@ But why exactly the networks behave like that remains unknown for now.
 		Overall		& 1.0 & 0.870 & 0.852 & 0.840 \\
 	\end{tabular}
 \end{table}
-The per class type accuracies of the four-category networks are shown in \tabref{tab:four-category-accuracies}.
+
+The per class type accuracies $\alpha_{\text{p}}$ of the four-category networks are shown in \tabref{tab:four-category-accuracies}.
+The number after a category class refers to the number of its objects.
 In general, they are slightly better than the ones of the single-category networks, though they are more complicated.
 This is presumably due to the larger training sets.
-The 4-0 network predicts 5 bathtub objects as sofas, 1 dresser object as a monitor and 2 sofa objects as dressers.
+The 4-0 network predicts five bathtub objects as sofas, one dresser object as a monitor and two sofa objects as dressers.
 That seems like all object categories share some features for being able to misclassify them as different categories.
 For example, if only bathtubs are misclassified as sofas and sofas are misclassified as bathtubs, it is certain that only those categories share features.
-However, that are not many wrong predictions, so again a longer training should increase the accuracies.
-The 4-3 network predicts some bathtubs as sofas as well, but each predicted material feature is correct.
-In numbers, it is five, four and one wrong predictions per related material feature.
-This shows, that at least for bathtubs green-red materials can be classified almost easily.
+However, absolutely that are not many wrong predictions, so presumably a longer training should increase the accuracies by learning more discriminative features.
+
+The 4-3 network predicts some bathtubs as sofas as well, but each predicted color class of them is correct.
+In numbers, it is five, four and one wrong predictions per related color mark.
+This shows, that at least for bathtubs green-red color marks can be classified accurately.
 Furthermore, some dressers are mistaken for monitors and some sofas for dressers.
-Those wrong predictions match the earlier network.
-Moreover, a few colored objects are predicted as the same blank object.
+Those type of wrong predictions match the ones of the earlier network.
+Moreover, a few colored objects are predicted as the related blank object.
 This happens four times for sofas and once for monitors and dressers.
+
 For the 4-4 network almost the same prediction characteristics are valid as for the earlier four-category networks.
-Surprisingly is that every monitor object is classified correctly.
-Maybe this is due to a well-suited weight initialization because the actual network architecture is unchanged.
 The 4-5 and 4-6 networks experience a sudden drop in overall accuracy.
 This was also the case with the single-category networks, but not that drastically.
-Apparently, the double material features are more challenging for multiple object categories due to more features.
+Apparently, the double color marks are more challenging for multiple object categories due to more features.
 Furthermore, both networks share some prediction characteristics of the earlier networks.
 The favorite misclassification categories of the actual categories persist.
-However, this is mostly for bathtubs.
-The remaining categories mostly predict wrong within their category.
+However, this is mostly valid for bathtubs.
+The remaining categories mostly predict wrong color marks within their category class.
+
 In particular the 4-5 network is really good with the dresser classes, however, its green-green class is the worst within that category.
-For bathtubs, the single-green class is the worst within, because it has the most misclassifications in this category with 6 objects as double-green bathtubs.
-Vice versa only two multi-views are predicted wrongly.
-For dressers, monitors, and sofas the green-green classification has by far the worst accuracy within each category.
-The differences are 0.134, 0.36 and 0.154, respectively, to the second worst class within each object category.
-In conclusion, this network shows, that the critical material classes are similar to the single-object networks, but it is more challenging for four-object networks to classify double-features consistently.
-This is almost completely supported by the 4-6 network, because it shares those characteristics of worst material classes within somehow.
-This time, though, the worst material classes for bathtubs and sofas are the single-green ones.
+For bathtubs, the single-green class is the worst within, because it has the most misclassifications in this category class with 6 objects as double-green bathtubs.
+Vice versa only two objects are predicted wrong.
+For dressers, monitors, and sofas the green-green classification has by far the worst accuracy within each category class.
+The differences are 0.134, 0.36 and 0.154, respectively, to the second worst color class within each object category class.
+In conclusion, this network shows, that the critical color classes are similar to the single-object networks, but it is more challenging for four-object networks to classify double color marks consistently.
+
+This is almost completely supported by the 4-6 network, because it shares basically those characteristics of worst color classes within.
+This time, though, the worst color classes for bathtubs and sofas are the single-green ones.
 That confirms their correlation even more.
-The single-material classes for the remaining categories are balanced.
-For the double material features the red-red ones are the worst for bathtubs and monitors and the green-green ones for dressers and sofas.
-Here it can be seen again, that usually one material color is preferred over the other.
-Nonetheless, usually, if a material is misclassified in double-material networks, its prediction is either the single-material or double-material class of the same object.
+The single color mark classes for the remaining categories are balanced.
+For the double color mark classes the red-red ones are the worst for bathtubs and monitors and the green-green ones for dressers and sofas.
+Here it can be seen again, that usually one color is preferred over the other.
+Nonetheless, usually, if a color is misclassified in double color mark networks, its prediction is either the single color or double color class of the same category class.
+
 Presumably, all the errors presented in this section can be reduced by a longer training process, so that each network learns more and better correlations for predicting similar classes.
-The possibility of this is supported by the loss graphs, that show no overfitting yet.
-If this does not achieve the desired result, more data samples could be added for supplying more correlations.
+The possibility of this is supported by the loss against epoch graphs, that show no overfitting yet.
+If this does not achieve the desired result, more data samples could be added for supplying more correlations to learn improved features.
 \begin{table}[]
 	\centering
-	\caption{Accuracy per types of classes of four-category networks}
+	\caption[Accuracy per types of classes of four-category networks]{Accuracy per types of classes of four-category networks. The number after a category class refers to its number of objects.}
 	\label{tab:four-category-accuracies}
 	\begin{tabular}{l|lllll}
 		            & 4-0   & 4-3   & 4-4   & 4-5   & 4-6   \\ \hline

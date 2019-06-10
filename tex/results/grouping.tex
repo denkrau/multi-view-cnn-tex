@@ -82,7 +82,7 @@ It should be noted, that always only a metric for the non-blank color marks is g
 		\caption{Green-red}
 		\label{fig:grouping-0-4-green-red}
 	\end{subfigure}
-	\caption[Grouping in 0-4 network]{Grouping in 0-4 network}
+	\caption[Grouping in 0-4 network]{Grouping in 0-4 network. The number below a view is its discrimination score. The one above views is the group weight. All views after a stated group weight are part of this group, until another one is stated.}
 	\label{fig:grouping-0-4}
 \end{figure}
 
@@ -132,12 +132,11 @@ The group assignment of the red color mark is similar to the one of 0-4.
 Though, the second view from earlier changes its position with the top view.
 Moreover, the score of every view is decreased by about 0.07.
 However, that the highest rated view shows a red color mark is possibly for adding certainty for the classification with avoiding large weights.
-
 For the green color mark, the colored views are the least discriminative ones according to their score.
 This is shown in \figref{fig:grouping-0-5-green}.
 That effect is necessarily caused by the additional green-green color mark.
 An explanation could be, that the network now rates views by missing color marks.
-Hence, the shape descriptor becomes smaller the more color marks are available.
+Hence, the shape descriptor's values become smaller the more color marks are available.
 This theory is almost supported by the group assignment of green-red, that is shown in \figref{fig:grouping-0-5-green-red}.
 Moreover, referring to the view scores, the views showing a green color mark have the exact same score than in the single green case.
 However, the theory is adapted, that not the number of color marks is crucial, but rather that every color mark has a range in which it is classified.
@@ -183,9 +182,10 @@ This is due to the fact, that in this case, the second optimal face is colored r
 
 For the green-green and red-red case, that are shown in \figref{fig:grouping-0-6}, the group assignment is almost identical.
 The first one uses four groups the second five.
-Though the view scores are similar, it is noticeable, that compared to each different color mark in the green-red case views with a now green color mark are less discriminative than views with a now red color mark.
+Though the view scores are similar, it is noticeable, that compared to each opposite color mark in the green-red case views with a now green color mark are less discriminative than views with a now red color mark.
 Although, both times the general score is higher.
 Fortunately, this does not debunk the assumed theory of the group mechanism.
+Moreover, the red-red objects are inserted between red and green in the hierarchy of the shape descriptor's values.
 The corresponding group metric scores are 0.217, 0.253, 0.420, 0.381, 0.504 with an average of 0.355.
 Their distribution is as expected, but with smaller values than in earlier networks.
 This is due to the larger number of groups and the higher diversity of non-colored views to colored views.
@@ -240,3 +240,13 @@ It can be seen, that each top group always contains at least one view with a vis
 Furthermore, the remaining ones are not necessarily discriminative, because depending on the number of color marks it is more important to find features classifying the category.
 Moreover, the more classes exist, the more groups are created.
 That suggests, that the assumption from before, that the values of shape descriptors of different classes are in different ranges, could be valid, because this way the network is more flexible in weighting views or view descriptors, respectively.
+In particular, the 4-6 network supports the exact same hierarchy of the values of the shape descriptor for the color classes.
+
+In conclusion, the following results are observed for the grouping mechanism.
+The 0-3 network treats views with a visible color mark the most discriminative.
+However, those discriminations are reduced drastically when more color classes are added and mostly views showing no color mark are preferred for discrimination.
+Moreover, by comparing color classes of the same objects to each other the discriminative scores of views showing a color mark differs.
+Hence, the assumption is postulated that for each color class a range of values in the final shape descriptor is defined.
+Depending on how large it is a particular material class is predicted.
+The observed hierarchy starts with blank color classes as the highest values.
+This is followed by red, red-red, green, green-red and green-green.

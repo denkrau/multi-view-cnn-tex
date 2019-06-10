@@ -1,14 +1,8 @@
 % This file was created by matplotlib2tikz v0.7.3.
 \begin{tikzpicture}
 
-\definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
-\definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
-\definecolor{color2}{rgb}{0.172549019607843,0.627450980392157,0.172549019607843}
-\definecolor{color3}{rgb}{0.83921568627451,0.152941176470588,0.156862745098039}
-\definecolor{color4}{rgb}{0.580392156862745,0.403921568627451,0.741176470588235}
-\definecolor{color5}{rgb}{0.549019607843137,0.337254901960784,0.294117647058824}
-\definecolor{color6}{rgb}{0.890196078431372,0.466666666666667,0.76078431372549}
-\definecolor{color7}{rgb}{0.737254901960784,0.741176470588235,0.133333333333333}
+\definecolor{color0}{rgb}{1,0.647058823529412,0}
+\definecolor{color1}{rgb}{0.75,0,0.75}
 
 \begin{axis}[
 height=\figureheight,
@@ -27,7 +21,7 @@ ylabel={Loss},
 ymin=-0.0805723423154104, ymax=2.38241177177559,
 ytick style={color=black}
 ]
-\addplot [semithick, color0, dotted]
+\addplot [semithick, blue, dotted]
 table {%
 0 1.13833824724987
 1 0.812229750485256
@@ -51,7 +45,7 @@ table {%
 19 0.0848326952661315
 };
 \addlegendentry{0-3}
-\addplot [semithick, color1, dotted]
+\addplot [semithick, green!50.0!black, dotted]
 table {%
 0 1.41628715319511
 1 1.06693764069141
@@ -75,7 +69,7 @@ table {%
 19 0.37464939076931
 };
 \addlegendentry{0-4}
-\addplot [semithick, color2, dotted]
+\addplot [semithick, red, dotted]
 table {%
 0 1.61394396363472
 1 1.61241714808406
@@ -99,7 +93,7 @@ table {%
 19 0.313252269290388
 };
 \addlegendentry{0-5}
-\addplot [semithick, color3, dotted]
+\addplot [semithick, color0, dotted]
 table {%
 0 1.79954144872468
 1 1.39765593820605
@@ -123,7 +117,7 @@ table {%
 19 0.371928190619781
 };
 \addlegendentry{0-6}
-\addplot [semithick, color4]
+\addplot [semithick, color1]
 table {%
 0 1.31922038680031
 1 0.537356126166525
@@ -147,7 +141,7 @@ table {%
 19 0.0501351276997455
 };
 \addlegendentry{4-0}
-\addplot [semithick, color5]
+\addplot [semithick, blue]
 table {%
 0 2.27045794840782
 1 1.67320595825872
@@ -171,7 +165,7 @@ table {%
 19 0.0493501171798515
 };
 \addlegendentry{4-3}
-\addplot [semithick, color6]
+\addplot [semithick, green!50.0!black]
 table {%
 0 2.09102133259629
 1 1.4918020678289
@@ -195,7 +189,7 @@ table {%
 19 0.0929106862178411
 };
 \addlegendentry{4-4}
-\addplot [semithick, white!49.80392156862745!black]
+\addplot [semithick, red]
 table {%
 0 1.43747566949918
 1 0.890828702328862
@@ -219,7 +213,7 @@ table {%
 19 0.141973072747308
 };
 \addlegendentry{4-5}
-\addplot [semithick, color7]
+\addplot [semithick, color0]
 table {%
 0 1.65152212016044
 1 1.06966266096119

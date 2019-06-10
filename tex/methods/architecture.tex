@@ -14,14 +14,15 @@ A schematic of their group-view convolutional neural network architecture, short
 Their architecture is based on GoogLeNet \cite{szegedy2015} and uses 22 layers.
 Each view of a multi-view input is propagated through the same subset containing the first five main convolutional layers, labeled "FCN" in the figure, yielding a raw view descriptor for each.
 Those are further propagated through the remaining main convolutional layers, labeled "CNN" in the figure, yielding a final view descriptor for each.
-Based on those raw view descriptors a discrimination score for each view is calculated by propagating them through a fully-connected layer for dividing each view, in particular each final view descriptor, in groups.
-Depending on the discrimination scores of all views in a certain group, this group is assigned a weight.
-Furthermore, an inter-group view descriptor pooling yields a group descriptor for each group.
+Based on those raw view descriptors a discrimination score for each view is calculated by propagating them through a fully-connected layer for dividing each view, in particular each final view descriptor, in $n_g = 12$ possible groups.
+The average of the discrimination scores of all views in a certain group is this group's assigned weight.
+Furthermore, an inter-group view descriptor mean pooling yields a group descriptor for each group.
 Combining all group descriptors depending on their weight, a final compact shape descriptor is generated that describes the shape of the object.
 This is propagated through a final fully-connected layer, labeled "FC" in the figure, to get the classification result.
 
-It is supposed that in particular the grouping process can be adapted to the task of distinguishing the same models with different color marks very well.
-Furthermore, a view discrimination score supports the analysis of the information content of views.
+It is supposed that in particular the grouping process can be adapted to the task of distinguishing the same objects with different color marks very well.
+Each object is visualized with $n_v=12$ views from different perspectives building a multi-view.
+Furthermore, a view discrimination score, represented by a single number, supports the analysis of the information content of views.
 Because the color mark is the only difference, the related views should be weighted the most while all others should only play a marginal role in the classification process.
 This would reduce noise, thus, resulting in a better performance.
 However, using the exact same architecture of GVCNN is not possible due to its number of parameters that exceeds the available resources for this work.
@@ -29,10 +30,10 @@ Hence, the AlexNet architecture \cite{Krizhevsky:2012:ICD:2999134.2999257} is ch
 Regarding its layers it is very similar to the VGG-M but uses larger but less filters for convolutions and fewer nodes in the fully connected layers.
 However, the less parameters are a trade-off for accuracy.
 Because of the less layers compared to GVCNN the position of the generation of the view discrimination scores and the shape descriptor within the network is different.
-The discrimination scores depend on the last main convolutional layer that is actually the fifth as well.
+The discrimination scores depend on the activations of the last main convolutional layer that is actually the fifth as well.
 In MVCNN two of three fully-connected layers are used to generate a shape descriptor based on its single pooled view descriptor, while the third classifies it.
 Based on this, each group descriptor is propagated through two fully-connected layers in this work's architecture for generating group shape descriptors.
-Those are combined regarding their weights to a final, compact shape descriptor that is used for classification in the third fully-connected layer.
+Those are weighted averaged regarding their group weights to yield a final, compact shape descriptor that describes the actual object and is used for classification in the third fully-connected layer with an additional softmax layer.
 
 A summary of this work's architecture is presented in \tabref{tab:network-layers}.
 Each layer's hyperparameters are explained in the following sections.
