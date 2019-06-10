@@ -41,7 +41,7 @@ Those little changes presumably depend on a different weight initialization and 
 Although the scores are very low, the views are fully taken into account because they all belong to the same group with a weight of 1.0.
 
 In this particular case, a normalization of the group weight is not necessary.
-Without one the group weight would be $w_g = 0.0079$, thus, decreasing the shape descriptor enormously, but the network would learn that a descriptor close to 0 represents a blank object.
+Without one the group weight would be $w_1 = 0.0079$, thus, decreasing the shape descriptor enormously, but the network would learn that a descriptor close to 0 represents a blank object.
 The decision rule would be, if the descriptor represents no color mark, the objects show no color mark.
 With the classification of more categories, though, this is not possible anymore, because a very small descriptor cannot just represent any blank object, but the object category class.
 If there are two objects, for example, and only one view of each shows a different color mark with a small discrimination score, they would be divided into two groups.
@@ -63,7 +63,7 @@ However, the views with the green color mark are in a closer range regarding the
 The latter differs extremely.
 The least discriminative view containing a color mark is closer to the not discriminative views than the discriminative ones.
 It is assumed, that a bad weight initialization caused this problem and a longer training would compensate it.
-Nevertheless, the group metric, the group precision for each color class, is at 1.0 for every color mark.
+Nevertheless, the group metric, the group precision $\alpha_\text{precision}$ for each color class, is at 1.0 for every color mark.
 It should be noted, that always only a metric for the non-blank color marks is given.
 \begin{figure}
 	\centering
@@ -87,7 +87,7 @@ It should be noted, that always only a metric for the non-blank color marks is g
 \end{figure}
 
 In \figref{fig:grouping-0-4} the grouping of the 0-4 network is shown, which additionally classifies green-red color marks.
-The assignment of the blank object is omitted but all views have a score of 0.229.
+The assignment of the blank object is omitted but all views have a score of $\theta=0.229$.
 This is higher than before and indicating a higher information content.
 However, the score is consistent for all blank views in this network.
 Compared to the 0-3 network, this network finds different correlations.

@@ -3,7 +3,7 @@
 This work's multi-view network architecture is trained by inputting the generated multi-view images $\tilde{\vec{X}}_{train}^{(i)}$ and comparing the prediction $\hat{\vec{y}}^{(i)}$ of the network with the corresponding label $\tilde{\vec{y}}_{train}^{(i)}$.
 First, a batch size needs to be chosen to define how many samples will be fed to the network at once.
 In a training using only single-views, a batch size of 128 could be achieved.
-Thus, using $n_v = 12$ views the batch size is reduced to $m_b = floor(128 / 12) = 10$.
+Thus, using $n_v = 12$ views the batch size is reduced to $m_b = \floor(128 / 12) = 10$.
 However, due to a limited memory size of 8GB of the experimental setup's GPU and the additional parameters for the multi-view training only a batch size of 8 supports training reliably.
 This yields $n_{b,train} = m_{train} / 8$ batches for the training set and $n_{b,test} = m_{test} / 8$ for the test set.
 Nevertheless, dividing each set into 8 samples will be odd in general.

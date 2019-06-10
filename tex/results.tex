@@ -6,20 +6,20 @@ Furthermore, the impact of different color marks is examined.
 First, the overall performance of the network is discussed.
 Then, the grouping mechanism is evaluated with respect to the information content of views, followed by an examination of misclassifications.
 There are several networks trained with an increasing number of classes of combinations of category and color classes for being able to compare and dedicate possible occurring effects.
-It starts with multi-views of only a single category, in particular, bathtubs, with first 3 different color marks.
+It starts with multi-views of only a single category, in particular, bathtubs, with first $n_m=3$ different color marks.
 Those related color classes include the raw object, a green color mark and a red one.
-This is further increased to 6 color classes containing a green and red color mark, two green color marks, and two red color marks.
-Finally, four category classes in total are classified including additional dressers, monitors and sofas.
+This is further increased to $n_m = 6$ color classes containing a green and red color mark, two green color marks, and two red color marks.
+Finally, $n_c = 4$ category classes in total are classified including additional dressers, monitors and sofas.
 Here an identical process of adding color marks is performed in the same order as before.
-This leads to a total of 9 networks, where the basic architecture stays the same and only the number of outputs or classes, respectively, changes.
+This leads to a total of nine networks, where the basic architecture stays the same and only the number of outputs or classes $n_y$, respectively, changes.
 However, for testing different hyperparameters, more networks have been trained on the dataset with bathtubs and 3 color classes.
 In the following the syntax \emph{\#categories-\#colors} refers to the corresponding trained network where each number corresponds to the number of  classifications of the class type.
 That means, the 4-3 network, for example, classifies a combination of four category classes and three color classes.
 Furthermore, the 0-3 network classifies only color classes of bathtubs, while the 4-0 network classifies only category classes with blank objects.
 The classes that each network predict are summarized in \tabref{tab:network-classes}.
-Every model is trained for 20 epochs on the training set with a batch size of 8.
-Each batch element contains 12 rendered views of an object.
-The initial learning rate is set to $0.0001$.
+Every model is trained for 20 epochs on the training set with a batch size of $m_b=8$.
+Each batch element contains $n_v=12$ rendered views of an object.
+The initial learning rate is set to $\gamma=0.0001$.
 Furthermore, the dropout probability of layer 6 and 7 is specified as $0.5$ during training, which matches the AlexNet configuration.
 Otherwise this layer is ignored, hence, is assigned a dropout probability of $0.0$.
 Any dataset samples presented or predicted belong to the test set, thus, on data the network is not trained on.
